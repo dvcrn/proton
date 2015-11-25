@@ -1,3 +1,14 @@
-.DS_Store
-npm-debug.log
-node_modules
+/resources/public/js/compiled/**
+figwheel_server.log
+pom.xml
+*jar
+/lib/
+/classes/
+/out/
+/target/
+.lein-deps-sum
+.lein-repl-history
+.lein-plugins/
+.repl
+.nrepl-port
+.DS_STORE

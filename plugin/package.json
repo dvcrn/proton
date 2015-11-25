@@ -5,9 +5,6 @@
   "description": "A short description of your package",
   "keywords": [
   ],
-  "activationCommands": {
-    "atom-workspace": "proton:toggle"
-  },
   "repository": "https://github.com/atom/proton",
   "license": "MIT",
   "engines": {

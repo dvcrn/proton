@@ -9,3 +9,7 @@
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
   'ctrl-alt-o': 'proton:toggle'
+
+'atom-text-editor.vim-mode:not(.insert-mode)':
+  'vim-mode:move-right': 'unset!',
+  'space': 'proton:toggle'
