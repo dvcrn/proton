@@ -1,6 +1,10 @@
 (ns proton.core
-  (:require [cljs.nodejs :as node]
+  (:require [proton.lib.helpers :as helpers]
+            [proton.lib.atom :as atom-env]
+            [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]))
+
+(node/enable-util-print!)
 
 ;; reference to atom shell API
 (def ashell (node/require "atom"))
@@ -15,23 +19,7 @@
 (def composite-disposable (.-CompositeDisposable ashell))
 
 ;; Initialise new composite-disposable so we can add stuff to it later
-(def subscriptions
-    (new composite-disposable))
-
-(defn div [text]
-  (let [d (.createElement js/document "div")]
-    (set! (.-textContent d) text)
-    d))
-
-(node/enable-util-print!)
-
-(defn ^:export deactivate []
-    (.log js/console "deactivating..."))
-
-(def element (atom (div "test")))
-(def modal-panel (atom (.addBottomPanel workspace
-                                       (clj->js {:visible false
-                                                  :item @element}))))
+(def subscriptions (new composite-disposable))
 
 (def mock-tree
   {:g {
@@ -47,89 +35,36 @@
    :p {:category "project"
         :t {:action "tree-view:toggle"}}})
 
-(defn is-action? [tree sequence]
-  (println "is action?")
-  (println (conj sequence :action))
-  (println (get-in tree (conj sequence :action)))
-  (not (nil? (get-in tree (conj sequence :action)))))
-
 (def current-chain (atom []))
 
-(defn make-pretty [tree]
-  (->>
-    (map (fn [element]
-          (let [key (nth element 0)
-                options (nth element 1)
-                value (if (nil? (options :category))
-                          (str "action:" (options :action))
-                          (str "category:" (options :category)))]
-
-            (str "<li>" key " --> " value "</li>")))
-      (seq (dissoc tree :category)))
-    (string/join " ")))
-
-(defn extract-keyletter-from-event [event]
-  (let [key (.fromCharCode js/String (.. event -originalEvent -keyCode))
-        shift-key (.. event -originalEvent -shiftKey)]
-      (if shift-key
-        (keyword (upper-case key))
-        (keyword (lower-case key)))))
-
-(defn extract-keycode-from-event [event]
-  (.. event -originalEvent -keyCode))
-
-(defn activate-proton []
-  (.log js/console "----> Proton Chain activated!")
-  (let [editors (.getTextEditors workspace)]
-      (doseq [editor editors]
-        (let [view (.getView views editor)
-              classList (.-classList view)]
-            (.remove classList "vim-mode")
-            (.add classList "proton-mode")
-            (aset @element "innerHTML" (make-pretty (get-in mock-tree [])))
-            (.show @modal-panel)
-            (reset! current-chain [])))))
-
-(defn deactivate-proton []
-  (.log js/console "----> Proton Chain deactivated!")
-  (let [editors (.getTextEditors workspace)]
-      (doseq [editor editors]
-        (let [view (.getView views editor)
-              classList (.-classList view)]
-            (.remove classList "proton-mode")
-            (.add classList "vim-mode")
-            (.hide @modal-panel)))))
-
-
-(defn eval-action! [tree sequence]
-  (println "evalling")
-  (let [action (get-in tree (conj sequence :action))]
-    (.dispatch commands (.getView views workspace) action)
-    (deactivate-proton)))
-
-
 (defn ^:export chain [e]
-  (let [letter (extract-keyletter-from-event e)
-        key-code (extract-keycode-from-event e)]
+  (let [letter (helpers/extract-keyletter-from-event e)
+        key-code (helpers/extract-keycode-from-event e)]
+      ;; check for ESC key
       (if (= key-code 27)
-        (deactivate-proton)
-        (let [element @element]
+        (atom-env/deactivate-proton-mode!)
+        (do
+          ;; append new key to chain
           (swap! current-chain conj letter)
-          (println "current chain:")
-          (println @current-chain)
-          (if (is-action? mock-tree @current-chain)
-            (eval-action! mock-tree @current-chain)
+          ;; check if the current character sequence is a action
+          (if (helpers/is-action? mock-tree @current-chain)
+            (atom-env/eval-action! mock-tree @current-chain)
+            ;; if not, continue chaining
             (let [extracted-chain (get-in mock-tree @current-chain)]
-              (println "not an action")
-              (println extracted-chain)
               (if (nil? extracted-chain)
-                (deactivate-proton)
-                (aset element "innerHTML" (make-pretty extracted-chain)))))))))
+                (atom-env/deactivate-proton-mode!)
+                (atom-env/insert-html (helpers/tree->html extracted-chain)))))))))
+
+(defn on-space []
+  (reset! current-chain [])
+  (atom-env/insert-html (helpers/tree->html mock-tree))
+  (atom-env/activate-proton-mode!))
 
 (defn ^:export activate [state]
-  (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (activate-proton)))
-  (.add subscriptions
-        (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
+  (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
+  (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
+
+(defn ^:export deactivate [] (.log js/console "deactivating..."))
 
 (defn noop [] nil)
 (set! *main-cli-fn* noop)
