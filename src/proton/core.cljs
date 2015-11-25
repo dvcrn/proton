@@ -1,6 +1,7 @@
 (ns proton.core
   (:require [proton.lib.helpers :as helpers]
             [proton.lib.atom :as atom-env]
+            [proton.lib.package_manager :as pm]
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]))
 
@@ -61,6 +62,11 @@
   (atom-env/activate-proton-mode!))
 
 (defn ^:export activate [state]
+  (.log js/console (pm/is-installed? "vim-mode"))
+  (.log js/console "installing testing:")
+  (.log js/console (pm/install-package "vim-mode"))
+  (.log js/console (pm/install-package "asdfjasdfjsakdf-mode"))
+  (.log js/console (pm/get-apm-path))
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
 

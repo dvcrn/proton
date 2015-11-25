@@ -3,8 +3,7 @@
   "main": "./lib/proton",
   "version": "0.0.0",
   "description": "A short description of your package",
-  "keywords": [
-  ],
+  "keywords": [],
   "repository": "https://github.com/atom/proton",
   "license": "MIT",
   "engines": {

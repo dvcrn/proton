@@ -5,6 +5,7 @@ goog.require('proton.lib.helpers');
 goog.require('proton.lib.atom');
 goog.require('cljs.nodejs');
 goog.require('clojure.string');
+goog.require('proton.lib.package_manager');
 cljs.nodejs.enable_util_print_BANG_.call(null);
 proton.core.ashell = cljs.nodejs.require.call(null,"atom");
 proton.core.commands = atom.commands;
@@ -44,8 +45,18 @@ proton.lib.atom.insert_html.call(null,proton.lib.helpers.tree__GT_html.call(null
 return proton.lib.atom.activate_proton_mode_BANG_.call(null);
 });
 proton.core.activate = (function proton$core$activate(state){
-proton.core.keymaps.onDidMatchBinding((function (p1__16122_SHARP_){
-if(cljs.core._EQ_.call(null,"space",p1__16122_SHARP_.keystrokes)){
+console.log(proton.lib.package_manager.is_installed_QMARK_.call(null,"vim-mode"));
+
+console.log("installing testing:");
+
+console.log(proton.lib.package_manager.install_package.call(null,"vim-mode"));
+
+console.log(proton.lib.package_manager.install_package.call(null,"asdfjasdfjsakdf-mode"));
+
+console.log(proton.lib.package_manager.get_apm_path.call(null));
+
+proton.core.keymaps.onDidMatchBinding((function (p1__17680_SHARP_){
+if(cljs.core._EQ_.call(null,"space",p1__17680_SHARP_.keystrokes)){
 return proton.core.on_space.call(null);
 } else {
 return null;

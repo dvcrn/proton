@@ -4,7 +4,6 @@ pom.xml
 *jar
 /lib/
 /classes/
-/out/
 /target/
 .lein-deps-sum
 .lein-repl-history
@@ -12,3 +11,5 @@ pom.xml
 .repl
 .nrepl-port
 .DS_STORE
+node_modules/
+out/

@@ -10,9 +10,6 @@
 'atom-workspace':
   'ctrl-alt-o': 'proton:toggle'
 
-'atom-text-editor.vim-mode:not(.insert-mode)':
-  'vim-mode:move-right': 'unset!',
-
 'atom-text-editor.proton-mode':
   'a': 'proton:chain'
   'b': 'proton:chain'
