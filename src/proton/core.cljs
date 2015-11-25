@@ -45,14 +45,17 @@
    :b {:category "buffer"
         :m {:action "maximise"}}
    :p {:category "project"
-        :m {:action "maximise"}}})
+        :t {:action "tree-view:toggle"}}})
 
+(defn is-action? [tree sequence]
+  (println "is action?")
+  (println (conj sequence :action))
+  (println (get-in tree (conj sequence :action)))
+  (not (nil? (get-in tree (conj sequence :action)))))
 
 (def current-chain (atom []))
 
 (defn make-pretty [tree]
-  (.log js/console "Making pretty:")
-  (println tree)
   (->>
     (map (fn [element]
           (let [key (nth element 0)
@@ -97,6 +100,14 @@
             (.add classList "vim-mode")
             (.hide @modal-panel)))))
 
+
+(defn eval-action! [tree sequence]
+  (println "evalling")
+  (let [action (get-in tree (conj sequence :action))]
+    (.dispatch commands (.getView views workspace) action)
+    (deactivate-proton)))
+
+
 (defn ^:export chain [e]
   (let [letter (extract-keyletter-from-event e)
         key-code (extract-keycode-from-event e)]
@@ -104,11 +115,16 @@
         (deactivate-proton)
         (let [element @element]
           (swap! current-chain conj letter)
-          (let [extracted-chain (get-in mock-tree @current-chain)]
-            (println extracted-chain)
-            (if (nil? extracted-chain)
-              (deactivate-proton)
-              (aset element "innerHTML" (make-pretty extracted-chain))))))))
+          (println "current chain:")
+          (println @current-chain)
+          (if (is-action? mock-tree @current-chain)
+            (eval-action! mock-tree @current-chain)
+            (let [extracted-chain (get-in mock-tree @current-chain)]
+              (println "not an action")
+              (println extracted-chain)
+              (if (nil? extracted-chain)
+                (deactivate-proton)
+                (aset element "innerHTML" (make-pretty extracted-chain)))))))))
 
 (defn ^:export activate [state]
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (activate-proton)))
