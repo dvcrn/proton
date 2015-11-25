@@ -1,8 +1,10 @@
 // Compiled by ClojureScript 1.7.170 {:target :nodejs}
 goog.provide('proton.core');
 goog.require('cljs.core');
+goog.require('proton.layers.base');
 goog.require('proton.lib.helpers');
 goog.require('proton.lib.atom');
+goog.require('proton.layers.core.core');
 goog.require('cljs.nodejs');
 goog.require('clojure.string');
 goog.require('proton.lib.package_manager');
@@ -14,6 +16,59 @@ proton.core.keymaps = atom.keymaps;
 proton.core.views = atom.views;
 proton.core.composite_disposable = proton.core.ashell.CompositeDisposable;
 proton.core.subscriptions = (new proton.core.composite_disposable());
+proton.core.enabled_layers = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"core","core",-86019209)], null);
+var seq__7027_7031 = cljs.core.seq.call(null,proton.core.enabled_layers);
+var chunk__7028_7032 = null;
+var count__7029_7033 = (0);
+var i__7030_7034 = (0);
+while(true){
+if((i__7030_7034 < count__7029_7033)){
+var layer_7035 = cljs.core._nth.call(null,chunk__7028_7032,i__7030_7034);
+cljs.core.println.call(null,proton.layers.base.get_packages.call(null,cljs.core.keyword.call(null,layer_7035)));
+
+var G__7036 = seq__7027_7031;
+var G__7037 = chunk__7028_7032;
+var G__7038 = count__7029_7033;
+var G__7039 = (i__7030_7034 + (1));
+seq__7027_7031 = G__7036;
+chunk__7028_7032 = G__7037;
+count__7029_7033 = G__7038;
+i__7030_7034 = G__7039;
+continue;
+} else {
+var temp__4425__auto___7040 = cljs.core.seq.call(null,seq__7027_7031);
+if(temp__4425__auto___7040){
+var seq__7027_7041__$1 = temp__4425__auto___7040;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__7027_7041__$1)){
+var c__5471__auto___7042 = cljs.core.chunk_first.call(null,seq__7027_7041__$1);
+var G__7043 = cljs.core.chunk_rest.call(null,seq__7027_7041__$1);
+var G__7044 = c__5471__auto___7042;
+var G__7045 = cljs.core.count.call(null,c__5471__auto___7042);
+var G__7046 = (0);
+seq__7027_7031 = G__7043;
+chunk__7028_7032 = G__7044;
+count__7029_7033 = G__7045;
+i__7030_7034 = G__7046;
+continue;
+} else {
+var layer_7047 = cljs.core.first.call(null,seq__7027_7041__$1);
+cljs.core.println.call(null,proton.layers.base.get_packages.call(null,cljs.core.keyword.call(null,layer_7047)));
+
+var G__7048 = cljs.core.next.call(null,seq__7027_7041__$1);
+var G__7049 = null;
+var G__7050 = (0);
+var G__7051 = (0);
+seq__7027_7031 = G__7048;
+chunk__7028_7032 = G__7049;
+count__7029_7033 = G__7050;
+i__7030_7034 = G__7051;
+continue;
+}
+} else {
+}
+}
+break;
+}
 proton.core.mock_tree = new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"g","g",1738089905),new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null,"category","category",-593092832),"git",new cljs.core.Keyword(null,"s","s",1705939918),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"action","action",-811238024),"git_status"], null),new cljs.core.Keyword(null,"c","c",-1763192079),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"action","action",-811238024),"git_commit"], null),new cljs.core.Keyword(null,"p","p",151049309),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"action","action",-811238024),"git_push"], null),new cljs.core.Keyword(null,"P","P",1668913291),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"action","action",-811238024),"git_pull"], null)], null),new cljs.core.Keyword(null,"w","w",354169001),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"category","category",-593092832),"window",new cljs.core.Keyword(null,"m","m",1632677161),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"action","action",-811238024),"maximise"], null)], null),new cljs.core.Keyword(null,"b","b",1482224470),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"category","category",-593092832),"buffer",new cljs.core.Keyword(null,"m","m",1632677161),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"action","action",-811238024),"maximise"], null)], null),new cljs.core.Keyword(null,"p","p",151049309),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"category","category",-593092832),"project",new cljs.core.Keyword(null,"t","t",-1397832519),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"action","action",-811238024),"tree-view:toggle"], null)], null)], null);
 proton.core.current_chain = cljs.core.atom.call(null,cljs.core.PersistentVector.EMPTY);
 proton.core.chain = (function proton$core$chain(e){
@@ -49,14 +104,10 @@ console.log(proton.lib.package_manager.is_installed_QMARK_.call(null,"vim-mode")
 
 console.log("installing testing:");
 
-console.log(proton.lib.package_manager.install_package.call(null,"vim-mode"));
-
-console.log(proton.lib.package_manager.install_package.call(null,"asdfjasdfjsakdf-mode"));
-
 console.log(proton.lib.package_manager.get_apm_path.call(null));
 
-proton.core.keymaps.onDidMatchBinding((function (p1__17680_SHARP_){
-if(cljs.core._EQ_.call(null,"space",p1__17680_SHARP_.keystrokes)){
+proton.core.keymaps.onDidMatchBinding((function (p1__7052_SHARP_){
+if(cljs.core._EQ_.call(null,"space",p1__7052_SHARP_.keystrokes)){
 return proton.core.on_space.call(null);
 } else {
 return null;

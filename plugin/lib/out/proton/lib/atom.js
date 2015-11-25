@@ -23,63 +23,63 @@ proton.lib.atom.activate_proton_mode_BANG_ = (function proton$lib$atom$activate_
 console.log("----> Proton Chain activated!");
 
 var editors = proton.lib.atom.workspace.getTextEditors();
-var seq__17626 = cljs.core.seq.call(null,editors);
-var chunk__17627 = null;
-var count__17628 = (0);
-var i__17629 = (0);
+var seq__6963 = cljs.core.seq.call(null,editors);
+var chunk__6964 = null;
+var count__6965 = (0);
+var i__6966 = (0);
 while(true){
-if((i__17629 < count__17628)){
-var editor = cljs.core._nth.call(null,chunk__17627,i__17629);
-var view_17630 = proton.lib.atom.views.getView(editor);
-var classList_17631 = view_17630.classList;
-classList_17631.remove("vim-mode");
+if((i__6966 < count__6965)){
+var editor = cljs.core._nth.call(null,chunk__6964,i__6966);
+var view_6967 = proton.lib.atom.views.getView(editor);
+var classList_6968 = view_6967.classList;
+classList_6968.remove("vim-mode");
 
-classList_17631.add("proton-mode");
+classList_6968.add("proton-mode");
 
 proton.lib.atom.show_panel.call(null);
 
-var G__17632 = seq__17626;
-var G__17633 = chunk__17627;
-var G__17634 = count__17628;
-var G__17635 = (i__17629 + (1));
-seq__17626 = G__17632;
-chunk__17627 = G__17633;
-count__17628 = G__17634;
-i__17629 = G__17635;
+var G__6969 = seq__6963;
+var G__6970 = chunk__6964;
+var G__6971 = count__6965;
+var G__6972 = (i__6966 + (1));
+seq__6963 = G__6969;
+chunk__6964 = G__6970;
+count__6965 = G__6971;
+i__6966 = G__6972;
 continue;
 } else {
-var temp__4425__auto__ = cljs.core.seq.call(null,seq__17626);
+var temp__4425__auto__ = cljs.core.seq.call(null,seq__6963);
 if(temp__4425__auto__){
-var seq__17626__$1 = temp__4425__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__17626__$1)){
-var c__5471__auto__ = cljs.core.chunk_first.call(null,seq__17626__$1);
-var G__17636 = cljs.core.chunk_rest.call(null,seq__17626__$1);
-var G__17637 = c__5471__auto__;
-var G__17638 = cljs.core.count.call(null,c__5471__auto__);
-var G__17639 = (0);
-seq__17626 = G__17636;
-chunk__17627 = G__17637;
-count__17628 = G__17638;
-i__17629 = G__17639;
+var seq__6963__$1 = temp__4425__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__6963__$1)){
+var c__5471__auto__ = cljs.core.chunk_first.call(null,seq__6963__$1);
+var G__6973 = cljs.core.chunk_rest.call(null,seq__6963__$1);
+var G__6974 = c__5471__auto__;
+var G__6975 = cljs.core.count.call(null,c__5471__auto__);
+var G__6976 = (0);
+seq__6963 = G__6973;
+chunk__6964 = G__6974;
+count__6965 = G__6975;
+i__6966 = G__6976;
 continue;
 } else {
-var editor = cljs.core.first.call(null,seq__17626__$1);
-var view_17640 = proton.lib.atom.views.getView(editor);
-var classList_17641 = view_17640.classList;
-classList_17641.remove("vim-mode");
+var editor = cljs.core.first.call(null,seq__6963__$1);
+var view_6977 = proton.lib.atom.views.getView(editor);
+var classList_6978 = view_6977.classList;
+classList_6978.remove("vim-mode");
 
-classList_17641.add("proton-mode");
+classList_6978.add("proton-mode");
 
 proton.lib.atom.show_panel.call(null);
 
-var G__17642 = cljs.core.next.call(null,seq__17626__$1);
-var G__17643 = null;
-var G__17644 = (0);
-var G__17645 = (0);
-seq__17626 = G__17642;
-chunk__17627 = G__17643;
-count__17628 = G__17644;
-i__17629 = G__17645;
+var G__6979 = cljs.core.next.call(null,seq__6963__$1);
+var G__6980 = null;
+var G__6981 = (0);
+var G__6982 = (0);
+seq__6963 = G__6979;
+chunk__6964 = G__6980;
+count__6965 = G__6981;
+i__6966 = G__6982;
 continue;
 }
 } else {
@@ -93,63 +93,63 @@ proton.lib.atom.deactivate_proton_mode_BANG_ = (function proton$lib$atom$deactiv
 console.log("----> Proton Chain deactivated!");
 
 var editors = proton.lib.atom.workspace.getTextEditors();
-var seq__17650 = cljs.core.seq.call(null,editors);
-var chunk__17651 = null;
-var count__17652 = (0);
-var i__17653 = (0);
+var seq__6987 = cljs.core.seq.call(null,editors);
+var chunk__6988 = null;
+var count__6989 = (0);
+var i__6990 = (0);
 while(true){
-if((i__17653 < count__17652)){
-var editor = cljs.core._nth.call(null,chunk__17651,i__17653);
-var view_17654 = proton.lib.atom.views.getView(editor);
-var classList_17655 = view_17654.classList;
-classList_17655.remove("proton-mode");
+if((i__6990 < count__6989)){
+var editor = cljs.core._nth.call(null,chunk__6988,i__6990);
+var view_6991 = proton.lib.atom.views.getView(editor);
+var classList_6992 = view_6991.classList;
+classList_6992.remove("proton-mode");
 
-classList_17655.add("vim-mode");
+classList_6992.add("vim-mode");
 
 proton.lib.atom.hide_panel.call(null);
 
-var G__17656 = seq__17650;
-var G__17657 = chunk__17651;
-var G__17658 = count__17652;
-var G__17659 = (i__17653 + (1));
-seq__17650 = G__17656;
-chunk__17651 = G__17657;
-count__17652 = G__17658;
-i__17653 = G__17659;
+var G__6993 = seq__6987;
+var G__6994 = chunk__6988;
+var G__6995 = count__6989;
+var G__6996 = (i__6990 + (1));
+seq__6987 = G__6993;
+chunk__6988 = G__6994;
+count__6989 = G__6995;
+i__6990 = G__6996;
 continue;
 } else {
-var temp__4425__auto__ = cljs.core.seq.call(null,seq__17650);
+var temp__4425__auto__ = cljs.core.seq.call(null,seq__6987);
 if(temp__4425__auto__){
-var seq__17650__$1 = temp__4425__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__17650__$1)){
-var c__5471__auto__ = cljs.core.chunk_first.call(null,seq__17650__$1);
-var G__17660 = cljs.core.chunk_rest.call(null,seq__17650__$1);
-var G__17661 = c__5471__auto__;
-var G__17662 = cljs.core.count.call(null,c__5471__auto__);
-var G__17663 = (0);
-seq__17650 = G__17660;
-chunk__17651 = G__17661;
-count__17652 = G__17662;
-i__17653 = G__17663;
+var seq__6987__$1 = temp__4425__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__6987__$1)){
+var c__5471__auto__ = cljs.core.chunk_first.call(null,seq__6987__$1);
+var G__6997 = cljs.core.chunk_rest.call(null,seq__6987__$1);
+var G__6998 = c__5471__auto__;
+var G__6999 = cljs.core.count.call(null,c__5471__auto__);
+var G__7000 = (0);
+seq__6987 = G__6997;
+chunk__6988 = G__6998;
+count__6989 = G__6999;
+i__6990 = G__7000;
 continue;
 } else {
-var editor = cljs.core.first.call(null,seq__17650__$1);
-var view_17664 = proton.lib.atom.views.getView(editor);
-var classList_17665 = view_17664.classList;
-classList_17665.remove("proton-mode");
+var editor = cljs.core.first.call(null,seq__6987__$1);
+var view_7001 = proton.lib.atom.views.getView(editor);
+var classList_7002 = view_7001.classList;
+classList_7002.remove("proton-mode");
 
-classList_17665.add("vim-mode");
+classList_7002.add("vim-mode");
 
 proton.lib.atom.hide_panel.call(null);
 
-var G__17666 = cljs.core.next.call(null,seq__17650__$1);
-var G__17667 = null;
-var G__17668 = (0);
-var G__17669 = (0);
-seq__17650 = G__17666;
-chunk__17651 = G__17667;
-count__17652 = G__17668;
-i__17653 = G__17669;
+var G__7003 = cljs.core.next.call(null,seq__6987__$1);
+var G__7004 = null;
+var G__7005 = (0);
+var G__7006 = (0);
+seq__6987 = G__7003;
+chunk__6988 = G__7004;
+count__6989 = G__7005;
+i__6990 = G__7006;
 continue;
 }
 } else {

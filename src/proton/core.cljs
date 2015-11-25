@@ -3,7 +3,9 @@
             [proton.lib.atom :as atom-env]
             [proton.lib.package_manager :as pm]
             [cljs.nodejs :as node]
-            [clojure.string :as string :refer [lower-case upper-case]]))
+            [clojure.string :as string :refer [lower-case upper-case]]
+            [proton.layers.base :as layerbase]
+            [proton.layers.core.core :as core-layer]))
 
 (node/enable-util-print!)
 
@@ -21,6 +23,11 @@
 
 ;; Initialise new composite-disposable so we can add stuff to it later
 (def subscriptions (new composite-disposable))
+
+(def enabled-layers [:core])
+
+(doseq [layer enabled-layers]
+  (println (layerbase/get-packages (keyword layer))))
 
 (def mock-tree
   {:g {
@@ -64,8 +71,8 @@
 (defn ^:export activate [state]
   (.log js/console (pm/is-installed? "vim-mode"))
   (.log js/console "installing testing:")
-  (.log js/console (pm/install-package "vim-mode"))
-  (.log js/console (pm/install-package "asdfjasdfjsakdf-mode"))
+  ;(.log js/console (pm/install-package "vim-mode"))
+  ;(.log js/console (pm/install-package "asdfjasdfjsakdf-mode"))
   (.log js/console (pm/get-apm-path))
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
