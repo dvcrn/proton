@@ -21,7 +21,8 @@
   (println configuration)
   (println keybindings))
 
-(.log js/console (atom-env/get-all-settings))
+(println (atom-env/get-all-settings))
+(println (map atom-env/unset-config! (atom-env/get-all-settings)))
 (atom-env/set-config! "editor.fontFamily" "Hack")
 
 ;; js/atom is not the same as require 'atom'.

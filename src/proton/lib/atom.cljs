@@ -56,9 +56,24 @@
     (.dispatch commands (.getView views workspace) action)
     (deactivate-proton-mode!)))
 
-
 (defn get-all-settings []
-  (.getAll config))
+  (let [config-obj (.getAll config)
+        parsed-config (atom [])]
+    ;; First level are different selectors. The most interesting one being '*'
+    (goog.object/forEach config-obj
+      (fn [subobj _ _]
+        ;; second level are the actual config objects inside the selectorso
+        ;; .value holds the actual configuration object for the selector
+        (goog.object/forEach (.-value subobj)
+          (fn [obj config-prefix _]
+            ;; third level is the actual config string. Like core.{xxx}
+            (goog.object/forEach obj
+              (fn [val config-postfix _]
+                (swap! parsed-config conj (str config-prefix "." config-postfix))))))))
+    @parsed-config))
 
 (defn set-config! [selector value]
   (.set config selector value))
+
+(defn unset-config! [selector]
+  (.unset config selector))
