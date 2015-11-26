@@ -72,7 +72,7 @@
   (atom-env/activate-proton-mode!))
 
 (defn ^:export activate [state]
-  (.setTimeout js/window #(do (init-layers)) 10000)
+  (.setTimeout js/window #(do (init-layers)) 3000)
 
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))

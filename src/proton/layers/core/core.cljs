@@ -8,7 +8,8 @@
    :b {:category "buffer"
        :m {:action "maximise"}}
    :p {:category "project"
-       :t {:action "tree-view:toggle"}}})
+       :t {:action "tree-view:toggle"}
+       :f {:action "fuzzy-finder:toggle-file-finder"}}})
 
 
 (defmethod get-packages :core
