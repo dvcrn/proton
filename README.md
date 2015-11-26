@@ -1,4 +1,4 @@
-# Experimental attempt to bring [spacemacs][0] and [sublimious][1] style editing to atom
+### Experimental attempt to bring [spacemacs][0] and [sublimious][1] style editing to atom
 
 ![demo][2]
 
