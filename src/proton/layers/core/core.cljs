@@ -3,12 +3,7 @@
 
 (defmethod get-keybindings :core
   []
-  {:g {:category "git"
-       :s {:action "git_status"}
-       :c {:action "git_commit"}
-       :p {:action "git_push"}
-       :P {:action "git_pull"}}
-   :w {:category "window"
+  {:w {:category "window"
        :m {:action "maximise"}}
    :b {:category "buffer"
        :m {:action "maximise"}}

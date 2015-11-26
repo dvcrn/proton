@@ -5,7 +5,8 @@
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]
             [proton.layers.base :as layerbase]
-            [proton.layers.core.core :as core-layer]))
+            [proton.layers.core.core :as core-layer]
+            [proton.layers.git.core :as git-layer]))
 
 (node/enable-util-print!)
 
@@ -27,15 +28,6 @@
 (def command-tree (atom {}))
 (def required-packages (atom []))
 
-(def enabled-layers [:core])
-(doseq [layer enabled-layers]
-  (println (layerbase/get-packages (keyword layer)))
-  (swap! required-packages concat (layerbase/get-packages (keyword layer)))
-  (swap! command-tree merge (layerbase/get-keybindings (keyword layer))))
-
-(println @command-tree)
-(println @required-packages)
-
 (def current-chain (atom []))
 (defn ^:export chain [e]
   (let [letter (helpers/extract-keyletter-from-event e)
@@ -53,14 +45,35 @@
             (let [extracted-chain (get-in @command-tree @current-chain)]
               (if (nil? extracted-chain)
                 (atom-env/deactivate-proton-mode!)
-                (atom-env/insert-html (helpers/tree->html extracted-chain)))))))))
+                (atom-env/update-bottom-panel (helpers/tree->html extracted-chain)))))))))
+
+(def enabled-layers [:core :git])
+(defn init-layers []
+  (atom-env/insert-process-step (str "Initialising layers: " enabled-layers))
+  (println (str "Initialising layers: " enabled-layers))
+  (doseq [layer enabled-layers]
+    (println (layerbase/get-packages (keyword layer)))
+    (swap! required-packages #(into [] (concat % (layerbase/get-packages (keyword layer)))))
+    (swap! command-tree merge (layerbase/get-keybindings (keyword layer))))
+
+  (println (str "Collected packages: " @ required-packages))
+  (doseq [package @required-packages]
+    (let [package (name package)]
+      (if (not (pm/is-installed? package))
+        (do
+          (atom-env/insert-process-step (str "Installing " package))
+          (println (str "Installing " package))
+          (pm/install-package package)))))
+  true)
 
 (defn on-space []
   (reset! current-chain [])
-  (atom-env/insert-html (helpers/tree->html @command-tree))
+  (atom-env/update-bottom-panel (helpers/tree->html @command-tree))
   (atom-env/activate-proton-mode!))
 
 (defn ^:export activate [state]
+  (.setTimeout js/window #(do (init-layers)) 10000)
+
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
 

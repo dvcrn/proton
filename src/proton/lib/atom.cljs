@@ -1,5 +1,5 @@
 (ns proton.lib.atom
-  (:require [proton.lib.helpers :refer [generate-div]]
+  (:require [proton.lib.helpers :refer [generate-div process->html]]
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]))
 
@@ -9,18 +9,25 @@
 (def views (.-views js/atom))
 
 (def element (atom (generate-div "test" "proton-which-key")))
-(def modal-panel (atom (.addBottomPanel workspace
+(def bottom-panel (atom (.addBottomPanel workspace
                                        (clj->js {:visible false
                                                   :item @element}))))
 
-(defn insert-html [html]
-  (aset @element "innerHTML" html))
+(def modal-element (atom (generate-div "test" "proton-modal-panel")))
+(def modal-panel (atom (.addModalPanel workspace (clj->js {:visible false
+                                                           :item @modal-element}))))
 
-(defn show-panel []
-  (.show @modal-panel))
+(defn update-bottom-panel [html] (aset @element "innerHTML" html))
+(defn update-modal-panel [html] (aset @modal-element "innerHTML" html))
+(defn show-modal-panel [] (.show @modal-panel))
+(defn hide-modal-panel [] (.hide @modal-panel))
+(defn show-bottom-panel [] (.show @bottom-panel))
+(defn hide-bottom-panel [] (.hide @bottom-panel))
 
-(defn hide-panel []
-  (.hide @modal-panel))
+(def steps (atom []))
+(defn insert-process-step [text]
+  (swap! steps conj text)
+  (update-modal-panel (process->html @steps)))
 
 (defn activate-proton-mode! []
   (.log js/console "----> Proton Chain activated!")
@@ -30,7 +37,7 @@
               classList (.-classList view)]
             (.remove classList "vim-mode")
             (.add classList "proton-mode")
-            (show-panel)))))
+            (show-bottom-panel)))))
 
 (defn deactivate-proton-mode! []
   (.log js/console "----> Proton Chain deactivated!")
@@ -40,7 +47,7 @@
               classList (.-classList view)]
             (.remove classList "proton-mode")
             (.add classList "vim-mode")
-            (hide-panel)))))
+            (hide-bottom-panel)))))
 
 (defn eval-action! [tree sequence]
   (println "evalling")
