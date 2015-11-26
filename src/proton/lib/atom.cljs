@@ -7,6 +7,7 @@
 (def workspace (.-workspace js/atom))
 (def keymaps (.-keymaps js/atom))
 (def views (.-views js/atom))
+(def config (.-config js/atom))
 
 (def element (atom (generate-div "test" "proton-which-key")))
 (def bottom-panel (atom (.addBottomPanel workspace
@@ -54,3 +55,10 @@
   (let [action (get-in tree (conj sequence :action))]
     (.dispatch commands (.getView views workspace) action)
     (deactivate-proton-mode!)))
+
+
+(defn get-all-settings []
+  (.getAll config))
+
+(defn set-config! [selector value]
+  (.set config selector value))

@@ -14,4 +14,4 @@
 
 (defmethod get-packages :core
   []
-  [:vim-mode :foo-mode])
+  [:vim-mode])

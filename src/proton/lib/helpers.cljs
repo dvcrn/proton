@@ -1,11 +1,20 @@
 (ns proton.lib.helpers
-  (:require [clojure.string :as string :refer [upper-case lower-case]]))
+  (:require [clojure.string :as string :refer [upper-case lower-case]]
+            [cljs.nodejs :as node]))
+
+(def fs (node/require "fs"))
 
 (defn generate-div [text class-name]
   (let [d (.createElement js/document "div")]
     (set! (.-textContent d) text)
     (.add (.-classList d) class-name)
     d))
+
+(defn read-file [path]
+  (.readFileSync fs path #js {:encoding "utf8"}))
+
+(defn is-file? [path]
+  (.isFile (.lstatSync fs path)))
 
 (defn extract-keyletter-from-event [event]
   (let [key (.fromCharCode js/String (.. event -originalEvent -keyCode))

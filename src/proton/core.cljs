@@ -2,6 +2,7 @@
   (:require [proton.lib.helpers :as helpers]
             [proton.lib.atom :as atom-env]
             [proton.lib.package_manager :as pm]
+            [proton.lib.proton :as proton]
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]
             [proton.layers.base :as layerbase]
@@ -12,6 +13,16 @@
 
 ;; reference to atom shell API
 (def ashell (node/require "atom"))
+
+(let [{:keys [additional-packages layers configuration keybindings]} (proton/load-config)]
+  (println "loaded the following config:")
+  (println additional-packages)
+  (println layers)
+  (println configuration)
+  (println keybindings))
+
+(.log js/console (atom-env/get-all-settings))
+(atom-env/set-config! "editor.fontFamily" "Hack")
 
 ;; js/atom is not the same as require 'atom'.
 (def commands (.-commands js/atom))
