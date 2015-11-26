@@ -1,9 +1,10 @@
 (ns proton.lib.helpers
   (:require [clojure.string :as string :refer [upper-case lower-case]]))
 
-(defn generate-div [text]
+(defn generate-div [text class-name]
   (let [d (.createElement js/document "div")]
     (set! (.-textContent d) text)
+    (.add (.-classList d) class-name)
     d))
 
 (defn extract-keyletter-from-event [event]
@@ -28,9 +29,11 @@
           (let [key (nth element 0)
                 options (nth element 1)
                 value (if (nil? (options :category))
-                          (str "action:" (options :action))
-                          (str "category:" (options :category)))]
+                          (options :action)
+                          (options :category))]
 
-            (str "<li>" key " --> " value "</li>")))
+            (str "<li class='flex-item'>[" (name key) "] ➜ " value "</li>")))
       (seq (dissoc tree :category)))
-    (string/join " ")))
+    (string/join " ")
+    (conj [])
+    (apply #(str "<p>Keybindings:</p><ul class='flex-container'>" % "</ul>"))))

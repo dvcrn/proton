@@ -24,27 +24,19 @@
 ;; Initialise new composite-disposable so we can add stuff to it later
 (def subscriptions (new composite-disposable))
 
+(def command-tree (atom {}))
+(def required-packages (atom []))
+
 (def enabled-layers [:core])
-
 (doseq [layer enabled-layers]
-  (println (layerbase/get-packages (keyword layer))))
+  (println (layerbase/get-packages (keyword layer)))
+  (swap! required-packages concat (layerbase/get-packages (keyword layer)))
+  (swap! command-tree merge (layerbase/get-keybindings (keyword layer))))
 
-(def mock-tree
-  {:g {
-        :category "git"
-        :s {:action "git_status"}
-        :c {:action "git_commit"}
-        :p {:action "git_push"}
-        :P {:action "git_pull"}}
-   :w {:category "window"
-        :m {:action "maximise"}}
-   :b {:category "buffer"
-        :m {:action "maximise"}}
-   :p {:category "project"
-        :t {:action "tree-view:toggle"}}})
+(println @command-tree)
+(println @required-packages)
 
 (def current-chain (atom []))
-
 (defn ^:export chain [e]
   (let [letter (helpers/extract-keyletter-from-event e)
         key-code (helpers/extract-keycode-from-event e)]
@@ -55,25 +47,20 @@
           ;; append new key to chain
           (swap! current-chain conj letter)
           ;; check if the current character sequence is a action
-          (if (helpers/is-action? mock-tree @current-chain)
-            (atom-env/eval-action! mock-tree @current-chain)
+          (if (helpers/is-action? @command-tree @current-chain)
+            (atom-env/eval-action! @command-tree @current-chain)
             ;; if not, continue chaining
-            (let [extracted-chain (get-in mock-tree @current-chain)]
+            (let [extracted-chain (get-in @command-tree @current-chain)]
               (if (nil? extracted-chain)
                 (atom-env/deactivate-proton-mode!)
                 (atom-env/insert-html (helpers/tree->html extracted-chain)))))))))
 
 (defn on-space []
   (reset! current-chain [])
-  (atom-env/insert-html (helpers/tree->html mock-tree))
+  (atom-env/insert-html (helpers/tree->html @command-tree))
   (atom-env/activate-proton-mode!))
 
 (defn ^:export activate [state]
-  (.log js/console (pm/is-installed? "vim-mode"))
-  (.log js/console "installing testing:")
-  ;(.log js/console (pm/install-package "vim-mode"))
-  ;(.log js/console (pm/install-package "asdfjasdfjsakdf-mode"))
-  (.log js/console (pm/get-apm-path))
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
 

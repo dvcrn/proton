@@ -8,7 +8,7 @@
 (def keymaps (.-keymaps js/atom))
 (def views (.-views js/atom))
 
-(def element (atom (generate-div "test")))
+(def element (atom (generate-div "test" "proton-which-key")))
 (def modal-panel (atom (.addBottomPanel workspace
                                        (clj->js {:visible false
                                                   :item @element}))))
