@@ -1,5 +1,5 @@
 (ns proton.layers.git.core
-  (:use [proton.layers.base :only [get-keybindings get-packages]]))
+  (:use [proton.layers.base :only [get-keybindings get-packages get-keymaps]]))
 
 (defmethod get-keybindings :git
   []
@@ -13,3 +13,7 @@
 (defmethod get-packages :git
   []
   [:git-plus])
+
+(defmethod get-keymaps :git
+  []
+  [])

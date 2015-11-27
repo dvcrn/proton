@@ -8,3 +8,7 @@
 (defmulti get-keybindings
   (fn [layer-name]
     (keyword layer-name)))
+
+(defmulti get-keymaps
+  (fn [layer-name]
+    (keyword layer-name)))

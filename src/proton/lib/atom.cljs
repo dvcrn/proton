@@ -82,3 +82,8 @@
 
 (defn unset-config! [selector]
   (.unset config selector))
+
+(defn set-keymap! [selector bindings]
+  (let [binding-map (reduce merge (map #(hash-map (get % 0) (get % 1)) bindings))
+        selector-bound-map (hash-map selector binding-map)]
+    (.add keymaps "custom-keymap" (clj->js selector-bound-map))))

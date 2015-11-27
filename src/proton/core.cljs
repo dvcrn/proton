@@ -5,7 +5,7 @@
             [proton.lib.proton :as proton]
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]
-            
+
             [proton.layers.base :as layerbase]
             [proton.layers.core.core :as core-layer]
             [proton.layers.git.core :as git-layer]
@@ -53,13 +53,14 @@
                 (atom-env/update-bottom-panel (helpers/tree->html extracted-chain)))))))))
 
 (defn init []
-  (let [{:keys [additional-packages layers configuration keybindings]} (proton/load-config)
+  (let [{:keys [additional-packages layers configuration keybindings keymaps]} (proton/load-config)
         editor-default editor-config/default
         proton-default proton-config/default]
 
     (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
-          all-configuration (into [] (distinct (concat editor-default configuration)))
+          all-configuration (into [] (distinct (concat (:settings editor-default) configuration)))
           all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
+          all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
           all-keybindings (proton/keybindings-for-layers all-layers)]
 
       ;; wipe existing config
@@ -70,13 +71,12 @@
       ;; save commands into command tree
       (reset! command-tree all-keybindings)
 
+      ;; set all custom keybindings from layers + user config
+      (doall (map #(atom-env/set-keymap! (:selector %) (:keymap %)) all-keymaps))
+
       ;; Remove deleted packages
-      (println "removing:")
-      (println (pm/get-removed all-packages))
       (doall (map #(pm/remove-package (name %)) (pm/get-removed all-packages)))
       ;; Install all necessary packages
-      (println "installing:")
-      (println all-packages)
       (doall (map #(pm/install-package (name %)) all-packages)))))
 
 (defn on-space []

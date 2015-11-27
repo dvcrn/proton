@@ -1,5 +1,5 @@
 (ns proton.layers.core.core
-  (:use [proton.layers.base :only [get-keybindings get-packages]]))
+  (:use [proton.layers.base :only [get-keybindings get-packages get-keymaps]]))
 
 (defmethod get-keybindings :core
   []
@@ -14,6 +14,10 @@
    :p {:category "project"
        :t {:action "tree-view:toggle"}
        :f {:action "fuzzy-finder:toggle-file-finder"}}})
+
+(defmethod get-keymaps :core
+  []
+  [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}])
 
 
 (defmethod get-packages :core

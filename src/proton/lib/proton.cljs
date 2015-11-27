@@ -23,3 +23,6 @@
 
 (defn keybindings-for-layers [layers]
   (reduce merge (map #(layerbase/get-keybindings (keyword %)) layers)))
+
+(defn keymaps-for-layers [layers]
+  (reduce merge (map #(layerbase/get-keymaps (keyword %)) layers)))

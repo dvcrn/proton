@@ -26,7 +26,9 @@
 
   ;; Don't like a keybinding or want to add something yourself? Do it here
   ;; (not implemented yet)
-  :keybindings
-  {
-  }
+  :keybindings {}
+
+  ;; Want some custom behavior inside a certain window?
+  ;; For example you prefer navigating with esc and enter? Add it here.
+  :keymaps []
 }
