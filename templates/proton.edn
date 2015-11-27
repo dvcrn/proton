@@ -1,0 +1,32 @@
+{
+  ;; Layers you wish to have active
+  ;; To get a list of all available layers, check foo.com/layers
+  :layers
+  [
+    :core
+    :git
+    :clojure
+  ]
+
+  ;; Packages that are not part of a layer. List them here as keyword
+  ;; All packages will be ensured to be installed. Stuff that is not listed here
+  ;; Will get uninstalled so choose wisely!
+  :additional-packages
+  [
+    :minimap
+  ]
+
+  ;; In a later version, proton will attempt to take over your configuration
+  ;; This will be merged with a default version so use this here to override things
+  ;; WARNING: this will wipe your existing config. You have been warned.
+  :configuration
+  [
+    ["editor.fontFamily" "Hack"]
+  ]
+
+  ;; Don't like a keybinding or want to add something yourself? Do it here
+  ;; (not implemented yet)
+  :keybindings
+  {
+  }
+}
