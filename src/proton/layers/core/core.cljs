@@ -4,9 +4,13 @@
 (defmethod get-keybindings :core
   []
   {:w {:category "window"
-       :m {:action "maximise"}}
+       :m {:action "maximise"}
+       :d {:action "window:toggle-dev-tools"}}
    :b {:category "buffer"
-       :m {:action "maximise"}}
+       :m {:action "maximise"}
+       :K {:action "pane:close-other-items"
+           :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+       :d {:action "pane:close"}}
    :p {:category "project"
        :t {:action "tree-view:toggle"}
        :f {:action "fuzzy-finder:toggle-file-finder"}}})
