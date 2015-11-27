@@ -11,20 +11,19 @@ Proton *(name subject to change)* is a very early attempt to mirror the modal ed
 We get rid of the annoying part of atom - that being the configuration and package management - and __concentrate on the cool bits__ - it's full customisation capabilities. 
 
 ### Features
-##### dotfile friendly configuration
+##### :handbag: dotfile friendly configuration
 proton will take care of setting up atom for you. All you need to do is configure your `~/.proton` file - your central configuration point
 
-##### easy to remember keybindings
+##### :ok_hand: easy to remember keybindings
 
 Noone has time to remember a ton of keybindings and then remember another ton for a new tool. Proton leverages spacesmacs mnemonic in which each keybinding is assigned to a specific category:
 
-- `<spc> g s` will execute __g__it __s__tatus
-- `<spc> p t` will toggle the __p__rojects __t__ree-view
+- `<spc> g s` will execute [__g__]it [__s__]tatus
+- `<spc> p t` will toggle the [__p__]rojects [__t__]ree-view
 
 you get the idea!
 
-
-##### layer based configuration
+##### :package: layer based configuration
 Atom has __a ton__ of packages and only a subset of them being actually useful. Instead of finding all the good bits yourself, rely on a crowd-configured layer system that does it for you! Here is how it works:
 
 Imagine you want to do some javascript in atom but you have no idea what to install and what to set up. Instead of just installing random packages by itself, you'll include the `:javascript` layer and boom! proton installs all the good packages and configuration for you. 
