@@ -4,7 +4,10 @@
 (defmethod get-keybindings :git
   []
   {:g {:category "git"
-       :s {:action "git-plus:status"}
+       :a {:action "git-plus:add"}
+       :S {:action "git-plus:status"}
+       :s {:action "git-plus:stage-files"}
+       :P {:action "git-plus:push"}
        :c {:action "git-plus:commit"}}})
 
 (defmethod get-packages :git
