@@ -10,15 +10,19 @@
        :m {:action "maximise"}
        :K {:action "pane:close-other-items"
            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
-       :d {:action "pane:close"}}
+       :d {:action "pane:close"
+           :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}}
    :p {:category "project"
        :t {:action "tree-view:toggle"}
        :f {:action "fuzzy-finder:toggle-file-finder"}}})
 
 (defmethod get-keymaps :core
   []
-  [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}])
-
+  [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}
+   {:selector "body" :keymap [["ctrl-j" "core:move-down"]
+                              ["ctrl-k" "core:move-up"]]}
+   {:selector "atom-text-editor" :keymap [["ctrl-k" "core:move-up"]
+                                          ["ctrl-j" "core:move-down"]]}])
 
 (defmethod get-packages :core
   []
@@ -26,6 +30,7 @@
   ;; adding them here so proton doesn't remove them by accident
   [:proton
    :vim-mode
+
    :atom-dark-syntax
    :atom-dark-ui
    :atom-light-syntax
