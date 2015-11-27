@@ -73,6 +73,7 @@
     @parsed-config))
 
 (defn set-config! [selector value]
+  (println (str "Setting " selector " to " value))
   (.set config selector value))
 
 (defn unset-config! [selector]

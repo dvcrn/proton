@@ -1,4 +1,8 @@
 (ns proton.config.editor)
 
-(def default []
-  ["editor.fontFamily" "Hack"])
+(def default [
+              ;; Get rid of the startup message
+              ["welcome.showOnStartup" false]
+
+              ;; Better default font ;)
+              ["editor.fontFamily" "Hack"]])

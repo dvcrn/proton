@@ -9,14 +9,33 @@
 (defn get-apm-path []
   (.getApmPath packages))
 
-(defn install-package [package-name]
-  (try
-    (do
-      (.execSync child-process (str (get-apm-path) " install " package-name " --no-colors"))
-      true)
-    (catch js/Error e
-      false)))
+(defn get-all-packages []
+  (.getAvailablePackageNames packages))
 
 (defn is-installed? [package-name]
-  (let [pkgs (.getAvailablePackageNames packages)]
+  (let [pkgs (get-all-packages)]
     (not (= -1 (.indexOf pkgs package-name)))))
+
+(defn get-removed [all-packages]
+  (let [pkgs (set all-packages)]
+    (filter #(if (not (contains? pkgs %)) %) (into [] (map keyword (get-all-packages))))))
+
+(defn install-package [package-name]
+  (if (is-installed? package-name)
+    true
+    (try
+      (do
+        (.execSync child-process (str (get-apm-path) " install " package-name " --no-colors"))
+        true)
+      (catch js/Error e
+        false))))
+
+(defn remove-package [package-name]
+  (if (not (is-installed? package-name))
+    true
+    (try
+      (do
+        (.execSync child-process (str (get-apm-path) " uninstall " package-name " --no-colors"))
+        true)
+      (catch js/Error e
+        false))))

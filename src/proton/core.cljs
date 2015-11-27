@@ -7,23 +7,14 @@
             [clojure.string :as string :refer [lower-case upper-case]]
             [proton.layers.base :as layerbase]
             [proton.layers.core.core :as core-layer]
-            [proton.layers.git.core :as git-layer]))
+            [proton.layers.git.core :as git-layer]
+            [proton.config.editor :as editor-config]
+            [proton.config.proton :as proton-config]))
 
 (node/enable-util-print!)
 
 ;; reference to atom shell API
 (def ashell (node/require "atom"))
-
-(let [{:keys [additional-packages layers configuration keybindings]} (proton/load-config)]
-  (println "loaded the following config:")
-  (println additional-packages)
-  (println layers)
-  (println configuration)
-  (println keybindings))
-
-(println (atom-env/get-all-settings))
-(println (map atom-env/unset-config! (atom-env/get-all-settings)))
-(atom-env/set-config! "editor.fontFamily" "Hack")
 
 ;; js/atom is not the same as require 'atom'.
 (def commands (.-commands js/atom))
@@ -38,9 +29,8 @@
 (def subscriptions (new composite-disposable))
 
 (def command-tree (atom {}))
-(def required-packages (atom []))
-
 (def current-chain (atom []))
+
 (defn ^:export chain [e]
   (let [letter (helpers/extract-keyletter-from-event e)
         key-code (helpers/extract-keycode-from-event e)]
@@ -59,24 +49,32 @@
                 (atom-env/deactivate-proton-mode!)
                 (atom-env/update-bottom-panel (helpers/tree->html extracted-chain)))))))))
 
-(def enabled-layers [:core :git])
-(defn init-layers []
-  (atom-env/insert-process-step (str "Initialising layers: " enabled-layers))
-  (println (str "Initialising layers: " enabled-layers))
-  (doseq [layer enabled-layers]
-    (println (layerbase/get-packages (keyword layer)))
-    (swap! required-packages #(into [] (concat % (layerbase/get-packages (keyword layer)))))
-    (swap! command-tree merge (layerbase/get-keybindings (keyword layer))))
+(defn init []
+  (let [{:keys [additional-packages layers configuration keybindings]} (proton/load-config)
+        editor-default editor-config/default
+        proton-default proton-config/default]
 
-  (println (str "Collected packages: " @ required-packages))
-  (doseq [package @required-packages]
-    (let [package (name package)]
-      (if (not (pm/is-installed? package))
-        (do
-          (atom-env/insert-process-step (str "Installing " package))
-          (println (str "Installing " package))
-          (pm/install-package package)))))
-  true)
+    (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
+          all-configuration (into [] (distinct (concat editor-default configuration)))
+          all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
+          all-keybindings (proton/keybindings-for-layers all-layers)]
+
+      ;; wipe existing config
+      (doall (map atom-env/unset-config! (atom-env/get-all-settings)))
+      ;; set the user config
+      (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
+
+      ;; save commands into command tree
+      (reset! command-tree all-keybindings)
+
+      ;; Remove deleted packages
+      (println "removing:")
+      (println (pm/get-removed all-packages))
+      (doall (map #(pm/remove-package (name %)) (pm/get-removed all-packages)))
+      ;; Install all necessary packages
+      (println "installing:")
+      (println all-packages)
+      (doall (map #(pm/install-package (name %)) all-packages)))))
 
 (defn on-space []
   (reset! current-chain [])
@@ -84,16 +82,14 @@
   (atom-env/activate-proton-mode!))
 
 (defn ^:export activate [state]
-  (.setTimeout js/window #(do (init-layers)) 3000)
-
+  (init)
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
 
 (defn ^:export deactivate [] (.log js/console "deactivating..."))
 
-(defn noop [] nil)
-(set! *main-cli-fn* noop)
-
 ;; We need to set module.exports to our core class.
 ;; Atom is using Proton.activate on this
+(defn noop [] nil)
+(set! *main-cli-fn* noop)
 (aset js/module "exports" proton.core)
