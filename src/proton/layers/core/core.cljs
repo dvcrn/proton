@@ -3,15 +3,41 @@
 
 (defmethod get-keybindings :core
   []
-  {:w {:category "window"
-       :m {:action "maximise"}
-       :d {:action "window:toggle-dev-tools"}}
+  {
+    :0 {:action "tree-view:toggle-focus"}
+    :j {:action "window:focus-pane-below"
+        :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+    :k {:action "window:focus-pane-above"
+        :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+    :l {:action "window:focus-pane-on-right"
+        :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+    :h {:action "window:focus-pane-on-left"
+        :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+    :w {:category "window"
+        :m {:action "maximise"}
+        :d {:action "pane:close"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :v {:action "pane:split-right"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :h {:action "pane:split-down"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :V {:action "pane:split-left"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :H {:action "pane:split-up"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :| {:action "pane:split-right"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :/ {:action "pane:split-right"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :- {:action "pane:split-down"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}}
    :b {:category "buffer"
-       :m {:action "maximise"}
-       :K {:action "pane:close-other-items"
-           :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
-       :d {:action "pane:close"
-           :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}}
+        :m {:action "maximise"}
+        :b {:action "fuzzy-finder:toggle-buffer-finder"}
+        :K {:action "pane:close-other-items"
+            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :d {:action "pane:close"
+             :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}}
    :p {:category "project"
        :t {:action "tree-view:toggle"}
        :f {:action "fuzzy-finder:toggle-file-finder"}}})
@@ -30,6 +56,7 @@
   ;; adding them here so proton doesn't remove them by accident
   [:proton
    :vim-mode
+   :ex-mode
 
    :atom-dark-syntax
    :atom-dark-ui

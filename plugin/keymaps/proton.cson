@@ -68,6 +68,8 @@
   '%': 'proton:chain'
   '_': 'proton:chain'
   '"': 'proton:chain'
+  '|': 'proton:chain'
+  '-': 'proton:chain'
   '1': 'proton:chain'
   '2': 'proton:chain'
   '3': 'proton:chain'
