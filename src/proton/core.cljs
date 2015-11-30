@@ -1,4 +1,5 @@
 (ns proton.core
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [proton.lib.helpers :as helpers]
             [proton.lib.atom :as atom-env]
             [proton.lib.package_manager :as pm]
@@ -12,7 +13,9 @@
             [proton.layers.clojure.core :as clojure-layer]
 
             [proton.config.editor :as editor-config]
-            [proton.config.proton :as proton-config]))
+            [proton.config.proton :as proton-config]
+
+            [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]))
 
 (node/enable-util-print!)
 
@@ -53,31 +56,44 @@
                 (atom-env/update-bottom-panel (helpers/tree->html extracted-chain)))))))))
 
 (defn init []
-  (let [{:keys [additional-packages layers configuration keybindings keymaps]} (proton/load-config)
-        editor-default editor-config/default
-        proton-default proton-config/default]
+  (go
+    (atom-env/show-modal-panel)
+    (atom-env/insert-process-step "Initialising proton... Just a moment!")
+    (let [{:keys [additional-packages layers configuration keybindings keymaps]} (proton/load-config)
+          editor-default editor-config/default
+          proton-default proton-config/default]
 
-    (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
-          all-configuration (into [] (distinct (concat (:settings editor-default) configuration)))
-          all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
-          all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
-          all-keybindings (proton/keybindings-for-layers all-layers)]
+      (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
+            all-configuration (into [] (distinct (concat (:settings editor-default) configuration)))
+            all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
+            all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
+            all-keybindings (proton/keybindings-for-layers all-layers)]
 
-      ;; wipe existing config
-      (doall (map atom-env/unset-config! (atom-env/get-all-settings)))
-      ;; set the user config
-      (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
+        ;; wipe existing config
+        (atom-env/insert-process-step "Wiping existing configuration")
+        (doall (map atom-env/unset-config! (atom-env/get-all-settings)))
+        ;; set the user config
+        (atom-env/insert-process-step "Applying user configuration")
+        (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
 
-      ;; save commands into command tree
-      (reset! command-tree all-keybindings)
+        ;; save commands into command tree
+        (atom-env/insert-process-step "Initialising keybinding tree")
+        (reset! command-tree all-keybindings)
 
-      ;; set all custom keybindings from layers + user config
-      (doall (map #(atom-env/set-keymap! (:selector %) (:keymap %)) all-keymaps))
+        ;; set all custom keybindings from layers + user config
+        (atom-env/insert-process-step "Applying layer keymaps")
+        (doall (map #(atom-env/set-keymap! (:selector %) (:keymap %)) all-keymaps))
 
-      ;; Remove deleted packages
-      (doall (map #(pm/remove-package (name %)) (pm/get-removed all-packages)))
-      ;; Install all necessary packages
-      (doall (map #(pm/install-package (name %)) all-packages)))))
+        ;; Install all necessary packages
+        (atom-env/insert-process-step (str "Installing collected packages: " (pm/get-to-install all-packages)))
+        (<! (pm/install-packages (map name (pm/get-to-install all-packages))))
+
+        ;; Remove deleted packages
+        (atom-env/insert-process-step (str "Removing orphaned packages: " (pm/get-to-remove all-packages)))
+        (<! (pm/remove-packages (map name (pm/get-to-remove all-packages))))
+
+        (atom-env/insert-process-step "All done!")
+        (.setTimeout js/window #(atom-env/hide-modal-panel) 3000)))))
 
 (defn on-space []
   (reset! current-chain [])
@@ -85,7 +101,7 @@
   (atom-env/activate-proton-mode!))
 
 (defn ^:export activate [state]
-  (init)
+  (.setTimeout js/window #(init) 2000)
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
 
