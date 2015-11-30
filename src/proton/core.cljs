@@ -15,7 +15,8 @@
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
 
-            [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]))
+            [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]
+            [clojure.string]))
 
 (node/enable-util-print!)
 
@@ -58,7 +59,7 @@
 (defn init []
   (go
     (atom-env/show-modal-panel)
-    (atom-env/insert-process-step "Initialising proton... Just a moment!")
+    (atom-env/insert-process-step! "Initialising proton... Just a moment!" "")
     (let [{:keys [additional-packages layers configuration keybindings keymaps]} (proton/load-config)
           editor-default editor-config/default
           proton-default proton-config/default]
@@ -70,29 +71,37 @@
             all-keybindings (proton/keybindings-for-layers all-layers)]
 
         ;; wipe existing config
-        (atom-env/insert-process-step "Wiping existing configuration")
+        (atom-env/insert-process-step! "Wiping existing configuration")
         (doall (map atom-env/unset-config! (atom-env/get-all-settings)))
+        (atom-env/mark-last-step-as-completed!)
         ;; set the user config
-        (atom-env/insert-process-step "Applying user configuration")
+        (atom-env/insert-process-step! "Applying user configuration")
         (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
+        (atom-env/mark-last-step-as-completed!)
 
         ;; save commands into command tree
-        (atom-env/insert-process-step "Initialising keybinding tree")
+        (atom-env/insert-process-step! "Initialising keybinding tree")
         (reset! command-tree all-keybindings)
+        (atom-env/mark-last-step-as-completed!)
 
         ;; set all custom keybindings from layers + user config
-        (atom-env/insert-process-step "Applying layer keymaps")
+        (atom-env/insert-process-step! "Applying layer keymaps")
         (doall (map #(atom-env/set-keymap! (:selector %) (:keymap %)) all-keymaps))
+        (atom-env/mark-last-step-as-completed!)
 
         ;; Install all necessary packages
-        (atom-env/insert-process-step (str "Installing collected packages: " (pm/get-to-install all-packages)))
-        (<! (pm/install-packages (map name (pm/get-to-install all-packages))))
+        (let [to-install (pm/get-to-install all-packages)]
+          (atom-env/insert-process-step! (str "Installing collected packages: " (clojure.string/join " " to-install)))
+          (<! (pm/install-packages (map name to-install)))
+          (atom-env/mark-last-step-as-completed!))
 
         ;; Remove deleted packages
-        (atom-env/insert-process-step (str "Removing orphaned packages: " (pm/get-to-remove all-packages)))
-        (<! (pm/remove-packages (map name (pm/get-to-remove all-packages))))
+        (let [to-remove (pm/get-to-remove all-packages)]
+          (atom-env/insert-process-step! (str "Removing orphaned packages: " (clojure.string/join " " to-remove)))
+          (<! (pm/remove-packages (map name to-remove)))
+          (atom-env/mark-last-step-as-completed!))
 
-        (atom-env/insert-process-step "All done!")
+        (atom-env/insert-process-step! "All done!" "")
         (.setTimeout js/window #(atom-env/hide-modal-panel) 3000)))))
 
 (defn on-space []

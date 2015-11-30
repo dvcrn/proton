@@ -26,9 +26,22 @@
 (defn hide-bottom-panel [] (.hide @bottom-panel))
 
 (def steps (atom []))
-(defn insert-process-step [text]
-  (swap! steps conj text)
-  (update-modal-panel (process->html @steps)))
+(defn insert-process-step!
+  ([text] (insert-process-step! text "[..]"))
+
+  ([text status]
+   (swap! steps conj [text status])
+   (update-modal-panel (process->html @steps))))
+
+(defn amend-last-step!
+  ([text] (amend-last-step! text "[..]"))
+
+  ([text status]
+   (swap! steps #(conj (into [] (butlast %)) [text status]))
+   (update-modal-panel (process->html @steps))))
+
+(defn mark-last-step-as-completed! []
+  (amend-last-step! (str (get (last @steps) 0)) "[ok]"))
 
 (defn activate-proton-mode! []
   (.log js/console "----> Proton Chain activated!")
