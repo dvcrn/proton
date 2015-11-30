@@ -20,12 +20,25 @@
   (let [pkgs (set all-packages)]
     (filter #(if (not (contains? pkgs %)) %) (into [] (map keyword (get-all-packages))))))
 
+(defn enable-package [package-name]
+  (.enablePackage packages package-name))
+
+(defn disable-package [package-name]
+  (.disablePackage packages package-name))
+
+(defn reload-package [package-name]
+  (disable-package package-name)
+  (enable-package package-name))
+
 (defn install-package [package-name]
   (if (is-installed? package-name)
     true
     (try
       (do
         (.execSync child-process (str (get-apm-path) " install " package-name " --no-colors"))
+        ;; Disable and enable here to force Atom to reload the packages
+        ;; We are doing this with a 2s delay to give Atom some time to find the new package
+        (.setTimeout js/window #(reload-package package-name) 2000)
         true)
       (catch js/Error e
         false))))
@@ -35,6 +48,7 @@
     true
     (try
       (do
+        (disable-package package-name)
         (.execSync child-process (str (get-apm-path) " uninstall " package-name " --no-colors"))
         true)
       (catch js/Error e
