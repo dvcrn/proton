@@ -6,6 +6,7 @@
     :core
     :git
     :clojure
+    :python
   ]
 
   ;; Packages that are not part of a layer. List them here as keyword
