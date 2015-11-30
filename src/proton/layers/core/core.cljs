@@ -1,43 +1,46 @@
 (ns proton.layers.core.core
   (:use [proton.layers.base :only [get-keybindings get-packages get-keymaps]]))
 
+(defn get-active-pane [atom]
+  (.getView (.-views atom) (.getActivePane (.-workspace atom))))
+
 (defmethod get-keybindings :core
   []
   {
     :0 {:action "tree-view:toggle-focus"}
     :j {:action "window:focus-pane-below"
-        :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :target get-active-pane}
     :k {:action "window:focus-pane-above"
-        :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :target get-active-pane}
     :l {:action "window:focus-pane-on-right"
-        :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :target get-active-pane}
     :h {:action "window:focus-pane-on-left"
-        :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+        :target get-active-pane}
     :w {:category "window"
         :m {:action "maximise"}
         :d {:action "pane:close"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+            :target get-active-pane}
         :v {:action "pane:split-right"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+            :target get-active-pane}
         :h {:action "pane:split-down"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+            :target get-active-pane}
         :V {:action "pane:split-left"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+            :target get-active-pane}
         :H {:action "pane:split-up"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+            :target get-active-pane}
         :| {:action "pane:split-right"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+            :target get-active-pane}
         :/ {:action "pane:split-right"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+            :target get-active-pane}
         :- {:action "pane:split-down"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}}
+            :target get-active-pane}}
    :b {:category "buffer"
         :m {:action "maximise"}
         :b {:action "fuzzy-finder:toggle-buffer-finder"}
         :K {:action "pane:close-other-items"
-            :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}
+            :target get-active-pane}
         :d {:action "pane:close"
-             :target (fn [atom] (.getView (.-views atom) (.getActivePane (.-workspace atom))))}}
+             :target get-active-pane}}
    :p {:category "project"
        :t {:action "tree-view:toggle"}
        :f {:action "fuzzy-finder:toggle-file-finder"}}})
