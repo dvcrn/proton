@@ -2,8 +2,6 @@
 
 Layers are the core *packages* of proton. Each layer is a bundle of sub-packages, keybindings, keymaps and settings. All together that makes one layer that you put on top of your editor.
 
-_(Settings are not supported yet from within a layer)_
-
 ### Creating a layer
 
 Creating a layer is very simple. Here is how your base sceleton could look like (don't worry, I'll go into detail in a bit):
