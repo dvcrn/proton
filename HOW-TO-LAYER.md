@@ -10,7 +10,15 @@ Creating a layer is very simple. Here is how your base sceleton could look like 
 
 ```clj
 (ns proton.layers.{{your-layer}}.core
-  (:use [proton.layers.base :only [get-keybindings get-packages get-keymaps]]))
+  (:use [proton.layers.base :only [init-layer! get-initial-config et-keybindings get-packages get-keymaps]]))
+
+(defmethod get-initial-config :{{your-layer}}
+  []
+  [])
+
+(defmethod init-layer! :{{your-layer}}
+  [_ config]
+  (println "hello world"))
 
 (defmethod get-keybindings :{{your-layer}}
   []
@@ -35,7 +43,33 @@ Proton is written in clojurescript. Let's walk through the code here:
 
 This is the namespace declaration. In the case of the git layer, this would be `proton.layers.git.core`.
 
-Inside here, we import `get-keybindings`, `get-packages` and `get-keymaps`. These are [multimethods](http://clojure.org/multimethods) that are present in every layer.
+Inside here, we import `init-layer!`, `get-initial-config`, `get-keybindings`, `get-packages` and `get-keymaps`. These are [multimethods](http://clojure.org/multimethods) that are present in every layer.
+
+#### the layer lifecycle
+
+When your layer is loaded, it will __always__ get asked which config it wants to set (or needs) before anything else. Proton will call `get-initial-config` and expects you to return a vector of vectors. This allows you to
+
+- Create your own config keys that your layer uses later like `showTabBar` or `shouldPrintHelloWorld`
+- Overwrite atom environment configurations
+
+Point 2 is very straight-forward. Just check what config key you want overwrite and specify them like this: ["editor.something" true]
+
+Point 1 is very helpful if you want to give the user the option to configure your layer. `["myLayer.printHelloWorld" true]` is creating this config key inside atom.
+
+Once all config has been retrieved, atom will proceed to call `init-layer!` with the __entire layer and user configuration__ as second parameter. This includes:
+
+- Configuration the user has specified in his / her `.proton` file
+- Configuration fragments that a layer specified (like `myLayer.printHelloWorld`)
+
+If you want to know if you should print hello world now, you could do something like this:
+
+```clj
+(defmethod init-layer! :core
+  [_ config]
+  (let [config-map (into (hash-map) config)]
+    (if (config-map "myLayer.printHelloWorld")
+     (println "Hello World!"))))
+```
 
 #### packages
 
