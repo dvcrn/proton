@@ -1,13 +1,23 @@
 (ns proton.layers.core.core
-  (:use [proton.layers.base :only [get-keybindings get-packages get-keymaps]]))
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps]]))
 
 (defn get-active-pane [atom]
   (.getView (.-views atom) (.getActivePane (.-workspace atom))))
 
+(defmethod get-initial-config :core []
+  [["proton.core.showTabBar" false]])
+
+(defmethod init-layer! :core
+  [_ config]
+  (let [config-map (into (hash-map) config)]
+    ;; hide tab bar if showTabBar is false
+    (if (not (config-map "proton.core.showTabBar"))
+     (let [tab-bar (aget (.getElementsByClassName js/document "tab-bar") 0)]
+        (.setAttribute tab-bar "style" "display:none")))))
+
 (defmethod get-keybindings :core
   []
-  {
-    :0 {:action "tree-view:toggle-focus"
+  { :0 {:action "tree-view:toggle-focus"
         :title "focus tree-view"}
     :j {:action "window:focus-pane-below"
         :target get-active-pane
@@ -61,8 +71,7 @@
 
 (defmethod get-keymaps :core
   []
-  [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}
-   {:selector "body" :keymap [["ctrl-j" "core:move-down"]
+  [{:selector "body" :keymap [["ctrl-j" "core:move-down"]
                               ["ctrl-k" "core:move-up"]]}
    {:selector "atom-text-editor" :keymap [["ctrl-k" "core:move-up"]
                                           ["ctrl-j" "core:move-down"]]}])

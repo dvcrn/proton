@@ -19,10 +19,10 @@
 
   ;; In a later version, proton will attempt to take over your configuration
   ;; This will be merged with a default version so use this here to override things
-  ;; WARNING: this will wipe your existing config. You have been warned.
   :configuration
   [
     ["editor.fontFamily" "Hack"]
+    ["proton.core.showTabBar" false]
   ]
 
   ;; Don't like a keybinding or want to add something yourself? Do it here
@@ -31,5 +31,5 @@
 
   ;; Want some custom behavior inside a certain window?
   ;; For example you prefer navigating with esc and enter? Add it here.
-  :keymaps []
+  :keymaps [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}]
 }

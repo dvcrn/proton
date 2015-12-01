@@ -1,5 +1,11 @@
 (ns proton.layers.git.core
-  (:use [proton.layers.base :only [get-keybindings get-packages get-keymaps]]))
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps]]))
+
+(defmethod init-layer! :git
+  [_ config]
+  (println "init git"))
+
+(defmethod get-initial-config :git [] [])
 
 (defmethod get-keybindings :git
   []

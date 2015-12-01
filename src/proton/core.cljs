@@ -66,10 +66,15 @@
           proton-default proton-config/default]
 
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
-            all-configuration (into [] (distinct (concat (:settings editor-default) configuration)))
+            all-configuration (into [] (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration)))
             all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
             all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
             all-keybindings (proton/keybindings-for-layers all-layers)]
+
+
+        (atom-env/insert-process-step! "Initialising layers")
+        (proton/init-layers! all-layers all-configuration)
+        (atom-env/mark-last-step-as-completed!)
 
         ;; wipe existing config
         (atom-env/insert-process-step! "Wiping existing configuration")
