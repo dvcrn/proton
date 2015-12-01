@@ -47,6 +47,8 @@ Proton tries to be your unified configuration system. Please use a fresh atom in
 
 ```
 lein cljsbuild once dev
+# or if you want auto-compile on change:
+lein cljsbuild auto dev
 ```
 will compile the clojurescript code into javascript. Once that's done, go into the `plugin/` folder and run
 
