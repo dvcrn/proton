@@ -7,6 +7,9 @@
 
 (defmethod get-initial-config :git [] [])
 
+(defn get-active-editor [atom]
+  (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
+
 (defmethod get-keybindings :git
   []
   {:g {:category "git"
@@ -14,7 +17,11 @@
        :S {:action "git-plus:status"}
        :s {:action "git-plus:stage-files"}
        :P {:action "git-plus:push"}
-       :c {:action "git-plus:commit"}}})
+       :c {:action "git-plus:commit"}
+       :d {:category "git diff"
+           :n {:action "git-diff:move-to-next-diff" :target get-active-editor}
+           :N {:action "git-diff:move-to-previous-diff" :target get-active-editor}
+           :l {:action "git-diff:toggle-diff-list" :target get-active-editor}}}})
 
 (defmethod get-packages :git
   []
