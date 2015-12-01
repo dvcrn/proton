@@ -50,11 +50,11 @@ When your layer is loaded, it will __always__ get asked which config it wants to
 - Create your own config keys that your layer uses later like `showTabBar` or `shouldPrintHelloWorld`
 - Overwrite atom environment configurations
 
-Point 2 is very straight-forward. Just check what config key you want overwrite and specify them like this: ["editor.something" true]
+Point 1 is very useful if you want to give the user the option to configure your layer. `["myLayer.printHelloWorld" true]` is creating this config key inside atom.
 
-Point 1 is very helpful if you want to give the user the option to configure your layer. `["myLayer.printHelloWorld" true]` is creating this config key inside atom.
+Point 2 is very straight-forward. Just check what config key you want overwrite and specify them like this: `["editor.something" true]`
 
-Once all config has been retrieved, atom will proceed to call `init-layer!` with the __entire layer and user configuration__ as second parameter. This includes:
+Once all config has been retrieved, proton will proceed to call `init-layer!` with the __entire layer and user configuration__ as second parameter. This includes:
 
 - Configuration the user has specified in his / her `.proton` file
 - Configuration fragments that a layer specified (like `myLayer.printHelloWorld`)
