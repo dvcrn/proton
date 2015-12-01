@@ -7,43 +7,54 @@
 (defmethod get-keybindings :core
   []
   {
-    :0 {:action "tree-view:toggle-focus"}
+    :0 {:action "tree-view:toggle-focus"
+        :title "focus tree-view"}
     :j {:action "window:focus-pane-below"
-        :target get-active-pane}
+        :target get-active-pane
+        :title "focus below pane"}
     :k {:action "window:focus-pane-above"
-        :target get-active-pane}
+        :target get-active-pane
+        :title "focus above pane"}
     :l {:action "window:focus-pane-on-right"
-        :target get-active-pane}
+        :target get-active-pane
+        :title "focus right pane"}
     :h {:action "window:focus-pane-on-left"
-        :target get-active-pane}
+        :target get-active-pane
+        :title "focus left pane"}
     :w {:category "window"
-        :m {:action "maximise"}
         :d {:action "pane:close"
-            :target get-active-pane}
+            :target get-active-pane
+            :title "destroy pane"}
         :v {:action "pane:split-right"
-            :target get-active-pane}
+            :target get-active-pane
+            :title "split vertically"}
         :h {:action "pane:split-down"
-            :target get-active-pane}
+            :target get-active-pane
+            :title "split horizontally"}
         :V {:action "pane:split-left"
-            :target get-active-pane}
+            :target get-active-pane
+            :title "split vertically and focus left"}
         :H {:action "pane:split-up"
-            :target get-active-pane}
-        :| {:action "pane:split-right"
-            :target get-active-pane}
-        :/ {:action "pane:split-right"
-            :target get-active-pane}
-        :- {:action "pane:split-down"
-            :target get-active-pane}}
+            :target get-active-pane
+            :title "split horizontally and focus up"}}
    :b {:category "buffer"
-        :m {:action "maximise"}
-        :b {:action "fuzzy-finder:toggle-buffer-finder"}
+        :b {:action "fuzzy-finder:toggle-buffer-finder"
+            :title "browse buffers"}
         :K {:action "pane:close-other-items"
-            :target get-active-pane}
+            :target get-active-pane
+            :title "kill other buffers"}
         :d {:action "pane:close"
-             :target get-active-pane}}
+            :target get-active-pane
+            :title "destroy current buffer"}}
    :p {:category "project"
-       :t {:action "tree-view:toggle"}
-       :f {:action "fuzzy-finder:toggle-file-finder"}}})
+       :t {:action "tree-view:toggle"
+           :title "tree-view"}
+       :f {:action "fuzzy-finder:toggle-file-finder"
+           :title "find in project"}}
+   :t {:category "toggles"
+       :t {:action "tree-view:toggle"
+           :title "tree-view"
+           :fx #(-> (.getElementsByClassName js/document "tab-bar") (aget 0) (.setAttribute "display:none"))}}})
 
 (defmethod get-keymaps :core
   []

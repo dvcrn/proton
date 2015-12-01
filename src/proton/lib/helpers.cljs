@@ -37,9 +37,11 @@
     (map (fn [element]
           (let [key (nth element 0)
                 options (nth element 1)
-                value (if (nil? (options :category))
-                          (options :action)
-                          (options :category))]
+                value (if (not (nil? (options :category)))
+                          (options :category)
+                          (if (not (nil? (options :title)))
+                            (options :title)
+                            (options :action)))]
 
             (str "<li class='flex-item'>[" (name key) "] ➜ " value "</li>")))
       (seq (dissoc tree :category)))
