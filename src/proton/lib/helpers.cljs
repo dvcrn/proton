@@ -27,10 +27,9 @@
   (.. event -originalEvent -keyCode))
 
 (defn is-action? [tree sequence]
-  (println "is action?")
-  (println (conj sequence :action))
-  (println (get-in tree (conj sequence :action)))
-  (not (nil? (get-in tree (conj sequence :action)))))
+  (or 
+    (not (nil? (get-in tree (conj sequence :fx))))
+    (not (nil? (get-in tree (conj sequence :action))))))
 
 (defn tree->html [tree]
   (->>

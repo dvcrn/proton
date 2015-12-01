@@ -52,9 +52,12 @@
        :f {:action "fuzzy-finder:toggle-file-finder"
            :title "find in project"}}
    :t {:category "toggles"
-       :t {:action "tree-view:toggle"
-           :title "tree-view"
-           :fx #(-> (.getElementsByClassName js/document "tab-bar") (aget 0) (.setAttribute "display:none"))}}})
+       :t {:title "tab-bar"
+           :fx (fn []
+                 (let [tab-bar (aget (.getElementsByClassName js/document "tab-bar") 0)]
+                  (if (nil? (.getAttribute tab-bar "style"))
+                    (.setAttribute tab-bar "style" "display:none")
+                    (.removeAttribute tab-bar "style"))))}}})
 
 (defmethod get-keymaps :core
   []

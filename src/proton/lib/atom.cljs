@@ -67,10 +67,15 @@
   (println "evalling")
   (let [action (get-in tree (conj sequence :action))
         target (get-in tree (conj sequence :target))
+        fx (get-in tree (conj sequence :fx))
         dom-target (if (nil? target) (.getView views workspace) (target js/atom))]
 
-    (println (str "Dispatching " action " to "))
-    (.dispatch commands dom-target action)
+    ;; functions always go first
+    (if (not (nil? fx))
+      (fx)
+      (do
+        (println (str "Dispatching " action " to "))
+        (.dispatch commands dom-target action)))
     (deactivate-proton-mode!)))
 
 (defn get-all-settings []
