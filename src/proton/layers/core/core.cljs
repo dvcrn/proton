@@ -2,11 +2,14 @@
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps]])
   (:require [proton.lib.proton :as proton]))
 
+(def state (atom {}))
+
 (defn get-active-pane [atom]
   (.getView (.-views atom) (.getActivePane (.-workspace atom))))
 
 (defmethod get-initial-config :core []
-  [["proton.core.showTabBar" false]])
+  [["proton.core.showTabBar" false]
+   ["proton.core.relativeLineNumbers" false]])
 
 (defmethod init-layer! :core
   [_ config]
@@ -14,7 +17,12 @@
     ;; hide tab bar if showTabBar is false
     (if (not (config-map "proton.core.showTabBar"))
      (let [tab-bar (aget (.getElementsByClassName js/document "tab-bar") 0)]
-        (.setAttribute tab-bar "style" "display:none")))))
+        (.setAttribute tab-bar "style" "display:none")))
+
+    (if (config-map "proton.core.relativeLineNumbers")
+      (.enablePackage (.-packages js/atom) "relative-numbers")
+      (.disablePackage (.-packages js/atom) "relative-numbers"))
+    (swap! state assoc-in [:relative-numbers] (config-map "proton.core.relativeLineNumbers"))))
 
 (defmethod get-keybindings :core
   []
@@ -68,7 +76,16 @@
                  (let [tab-bar (aget (.getElementsByClassName js/document "tab-bar") 0)]
                   (if (nil? (.getAttribute tab-bar "style"))
                     (.setAttribute tab-bar "style" "display:none")
-                    (.removeAttribute tab-bar "style"))))}}
+                    (.removeAttribute tab-bar "style"))))}
+       :n {:title "relative numbers"
+           :fx (fn []
+                 (if (get @state :relative-numbers)
+                  (do
+                    (.disablePackage (.-packages js/atom) "relative-numbers")
+                    (swap! state assoc-in [:relative-numbers] false))
+                  (do
+                    (.enablePackage (.-packages js/atom) "relative-numbers")
+                    (swap! state assoc-in [:relative-numbers] true))))}}
     :_ {:category "meta"
         :d {:title "find-dotfile"
             :fx (fn []
@@ -94,6 +111,7 @@
   [:proton
    :vim-mode
    :ex-mode
+   :relative-numbers
 
    :atom-dark-syntax
    :atom-dark-ui
