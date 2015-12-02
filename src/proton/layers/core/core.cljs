@@ -9,7 +9,9 @@
 
 (defmethod get-initial-config :core []
   [["proton.core.showTabBar" false]
-   ["proton.core.relativeLineNumbers" false]])
+   ["proton.core.relativeLineNumbers" false]
+   ["vim-mode.useClipboardAsDefaultRegister" true]
+   ["vim-mode.useSmartcaseForSearch" true]])
 
 (defmethod init-layer! :core
   [_ config]
