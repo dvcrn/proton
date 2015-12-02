@@ -26,7 +26,7 @@
 
 (defmethod get-keybindings :core
   []
-  { :0 {:action "tree-view:toggle-focus"
+  { :0 {:action "nuclide-file-tree:toggle-focus"
         :title "focus tree-view"}
     :j {:action "window:focus-pane-below"
         :target get-active-pane
@@ -57,7 +57,7 @@
             :target get-active-pane
             :title "split horizontally and focus up"}}
    :b {:category "buffer"
-        :b {:action "fuzzy-finder:toggle-buffer-finder"
+        :b {:action "nuclide-open-filenames-provider:toggle-provider"
             :title "browse buffers"}
         :K {:action "pane:close-other-items"
             :target get-active-pane
@@ -66,10 +66,14 @@
             :target get-active-pane
             :title "destroy current buffer"}}
    :p {:category "project"
-       :t {:action "tree-view:toggle"
+       :b {:action "nuclide-open-filenames-provider:toggle-provider"
+           :title "browse buffers"}
+       :t {:action "nuclide-file-tree:toggle"
            :title "tree-view"}
-       :f {:action "fuzzy-finder:toggle-file-finder"
-           :title "find in project"}}
+       :f {:action "nuclide-fuzzy-filename-provider:toggle-provider"
+           :title "find in project"}
+       :r {:action "nuclide-recent-files-provider:toggle-provider"
+           :title "recent files"}}
    :t {:category "toggles"
        :t {:title "tab-bar"
            :fx (fn []
@@ -102,7 +106,18 @@
   [{:selector "body" :keymap [["ctrl-j" "core:move-down"]
                               ["ctrl-k" "core:move-up"]]}
    {:selector "atom-text-editor" :keymap [["ctrl-k" "core:move-up"]
-                                          ["ctrl-j" "core:move-down"]]}])
+                                          ["ctrl-j" "core:move-down"]]}
+   {:selector ".nuclide-file-tree" :keymap [["k" "core:move-up"]
+                                            ["j" "core:move-down"]
+                                            ["l" "nuclide-file-tree:expand-directory"]
+                                            ["h" "nuclide-file-tree:collapse-directory"]
+                                            ["right" "nuclide-file-tree:expand-directory"]
+                                            ["left" "nuclide-file-tree:collapse-directory"]
+                                            ["up" "core:move-up"]
+                                            ["down" "core:move-down"]
+                                            ["enter" "nuclide-file-tree:open-selected-entry"]
+                                            ["delete" "nuclide-file-tree:remove"]
+                                            ["backspace" "nuclide-file-tree:remove"]]}])
 
 (defmethod get-packages :core
   []
@@ -113,6 +128,24 @@
    :ex-mode
    :relative-numbers
 
+   ;; nuclide packages
+   :nuclide-file-tree
+   :nuclide-quick-open
+
+   :nuclide-fuzzy-filename-provider
+   :nuclide-open-filenames-provider
+   :nuclide-recent-files-provider
+   :nuclide-recent-files-service
+
+   :nuclide-move-pane
+   :nuclide-file-watcher
+   :nuclide-remote-projects
+
+   :hyperclick
+
+
+   ;; core packages
+   :tree-view
    :atom-dark-syntax
    :atom-dark-ui
    :atom-light-syntax
@@ -166,7 +199,6 @@
    :symbols-view
    :tabs
    :timecop
-   :tree-view
    :update-package-dependencies
    :welcome
    :whitespace

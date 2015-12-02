@@ -8,4 +8,7 @@
                ["editor.fontFamily" "Hack"]]
 
               :keymaps
-               []})
+               []
+
+              :ensure-disabled
+              [:tree-view]})

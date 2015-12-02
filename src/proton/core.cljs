@@ -71,8 +71,12 @@
             all-configuration (into [] (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration)))
             all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
             all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
-            all-keybindings (proton/keybindings-for-layers all-layers)]
+            all-keybindings (proton/keybindings-for-layers all-layers)
+            all-disabled (:ensure-disabled editor-default)]
 
+
+        ;; make sure core packages are disabled
+        (doall (map pm/disable-package (map name all-disabled)))
 
         (atom-env/insert-process-step! "Initialising layers")
         (proton/init-layers! all-layers all-configuration)
