@@ -1,5 +1,6 @@
 (ns proton.layers.core.core
-  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps]]))
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps]])
+  (:require [proton.lib.proton :as proton]))
 
 (defn get-active-pane [atom]
   (.getView (.-views atom) (.getActivePane (.-workspace atom))))
@@ -67,7 +68,18 @@
                  (let [tab-bar (aget (.getElementsByClassName js/document "tab-bar") 0)]
                   (if (nil? (.getAttribute tab-bar "style"))
                     (.setAttribute tab-bar "style" "display:none")
-                    (.removeAttribute tab-bar "style"))))}}})
+                    (.removeAttribute tab-bar "style"))))}}
+    :f {:category "files"
+        :a {:category "atom(proton)"
+            :d {:title "find-dotfile"
+                :fx (fn []
+                     (.open (.-workspace js/atom) proton/config-path))}
+            :R {:title "reload-editor"
+                :action "window:reload" :dom-target "body"}
+            :c {:title "dev-tools"
+                :action "window:toggle-dev-tools"}}}})
+
+
 
 (defmethod get-keymaps :core
   []
