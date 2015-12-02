@@ -109,6 +109,8 @@
                               ["ctrl-k" "core:move-up"]]}
    {:selector "atom-text-editor" :keymap [["ctrl-k" "core:move-up"]
                                           ["ctrl-j" "core:move-down"]]}
+   {:selector "atom-workspace atom-text-editor.autocomplete-active" :keymap [["ctrl-k" "core:move-up"]
+                                                                             ["ctrl-j" "core:move-down"]]}
    ;; remove tab switcher keybindings
    {:selector "atom-workspace" :keymap [["alt-]" "native!"]
                                         ["alt-[" "native!"]]}])
