@@ -4,7 +4,8 @@
 
 (def fs (node/require "fs"))
 ;; seperate map with overrides. 189 (underscore) kept getting resolved as '½' which we don't want.
-(def char-code-override {189 "_"})
+(def char-code-override {189 "_"
+                         9 "tab"})
 
 (defn generate-div [text class-name]
   (let [d (.createElement js/document "div")]

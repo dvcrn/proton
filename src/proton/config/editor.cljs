@@ -11,4 +11,4 @@
                []
 
               :ensure-disabled
-              [:tree-view]})
+              []})

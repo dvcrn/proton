@@ -26,7 +26,7 @@
 
 (defmethod get-keybindings :core
   []
-  { :0 {:action "nuclide-file-tree:toggle-focus"
+  { :0 {:action "tree-view:toggle-focus"
         :title "focus tree-view"}
     :j {:action "window:focus-pane-below"
         :target get-active-pane
@@ -40,6 +40,8 @@
     :h {:action "window:focus-pane-on-left"
         :target get-active-pane
         :title "focus left pane"}
+    :tab {:action "tab-switcher:next"
+          :title "previous buffer"}
     :w {:category "window"
         :d {:action "pane:close"
             :target get-active-pane
@@ -68,7 +70,7 @@
    :p {:category "project"
        :b {:action "nuclide-open-filenames-provider:toggle-provider"
            :title "browse buffers"}
-       :t {:action "nuclide-file-tree:toggle"
+       :t {:action "tree-view:toggle"
            :title "tree-view"}
        :f {:action "nuclide-fuzzy-filename-provider:toggle-provider"
            :title "find in project"}
@@ -99,25 +101,16 @@
         :c {:title "dev-tools"
             :action "window:toggle-dev-tools"}}})
 
-
-
 (defmethod get-keymaps :core
   []
   [{:selector "body" :keymap [["ctrl-j" "core:move-down"]
                               ["ctrl-k" "core:move-up"]]}
    {:selector "atom-text-editor" :keymap [["ctrl-k" "core:move-up"]
                                           ["ctrl-j" "core:move-down"]]}
-   {:selector ".nuclide-file-tree" :keymap [["k" "core:move-up"]
-                                            ["j" "core:move-down"]
-                                            ["l" "nuclide-file-tree:expand-directory"]
-                                            ["h" "nuclide-file-tree:collapse-directory"]
-                                            ["right" "nuclide-file-tree:expand-directory"]
-                                            ["left" "nuclide-file-tree:collapse-directory"]
-                                            ["up" "core:move-up"]
-                                            ["down" "core:move-down"]
-                                            ["enter" "nuclide-file-tree:open-selected-entry"]
-                                            ["delete" "nuclide-file-tree:remove"]
-                                            ["backspace" "nuclide-file-tree:remove"]]}])
+   ;; remove tab switcher keybindings
+   {:selector "atom-workspace" :keymap [["alt-]" "native!"]
+                                        ["alt-[" "native!"]]}])
+
 
 (defmethod get-packages :core
   []
@@ -127,6 +120,7 @@
    :vim-mode
    :ex-mode
    :relative-numbers
+   :tab-switcher
 
    ;; nuclide packages
    :nuclide-quick-open
@@ -136,7 +130,6 @@
    :nuclide-recent-files-service
 
    :hyperclick
-   :nuclide-file-tree
    :nuclide-file-watcher
 
    ;; core packages
