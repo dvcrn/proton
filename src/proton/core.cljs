@@ -99,15 +99,27 @@
 
         ;; Install all necessary packages
         (let [to-install (pm/get-to-install all-packages)]
-          (atom-env/insert-process-step! (str "Installing collected packages: " (clojure.string/join " " to-install)))
-          (<! (pm/install-packages (map name to-install)))
-          (atom-env/mark-last-step-as-completed!))
+          (if (> (count to-install) 0)
+            (do
+              (atom-env/insert-process-step! "Installing new packages" "")
+              (doseq [package to-install]
+                (atom-env/insert-process-step! (str "Installing " package))
+                (<! (pm/install-package (name package)))
+                (atom-env/mark-last-step-as-completed!)))
+            (do
+              (atom-env/insert-process-step! (str "Installing new packages: None"))
+              (atom-env/mark-last-step-as-completed!))))
 
         ;; Remove deleted packages
         (let [to-remove (pm/get-to-remove all-packages)]
-          (atom-env/insert-process-step! (str "Removing orphaned packages: " (clojure.string/join " " to-remove)))
-          (<! (pm/remove-packages (map name to-remove)))
-          (atom-env/mark-last-step-as-completed!))
+          (if (> (count to-remove) 0)
+            (do
+              (atom-env/insert-process-step! (str "Removing orphaned packages: " (clojure.string/join " " to-remove)))
+              (<! (pm/remove-packages (map name to-remove)))
+              (atom-env/mark-last-step-as-completed!))
+            (do
+              (atom-env/insert-process-step! (str "Removing orphaned packages: None"))
+              (atom-env/mark-last-step-as-completed!))))
 
         (atom-env/insert-process-step! "All done!" "")
         (.setTimeout js/window #(atom-env/hide-modal-panel) 3000)))))
