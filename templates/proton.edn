@@ -21,8 +21,12 @@
   ;; This will be merged with a default version so use this here to override things
   :configuration
   [
+    ;; appearance
     ["editor.fontFamily" "Hack"]
+
+    ;; stuff for proton
     ["proton.core.showTabBar" false]
+    ["proton.core.relativeLineNumbers" false]
   ]
 
   ;; Don't like a keybinding or want to add something yourself? Do it here
