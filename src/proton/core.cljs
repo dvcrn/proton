@@ -114,9 +114,11 @@
         (let [to-remove (pm/get-to-remove all-packages)]
           (if (> (count to-remove) 0)
             (do
-              (atom-env/insert-process-step! (str "Removing "(count to-remove)" orphaned packages: " (clojure.string/join " " to-remove)))
-              (<! (pm/remove-packages (map name to-remove)))
-              (atom-env/mark-last-step-as-completed!))
+              (atom-env/insert-process-step! (str "Removing " (count to-remove) " orphaned packages") "")
+              (doseq [package to-remove]
+                (atom-env/insert-process-step! (str "Removing " package))
+                (<! (pm/remove-package (name package)))
+                (atom-env/mark-last-step-as-completed!)))
             (do
               (atom-env/insert-process-step! (str "Removing orphaned packages: None"))
               (atom-env/mark-last-step-as-completed!))))
