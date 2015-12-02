@@ -101,7 +101,7 @@
         (let [to-install (pm/get-to-install all-packages)]
           (if (> (count to-install) 0)
             (do
-              (atom-env/insert-process-step! "Installing new packages" "")
+              (atom-env/insert-process-step! (str "Installing " (count to-install) " new packages") "")
               (doseq [package to-install]
                 (atom-env/insert-process-step! (str "Installing " package))
                 (<! (pm/install-package (name package)))
@@ -114,7 +114,7 @@
         (let [to-remove (pm/get-to-remove all-packages)]
           (if (> (count to-remove) 0)
             (do
-              (atom-env/insert-process-step! (str "Removing orphaned packages: " (clojure.string/join " " to-remove)))
+              (atom-env/insert-process-step! (str "Removing "(count to-remove)" orphaned packages: " (clojure.string/join " " to-remove)))
               (<! (pm/remove-packages (map name to-remove)))
               (atom-env/mark-last-step-as-completed!))
             (do
