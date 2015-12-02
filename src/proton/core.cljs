@@ -39,9 +39,11 @@
 (def command-tree (atom {}))
 (def current-chain (atom []))
 
+
 (defn ^:export chain [e]
-  (let [letter (helpers/extract-keyletter-from-event e)
-        key-code (helpers/extract-keycode-from-event e)]
+  (let [key-code (helpers/extract-keycode-from-event e)
+        letter (helpers/extract-keyletter-from-event e)]
+
       ;; check for ESC key
       (if (= key-code 27)
         (atom-env/deactivate-proton-mode!)

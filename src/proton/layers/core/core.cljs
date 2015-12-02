@@ -69,15 +69,14 @@
                   (if (nil? (.getAttribute tab-bar "style"))
                     (.setAttribute tab-bar "style" "display:none")
                     (.removeAttribute tab-bar "style"))))}}
-    :f {:category "files"
-        :a {:category "atom(proton)"
-            :d {:title "find-dotfile"
-                :fx (fn []
-                     (.open (.-workspace js/atom) proton/config-path))}
-            :R {:title "reload-editor"
-                :action "window:reload" :dom-target "body"}
-            :c {:title "dev-tools"
-                :action "window:toggle-dev-tools"}}}})
+    :_ {:category "meta"
+        :d {:title "find-dotfile"
+            :fx (fn []
+                 (.open (.-workspace js/atom) proton/config-path))}
+        :R {:title "reload-editor"
+            :action "window:reload" :dom-target "body"}
+        :c {:title "dev-tools"
+            :action "window:toggle-dev-tools"}}})
 
 
 

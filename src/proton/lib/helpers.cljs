@@ -3,6 +3,8 @@
             [cljs.nodejs :as node]))
 
 (def fs (node/require "fs"))
+;; seperate map with overrides. 189 (underscore) kept getting resolved as '½' which we don't want.
+(def char-code-override {189 "_"})
 
 (defn generate-div [text class-name]
   (let [d (.createElement js/document "div")]
@@ -17,8 +19,12 @@
   (.isFile (.lstatSync fs path)))
 
 (defn extract-keyletter-from-event [event]
-  (let [key (.fromCharCode js/String (.. event -originalEvent -keyCode))
+  (let [key-code (.. event -originalEvent -keyCode)
+        key (if (nil? (char-code-override key-code))
+                (.fromCharCode js/String key-code)
+                (char-code-override key-code))
         shift-key (.. event -originalEvent -shiftKey)]
+
       (if shift-key
         (keyword (upper-case key))
         (keyword (lower-case key)))))
@@ -27,7 +33,7 @@
   (.. event -originalEvent -keyCode))
 
 (defn is-action? [tree sequence]
-  (or 
+  (or
     (not (nil? (get-in tree (conj sequence :fx))))
     (not (nil? (get-in tree (conj sequence :action))))))
 
