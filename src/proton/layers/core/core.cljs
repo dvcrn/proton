@@ -129,20 +129,15 @@
    :relative-numbers
 
    ;; nuclide packages
-   :nuclide-file-tree
    :nuclide-quick-open
-
    :nuclide-fuzzy-filename-provider
    :nuclide-open-filenames-provider
    :nuclide-recent-files-provider
    :nuclide-recent-files-service
 
-   :nuclide-move-pane
-   :nuclide-file-watcher
-   :nuclide-remote-projects
-
    :hyperclick
-
+   :nuclide-file-tree
+   :nuclide-file-watcher
 
    ;; core packages
    :tree-view
