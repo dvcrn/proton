@@ -1,16 +1,14 @@
 ## Proton
 
-Experimental attempt to bring [spacemacs][1] and [sublimious][2] style editing to atom.
-
-__Very early alpha. Use with own risk.__
+[spacemacs][1] and [sublimious][2] style editing in Atom.
 
 ![demo][3]
 
-### What is it? 
+### What is it?
 
-Proton *(name subject to change)* is a very early attempt to mirror the modal editing style of spacemacs and sublimious and bring something equally powerful to atom. 
+Proton *(name subject to change)* is a very early attempt to mirror the modal editing style of spacemacs and sublimious and bring something equally powerful to atom.
 
-We get rid of the annoying part of atom - that being the configuration and package management - and __concentrate on the cool bits__ - it's full customisation capabilities. 
+We get rid of the annoying part of atom - that being the configuration and package management - and __concentrate on the cool bits__ - it's full customisation capabilities.
 
 ### Features
 ##### :handbag: dotfile friendly configuration
@@ -28,16 +26,26 @@ you get the idea!
 ##### :package: layer based configuration
 Atom has __a ton__ of packages and only a subset of them being actually useful. Instead of finding all the good bits yourself, rely on a crowd-configured layer system that does it for you! Here is how it works:
 
-Imagine you want to do some javascript in atom but you have no idea what to install and what to set up. Instead of just installing random packages by itself, you'll include the `:javascript` layer and boom! proton installs all the good packages and configuration for you. 
+Imagine you want to do some javascript in atom but you have no idea what to install and what to set up. Instead of just installing random packages by itself, you'll include the `:javascript` layer and boom! proton installs all the good packages and configuration for you.
 
 Check out [all available layers here][4].
 
 ### Install
 
-Proton *(name subject to change)* is still in a very early stage. To install you'll have to compile it yourself, but no worries! It is very easy. 
+Proton *(name subject to change)* is still in a very early stage. It's pretty usable but keep that in mind before installing.
 
 #### Pre-warning
 Proton tries to be your unified configuration system. Please use a fresh atom installation or backup your existing config as proton will very likely __wipe your settings and packages__. Alternatively make sure your `~/proton` file contains your current configuration. The template you can copy is available [here](https://github.com/dvcrn/proton/blob/master/templates/proton.edn)
+
+#### Going full proton
+
+```
+apm install proton-mode
+```
+
+or through the package manager here: https://atom.io/packages/proton-mode
+
+### Compiling
 
 #### Requirements
 - atom / apm
@@ -56,7 +64,7 @@ will compile the clojurescript code into javascript. Once that's done, go into t
 apm link
 ```
 
-proton should now be installed inside atom
+proton should now be installed inside Atom under `proton-mode`.
 
 ### License
 
