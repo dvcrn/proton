@@ -120,7 +120,7 @@
   []
   ;; most of these packages are atom defaults
   ;; adding them here so proton doesn't remove them by accident
-  [:proton
+  [:proton-mode
    :vim-mode
    :ex-mode
    :relative-numbers
