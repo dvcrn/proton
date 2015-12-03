@@ -1,8 +1,8 @@
 (defproject proton "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :description "Spacemacs helps Atom to become a better editor"
+  :url "https://github.com/dvcrn/proton/"
+  :license {:name "GPLv3"
+            :url "https://github.com/dvcrn/proton/blob/master/LICENSE.md"}
 
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]

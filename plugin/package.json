@@ -1,7 +1,7 @@
 {
   "name": "proton-mode",
   "main": "./lib/proton",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Spacemacs helps Atom to become a better editor",
   "keywords": [],
   "repository": "https://github.com/dvcrn/proton-bin",
@@ -10,7 +10,7 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "scripts": {
-    "prepare-release": "git init . && git remote add origin git@github.com:dvcrn/proton-bin.git"
+    "prepare-release": "rm -rf .git/ && git init . && git remote add origin git@github.com:dvcrn/proton-bin.git && git fetch origin && git add ."
   },
   "dependencies": {}
 }
