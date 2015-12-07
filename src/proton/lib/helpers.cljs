@@ -17,7 +17,10 @@
   (.readFileSync fs path #js {:encoding "utf8"}))
 
 (defn is-file? [path]
-  (.isFile (.lstatSync fs path)))
+  (try
+    (.isFile (.lstatSync fs path))
+    (catch js/Error e
+      false)))
 
 (defn extract-keyletter-from-event [event]
   (let [key-code (.. event -originalEvent -keyCode)
