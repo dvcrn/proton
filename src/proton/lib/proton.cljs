@@ -6,16 +6,22 @@
 
 (def config-path (str (.. js/process -env -HOME) "/.proton"))
 
+(defn get-config-template-path []
+  (let [path (node/require "path")]
+    (.resolve path (str js/__dirname "/../templates/proton.edn"))))
+
 (defn has-config? []
   (helpers/is-file? config-path))
 
+(defn create-default-config! []
+  (let [child-process (node/require "child_process")
+        template-path (get-config-template-path)]
+    (.execSync child-process (str "cp " template-path " " config-path))))
+
 (defn load-config []
-  (if (has-config?)
-    (reader/read-string (helpers/read-file config-path))
-    {:additional-packages []
-     :layers []
-     :configuration []
-     :keybindings {}}))
+  (if (not (has-config?))
+    (create-default-config!))
+  (reader/read-string (helpers/read-file config-path)))
 
 (defn packages-for-layers [layers]
   (into [] (distinct (reduce concat (map #(layerbase/get-packages (keyword %)) layers)))))
