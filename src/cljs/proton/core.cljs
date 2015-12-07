@@ -41,7 +41,7 @@
 (def current-chain (atom []))
 
 
-(defn ^:export chain [e]
+(defn chain [e]
   (let [key-code (helpers/extract-keycode-from-event e)
         letter (helpers/extract-keyletter-from-event e)]
 
@@ -138,12 +138,13 @@
   (atom-env/update-bottom-panel (helpers/tree->html @command-tree))
   (atom-env/activate-proton-mode!))
 
-(defn ^:export activate [state]
+(defn activate [state]
   (.setTimeout js/window #(init) 2000)
   (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
 
-(defn ^:export deactivate [] (.log js/console "deactivating..."))
+(defn deactivate [] (.log js/console "deactivating..."))
+(defn serialize [] nil)
 
 ;; We need to set module.exports to our core class.
 ;; Atom is using Proton.activate on this
