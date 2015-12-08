@@ -20,8 +20,6 @@
             [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]
             [clojure.string]))
 
-(node/enable-util-print!)
-
 ;; reference to atom shell API
 (def ashell (node/require "atom"))
 
@@ -145,9 +143,3 @@
 
 (defn deactivate [] (.log js/console "deactivating..."))
 (defn serialize [] nil)
-
-;; We need to set module.exports to our core class.
-;; Atom is using Proton.activate on this
-(defn noop [] nil)
-(set! *main-cli-fn* noop)
-(aset js/module "exports" proton.core)
