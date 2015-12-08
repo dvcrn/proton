@@ -23,6 +23,9 @@
   [
     ;; appearance
     ["editor.fontFamily" "Hack"]
+    ;; javascript arrays are deonated as vectors
+    ;; the following would translate into ["one-dark-ui", "one-dark-syntax"]
+    ["core.themes" ["one-dark-ui" "one-dark-syntax"]]
 
     ;; stuff for proton
     ["proton.core.showTabBar" false]
