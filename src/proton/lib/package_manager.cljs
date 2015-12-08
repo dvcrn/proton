@@ -27,13 +27,20 @@
   (let [pkgs (set (into [] (map keyword (get-all-packages))))]
     (filter #(if (not (contains? pkgs %)) %) all-packages)))
 
+(defn is-activated? [package-name]
+  (let [package-names (->> (.getActivePackages packages) js->clj (map #(.-name %)))
+        filtered-packages (filter #(= package-name %) package-names)]
+    (> (count filtered-packages) 0)))
+
 (defn enable-package [package-name]
   (println (str "enabling package " package-name))
   (.enablePackage packages package-name))
 
 (defn disable-package [package-name]
-  (println (str "disabling package " package-name))
-  (.disablePackage packages package-name))
+  (if (is-activated? package-name)
+    (do
+      (println (str "disabling package " package-name))
+      (.disablePackage packages package-name))))
 
 (defn reload-package [package-name]
   (disable-package package-name)

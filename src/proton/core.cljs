@@ -81,7 +81,7 @@
 
         ;; wipe existing config
         (atom-env/insert-process-step! "Wiping existing configuration")
-        (doall (map atom-env/unset-config! (atom-env/get-all-settings)))
+        (doall (map atom-env/unset-config! (filter #(not (= "core.disabledPackages" %)) (atom-env/get-all-settings))))
         (atom-env/mark-last-step-as-completed!)
 
         ;; Init layers
