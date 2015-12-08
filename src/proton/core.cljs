@@ -12,6 +12,7 @@
             [proton.layers.git.core :as git-layer]
             [proton.layers.clojure.core :as clojure-layer]
             [proton.layers.python.core :as python-layer]
+            [proton.layers.julia.core :as julia-layer]
 
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
