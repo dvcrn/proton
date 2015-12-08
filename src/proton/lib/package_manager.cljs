@@ -1,7 +1,8 @@
 (ns proton.lib.package_manager
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [cljs.nodejs :as node]
-            [cljs.core.async :as async :refer [close! chan put! pub sub unsub >! <!]]))
+            [cljs.core.async :as async :refer [close! chan put! pub sub unsub >! <!]]
+            [proton.lib.atom :as atom]))
 
 (def sys (node/require "sys"))
 (def child-process (node/require "child_process"))
@@ -27,9 +28,11 @@
     (filter #(if (not (contains? pkgs %)) %) all-packages)))
 
 (defn enable-package [package-name]
+  (println (str "enabling package " package-name))
   (.enablePackage packages package-name))
 
 (defn disable-package [package-name]
+  (println (str "disabling package " package-name))
   (.disablePackage packages package-name))
 
 (defn reload-package [package-name]

@@ -1,19 +1,22 @@
 (ns proton.layers.core.core
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps]])
-  (:require [proton.lib.proton :as proton]))
+  (:require [proton.lib.proton :as proton]
+            [proton.lib.package_manager :as package]))
 
 (def state (atom {}))
 
 (defn get-active-pane [atom]
   (.getView (.-views atom) (.getActivePane (.-workspace atom))))
 
-(defn toggle-visibility [element]
-  (if (nil? (.getAttribute element "style"))
-    (.setAttribute element "style" "display:none")
-    (.removeAttribute element "style")))
+(defn toggle-tabs [visible]
+  (if visible
+    (package/enable-package "tabs")
+    (package/disable-package "tabs")))
 
-(defn toggle-tabs []
-  (mapv toggle-visibility (array-seq (.getElementsByClassName js/document "tab-bar"))))
+(defn toggle-relative-lines [visible]
+  (if visible
+    (package/enable-package "relative-numbers")
+    (package/disable-package "relative-numbers")))
 
 (defmethod get-initial-config :core []
   [["proton.core.showTabBar" false]
@@ -25,13 +28,11 @@
   [_ config]
   (let [config-map (into (hash-map) config)]
     ;; hide tab bar if showTabBar is false
-    (if (not (config-map "proton.core.showTabBar"))
-     (toggle-tabs))
+    (toggle-tabs (config-map "proton.core.showTabBar"))
+    (toggle-relative-lines (config-map "proton.core.relativeLineNumbers"))
 
-    (if (config-map "proton.core.relativeLineNumbers")
-      (.enablePackage (.-packages js/atom) "relative-numbers")
-      (.disablePackage (.-packages js/atom) "relative-numbers"))
-    (swap! state assoc-in [:relative-numbers] (config-map "proton.core.relativeLineNumbers"))))
+    (swap! state assoc-in [:relative-numbers] (config-map "proton.core.relativeLineNumbers"))
+    (swap! state assoc-in [:tabs] (config-map "proton.core.showTabBar"))))
 
 (defmethod get-keybindings :core
   []
@@ -87,7 +88,14 @@
            :title "recent files"}}
    :t {:category "toggles"
        :t {:title "tab-bar"
-           :fx toggle-tabs}
+           :fx (fn []
+                 (if (get @state :tabs)
+                  (do
+                    (toggle-tabs false)
+                    (swap! state assoc-in [:tabs] false))
+                  (do
+                    (toggle-tabs true)
+                    (swap! state assoc-in [:tabs] true))))}
        :g {:title "gutter"
            :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
            :action "editor:toggle-line-numbers"}
@@ -97,10 +105,10 @@
            :fx (fn []
                  (if (get @state :relative-numbers)
                   (do
-                    (.disablePackage (.-packages js/atom) "relative-numbers")
+                    (toggle-relative-lines false)
                     (swap! state assoc-in [:relative-numbers] false))
                   (do
-                    (.enablePackage (.-packages js/atom) "relative-numbers")
+                    (toggle-relative-lines true)
                     (swap! state assoc-in [:relative-numbers] true))))}}
     :_ {:category "meta"
         :d {:title "find-dotfile"
@@ -145,6 +153,7 @@
    :nuclide-file-watcher
 
    ;; core packages
+   ;; TODO: move me somewhere else
    :tree-view
    :atom-dark-syntax
    :atom-dark-ui

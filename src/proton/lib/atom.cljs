@@ -98,6 +98,15 @@
   (.log js/console (str "Setting " selector " to " (clj->js value)))
   (.set config selector (clj->js value)))
 
+(defn add-to-config! [selector value]
+  (let [previous-config (js->clj (.get config selector))]
+    (set-config! selector (conj previous-config value))))
+
+(defn remove-val-from-config! [selector value]
+  (let [config (js->clj (.get config selector))
+        new-config (filter #(not (= value %)) config)]
+      (set-config! selector new-config)))
+
 (defn unset-config! [selector]
   (.unset config selector))
 
