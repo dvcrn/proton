@@ -95,8 +95,8 @@
     @parsed-config))
 
 (defn set-config! [selector value]
-  (println (str "Setting " selector " to " value))
-  (.set config selector value))
+  (.log js/console (str "Setting " selector " to " (clj->js value)))
+  (.set config selector (clj->js value)))
 
 (defn unset-config! [selector]
   (.unset config selector))
