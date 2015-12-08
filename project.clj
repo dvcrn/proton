@@ -10,4 +10,4 @@
 
   :source-paths ["src/cljs"]
   :profiles {:dev {:source-paths ["src/dev"]
-                   :dependencies [[thheller/shadow-build "1.0.186"]]}})
+                   :dependencies [[thheller/shadow-build "1.0.190"]]}})
