@@ -1,6 +1,6 @@
 {
   ;; Layers you wish to have active
-  ;; To get a list of all available layers, check foo.com/layers
+  ;; To get a list of all available layers, check github.com/dvcrn/proton/layers/
   :layers
   [
     :core
@@ -23,6 +23,7 @@
   [
     ;; appearance
     ["editor.fontFamily" "Hack"]
+
     ;; javascript arrays are deonated as vectors
     ;; the following would translate into ["one-dark-ui", "one-dark-syntax"]
     ["core.themes" ["one-dark-ui" "one-dark-syntax"]]
@@ -38,5 +39,8 @@
 
   ;; Want some custom behavior inside a certain window?
   ;; For example you prefer navigating with esc and enter? Add it here.
-  :keymaps [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}]
+  :keymaps [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}
+            ;; Wanna rebind ESC to something else? You can do that here.
+            ;; If you are good with esc, just remote the following line.
+            {:selector "atom-text-editor.vim-mode.insert-mode" :keymap [["f d" "vim-mode:activate-normal-mode"]]}]
 }
