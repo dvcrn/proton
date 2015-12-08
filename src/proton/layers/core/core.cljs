@@ -85,6 +85,8 @@
                   (if (nil? (.getAttribute tab-bar "style"))
                     (.setAttribute tab-bar "style" "display:none")
                     (.removeAttribute tab-bar "style"))))}
+       :m {:title "minimap"
+           :action "minimap:toggle"}
        :n {:title "relative numbers"
            :fx (fn []
                  (if (get @state :relative-numbers)
