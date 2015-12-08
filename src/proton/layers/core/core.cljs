@@ -7,6 +7,14 @@
 (defn get-active-pane [atom]
   (.getView (.-views atom) (.getActivePane (.-workspace atom))))
 
+(defn toggle-visibility [element]
+  (if (nil? (.getAttribute element "style"))
+    (.setAttribute element "style" "display:none")
+    (.removeAttribute element "style")))
+
+(defn toggle-tabs []
+  (mapv toggle-visibility (array-seq (.getElementsByClassName js/document "tab-bar"))))
+
 (defmethod get-initial-config :core []
   [["proton.core.showTabBar" false]
    ["proton.core.relativeLineNumbers" false]
@@ -18,8 +26,7 @@
   (let [config-map (into (hash-map) config)]
     ;; hide tab bar if showTabBar is false
     (if (not (config-map "proton.core.showTabBar"))
-     (let [tab-bar (aget (.getElementsByClassName js/document "tab-bar") 0)]
-        (.setAttribute tab-bar "style" "display:none")))
+     (toggle-tabs))
 
     (if (config-map "proton.core.relativeLineNumbers")
       (.enablePackage (.-packages js/atom) "relative-numbers")
@@ -80,11 +87,12 @@
            :title "recent files"}}
    :t {:category "toggles"
        :t {:title "tab-bar"
-           :fx (fn []
-                 (let [tab-bar (aget (.getElementsByClassName js/document "tab-bar") 0)]
-                  (if (nil? (.getAttribute tab-bar "style"))
-                    (.setAttribute tab-bar "style" "display:none")
-                    (.removeAttribute tab-bar "style"))))}
+           :fx toggle-tabs}
+       :g {:title "gutter"
+           :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
+           :action "editor:toggle-line-numbers"}
+       :f {:title "full screen"
+           :action "window:toggle-full-screen"}
        :n {:title "relative numbers"
            :fx (fn []
                  (if (get @state :relative-numbers)
