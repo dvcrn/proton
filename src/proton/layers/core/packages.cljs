@@ -9,6 +9,7 @@
      :ex-mode
      :relative-numbers
      :tab-switcher
+     :recent-files-fuzzy-finder
 
      :hyperclick
      :nuclide-file-watcher
