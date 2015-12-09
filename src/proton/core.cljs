@@ -79,14 +79,16 @@
         ;; make sure core packages are disabled
         (doall (map pm/disable-package (map name all-disabled)))
 
+        ;; Init layers
         (atom-env/insert-process-step! "Initialising layers")
         (proton/init-layers! all-layers all-configuration)
         (atom-env/mark-last-step-as-completed!)
 
         ;; wipe existing config
         (atom-env/insert-process-step! "Wiping existing configuration")
-        (doall (map atom-env/unset-config! (atom-env/get-all-settings)))
+        (doall (map atom-env/unset-config! (filter #(not (= "core.disabledPackages" %)) (atom-env/get-all-settings))))
         (atom-env/mark-last-step-as-completed!)
+
         ;; set the user config
         (atom-env/insert-process-step! "Applying user configuration")
         (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
