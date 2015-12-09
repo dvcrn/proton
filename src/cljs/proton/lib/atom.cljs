@@ -26,6 +26,7 @@
 (defn hide-bottom-panel [] (.hide @bottom-panel))
 
 (def steps (atom []))
+(defn reset-process-steps! [] (reset! steps []))
 (defn insert-process-step!
   ([text] (insert-process-step! text "[..]"))
 

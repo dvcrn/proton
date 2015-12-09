@@ -29,14 +29,19 @@
 (def keymaps (.-keymaps js/atom))
 (def views (.-views js/atom))
 
+;; Atom for holding all disposables objects
+(def disposables (atom []))
+
 ;; get atom.CompositeDisposable so we can work with it
 (def composite-disposable (.-CompositeDisposable ashell))
 
 ;; Initialise new composite-disposable so we can add stuff to it later
 (def subscriptions (new composite-disposable))
+(swap! disposables conj subscriptions)
 
 (def command-tree (atom {}))
 (def current-chain (atom []))
+
 
 
 (defn chain [e]
@@ -138,8 +143,15 @@
 
 (defn activate [state]
   (.setTimeout js/window #(init) 2000)
-  (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))
+  (let [disposable (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))]
+    (swap! disposables conj disposable))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
 
-(defn deactivate [] (.log js/console "deactivating..."))
+(defn deactivate []
+  (.log js/console "deactivating...")
+  (doseq [disposable @disposables]
+    (.log js/console disposable)
+    (.dispose disposable))
+  (atom-env/reset-process-steps!))
+
 (defn serialize [] nil)
