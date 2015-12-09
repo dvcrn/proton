@@ -14,6 +14,10 @@
      :hyperclick
      :nuclide-file-watcher
 
+     ;; current default theme
+     :atom-material-ui
+     :atom-material-syntax
+
      ;; core packages
      ;; TODO: move me somewhere else
      :tree-view
