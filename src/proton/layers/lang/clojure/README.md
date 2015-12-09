@@ -4,4 +4,4 @@ This layer adds support for clojure based file editind powered by [parinfer](htt
 
 ### Install
 
-Add `:clojure` to your layers.
+Add `:lang/clojure` to your layers.

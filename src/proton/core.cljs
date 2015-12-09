@@ -9,10 +9,14 @@
 
             [proton.layers.base :as layerbase]
             [proton.layers.core.core :as core-layer]
-            [proton.layers.git.core :as git-layer]
-            [proton.layers.clojure.core :as clojure-layer]
-            [proton.layers.python.core :as python-layer]
-            [proton.layers.julia.core :as julia-layer]
+
+            ;; tools
+            [proton.layers.tools.git.core :as git-layer]
+
+            ;; langs
+            [proton.layers.lang.clojure.core :as clojure-layer]
+            [proton.layers.lang.python.core :as python-layer]
+            [proton.layers.lang.julia.core :as julia-layer]
 
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]

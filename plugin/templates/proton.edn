@@ -3,10 +3,18 @@
   ;; To get a list of all available layers, check github.com/dvcrn/proton/layers/
   :layers
   [
+    ;; core layer. Don't remove.
     :core
-    :git
-    :clojure
-    :python
+
+    ;; tools
+    ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/tools
+    :tools/git
+
+    ;; Languages
+    ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/lang
+    :lang/clojure
+    :lang/python
+    :lang/julia
   ]
 
   ;; Packages that are not part of a layer. List them here as keyword

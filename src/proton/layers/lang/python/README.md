@@ -4,7 +4,7 @@ Adds better python autocomplete and formatting to Atom powered by [jedi](https:/
 
 ### Install
 
-Add `:python` to your layers.
+Add `:lang/python` to your layers.
 
 ### Requirements
 
