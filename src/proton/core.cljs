@@ -73,13 +73,8 @@
 
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
             all-configuration (into [] (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration)))
-            all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
-            all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
-            all-keybindings (proton/keybindings-for-layers all-layers)
             all-disabled (:ensure-disabled editor-default)]
 
-
-        ;; make sure core packages are disabled
         (doall (map pm/disable-package (map name all-disabled)))
 
         ;; Init layers
@@ -87,54 +82,58 @@
         (proton/init-layers! all-layers all-configuration)
         (atom-env/mark-last-step-as-completed!)
 
-        ;; wipe existing config
-        (atom-env/insert-process-step! "Wiping existing configuration")
-        (doall (map atom-env/unset-config! (filter #(not (= "core.disabledPackages" %)) (atom-env/get-all-settings))))
-        (atom-env/mark-last-step-as-completed!)
+        (let [all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
+              all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
+              all-keybindings (proton/keybindings-for-layers all-layers)]
 
-        ;; set the user config
-        (atom-env/insert-process-step! "Applying user configuration")
-        (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
-        (atom-env/mark-last-step-as-completed!)
+          ;; wipe existing config
+          (atom-env/insert-process-step! "Wiping existing configuration")
+          (doall (map atom-env/unset-config! (filter #(not (= "core.disabledPackages" %)) (atom-env/get-all-settings))))
+          (atom-env/mark-last-step-as-completed!)
 
-        ;; save commands into command tree
-        (atom-env/insert-process-step! "Initialising keybinding tree")
-        (reset! command-tree all-keybindings)
-        (atom-env/mark-last-step-as-completed!)
+          ;; set the user config
+          (atom-env/insert-process-step! "Applying user configuration")
+          (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
+          (atom-env/mark-last-step-as-completed!)
 
-        ;; set all custom keybindings from layers + user config
-        (atom-env/insert-process-step! "Applying layer keymaps")
-        (doall (map #(atom-env/set-keymap! (:selector %) (:keymap %)) all-keymaps))
-        (atom-env/mark-last-step-as-completed!)
+          ;; save commands into command tree
+          (atom-env/insert-process-step! "Initialising keybinding tree")
+          (reset! command-tree all-keybindings)
+          (atom-env/mark-last-step-as-completed!)
 
-        ;; Install all necessary packages
-        (let [to-install (pm/get-to-install all-packages)]
-          (if (> (count to-install) 0)
-            (do
-              (atom-env/insert-process-step! (str "Installing " (count to-install) " new packages") "")
-              (doseq [package to-install]
-                (atom-env/insert-process-step! (str "Installing " package))
-                (<! (pm/install-package (name package)))
-                (atom-env/mark-last-step-as-completed!)))
-            (do
-              (atom-env/insert-process-step! (str "Installing new packages: None"))
-              (atom-env/mark-last-step-as-completed!))))
+          ;; set all custom keybindings from layers + user config
+          (atom-env/insert-process-step! "Applying layer keymaps")
+          (doall (map #(atom-env/set-keymap! (:selector %) (:keymap %)) all-keymaps))
+          (atom-env/mark-last-step-as-completed!)
 
-        ;; Remove deleted packages
-        (let [to-remove (pm/get-to-remove all-packages)]
-          (if (> (count to-remove) 0)
-            (do
-              (atom-env/insert-process-step! (str "Removing " (count to-remove) " orphaned packages") "")
-              (doseq [package to-remove]
-                (atom-env/insert-process-step! (str "Removing " package))
-                (<! (pm/remove-package (name package)))
-                (atom-env/mark-last-step-as-completed!)))
-            (do
-              (atom-env/insert-process-step! (str "Removing orphaned packages: None"))
-              (atom-env/mark-last-step-as-completed!))))
+          ;; Install all necessary packages
+          (let [to-install (pm/get-to-install all-packages)]
+            (if (> (count to-install) 0)
+              (do
+                (atom-env/insert-process-step! (str "Installing " (count to-install) " new packages") "")
+                (doseq [package to-install]
+                  (atom-env/insert-process-step! (str "Installing " package))
+                  (<! (pm/install-package (name package)))
+                  (atom-env/mark-last-step-as-completed!)))
+              (do
+                (atom-env/insert-process-step! (str "Installing new packages: None"))
+                (atom-env/mark-last-step-as-completed!))))
 
-        (atom-env/insert-process-step! "All done!" "")
-        (.setTimeout js/window #(atom-env/hide-modal-panel) 3000)))))
+          ;; Remove deleted packages
+          (let [to-remove (pm/get-to-remove all-packages)]
+            (if (> (count to-remove) 0)
+              (do
+                (atom-env/insert-process-step! (str "Removing " (count to-remove) " orphaned packages") "")
+                (doseq [package to-remove]
+                  (atom-env/insert-process-step! (str "Removing " package))
+                  (<! (pm/remove-package (name package)))
+                  (atom-env/mark-last-step-as-completed!)))
+              (do
+                (atom-env/insert-process-step! (str "Removing orphaned packages: None"))
+                (atom-env/mark-last-step-as-completed!))))
+
+          (atom-env/insert-process-step! "All done!" "")
+          (.setTimeout js/window #(atom-env/hide-modal-panel) 3000))))))
 
 (defn on-space []
   (reset! current-chain [])

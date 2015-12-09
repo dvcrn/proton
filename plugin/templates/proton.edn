@@ -31,6 +31,11 @@
     ;; stuff for proton
     ["proton.core.showTabBar" false]
     ["proton.core.relativeLineNumbers" false]
+
+    ;; Prefer facebooks nuclide quick open instead of the normal atom one?
+    ;; Un-comment the following line to install the nuclide version
+    ;; (may take a while to install)
+    ;; ["proton.core.quickOpenProvider" :nuclide]
   ]
 
   ;; Don't like a keybinding or want to add something yourself? Do it here
