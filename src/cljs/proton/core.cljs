@@ -158,3 +158,17 @@
   (atom-env/reset-process-steps!))
 
 (defn serialize [] nil)
+
+
+;; live-reload
+;; calls stop before hotswapping code
+;; then start after all code is loaded
+;; the return value of stop will be the argument to start
+
+(defn stop []
+  (let [state (serialize)]
+    (deactivate)
+    state))
+
+(defn start [state]
+  (activate state))
