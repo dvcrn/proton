@@ -9,12 +9,13 @@
     ;; tools
     ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/tools
     :tools/git
+    ;; :tools/minimap
 
     ;; Languages
     ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/lang
-    :lang/clojure
-    :lang/python
-    :lang/julia
+    ;; :lang/clojure
+    ;; :lang/python
+    ;; :lang/julia
   ]
 
   ;; Packages that are not part of a layer. List them here as keyword
@@ -22,7 +23,7 @@
   ;; Will get uninstalled so choose wisely!
   :additional-packages
   [
-    :minimap
+    ;; :pigments
   ]
 
   ;; In a later version, proton will attempt to take over your configuration
