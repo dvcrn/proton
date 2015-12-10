@@ -4,4 +4,4 @@ This layer adds git keybindings powered by git-plus and introduces the git categ
 
 ### Install
 
-Add `:lang/git` to your layers.
+Add `:tools/git` to your layers.
