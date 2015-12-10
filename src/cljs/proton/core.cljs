@@ -24,8 +24,6 @@
             [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]
             [clojure.string]))
 
-(node/enable-util-print!)
-
 ;; reference to atom shell API
 (def ashell (node/require "atom"))
 
@@ -48,7 +46,7 @@
 (def command-tree (atom {}))
 (def current-chain (atom []))
 
-(defn ^:export chain [e]
+(defn chain [e]
   (let [key-code (helpers/extract-keycode-from-event e)
         letter (helpers/extract-keyletter-from-event e)]
 
@@ -93,7 +91,7 @@
           ;; wipe existing config
           (atom-env/insert-process-step! "Wiping existing configuration")
           (doall (map atom-env/unset-config! (filter #(not
-                                                        (or (= "core.disabledPackages" %) 
+                                                        (or (= "core.disabledPackages" %)
                                                             (= "core.themes" %))) (atom-env/get-all-settings))))
           (atom-env/mark-last-step-as-completed!)
 
@@ -146,23 +144,17 @@
   (atom-env/update-bottom-panel (helpers/tree->html @command-tree))
   (atom-env/activate-proton-mode!))
 
-(defn ^:export activate [state]
+(defn activate [state]
   (.setTimeout js/window #(init) 2000)
   (let [disposable (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))]
     (swap! disposables conj disposable))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
 
-(defn ^:export deactivate []
+(defn deactivate []
   (.log js/console "deactivating...")
   (doseq [disposable @disposables]
     (.log js/console disposable)
     (.dispose disposable))
   (atom-env/reset-process-steps!))
 
-(defn ^:export serialize [] nil)
-
-;; We need to set module.exports to our core class.
-;; Atom is using Proton.activate on this
-(defn noop [] nil)
-(set! *main-cli-fn* noop)
-(aset js/module "exports" proton.core)
+(defn serialize [] nil)
