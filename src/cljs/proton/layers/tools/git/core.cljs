@@ -30,6 +30,7 @@
 (defmethod get-initial-config :tools/git [] [])
 
 ;; Downwards compatibility. Don't use these.
+(defmethod get-packages :git [] (get-packages :tools/git))
 (defmethod get-keymaps :git [] (get-keymaps :tools/git))
 (defmethod get-keybindings :git [] (get-keybindings :tools/git))
 (defmethod get-initial-config :git [] (get-initial-config :tools/git))

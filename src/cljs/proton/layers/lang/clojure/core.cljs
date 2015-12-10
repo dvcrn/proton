@@ -14,6 +14,7 @@
 (defmethod get-keybindings :lang/clojure [] {})
 
 ;; Downwards compatibility. Don't use these.
+(defmethod get-packages :clojure [] (get-packages :lang/clojure))
 (defmethod get-keymaps :clojure [] (get-keymaps :lang/clojure))
 (defmethod get-keybindings :clojure [] (get-keybindings :lang/clojure))
 (defmethod get-initial-config :clojure [] (get-initial-config :lang/clojure))

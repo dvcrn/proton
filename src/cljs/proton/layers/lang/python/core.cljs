@@ -15,6 +15,7 @@
 (defmethod get-keybindings :lang/python [] {})
 
 ;; Downwards compatibility. Don't use these.
+(defmethod get-packages :python [] (get-packages :lang/python))
 (defmethod get-keymaps :python [] (get-keymaps :lang/python))
 (defmethod get-keybindings :python [] (get-keybindings :lang/python))
 (defmethod get-initial-config :python [] (get-initial-config :lang/python))

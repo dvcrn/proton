@@ -20,6 +20,7 @@
 (defmethod get-keybindings :lang/julia [] {})
 
 ;; Downwards compatibility. Don't use these.
+(defmethod get-packages :julia [] (get-packages :lang/julia))
 (defmethod get-keymaps :julia [] (get-keymaps :lang/julia))
 (defmethod get-keybindings :julia [] (get-keybindings :lang/julia))
 (defmethod get-initial-config :julia [] (get-initial-config :lang/julia))
