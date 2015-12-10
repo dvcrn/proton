@@ -1,5 +1,5 @@
 (ns proton.lib.atom
-  (:require [proton.lib.helpers :refer [generate-div process->html]]
+  (:require [proton.lib.helpers :refer [generate-div process->html deep-merge]]
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]))
 
@@ -112,6 +112,6 @@
   (.unset config selector))
 
 (defn set-keymap! [selector bindings]
-  (let [binding-map (reduce merge (map #(hash-map (get % 0) (get % 1)) bindings))
+  (let [binding-map (reduce deep-merge (map #(hash-map (get % 0) (get % 1)) bindings))
         selector-bound-map (hash-map selector binding-map)]
     (.add keymaps "custom-keymap" (clj->js selector-bound-map))))

@@ -27,13 +27,13 @@
   (into [] (distinct (reduce concat (map #(layerbase/get-packages (keyword %)) layers)))))
 
 (defn keybindings-for-layers [layers]
-  (reduce merge (map #(layerbase/get-keybindings (keyword %)) layers)))
+  (reduce helpers/deep-merge (map #(layerbase/get-keybindings (keyword %)) layers)))
 
 (defn configs-for-layers [layers]
   (reduce conj (filter #(not (empty? %)) (map #(layerbase/get-initial-config (keyword %)) layers))))
 
 (defn keymaps-for-layers [layers]
-  (reduce merge (map #(layerbase/get-keymaps (keyword %)) layers)))
+  (reduce helpers/deep-merge (map #(layerbase/get-keymaps (keyword %)) layers)))
 
 (defn init-layers! [layers config]
   (doall (map #(layerbase/init-layer! (keyword %) config) layers)))

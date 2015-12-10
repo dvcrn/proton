@@ -11,6 +11,7 @@
             [proton.layers.core.core :as core-layer]
 
             ;; tools
+            [proton.layers.tools.minimap.core :as minimap-layer]
             [proton.layers.tools.git.core :as git-layer]
 
             ;; langs
