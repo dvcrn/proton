@@ -11,7 +11,7 @@ Includes the following atom packages:
 
 ### Install
 
-Add `:julia` to your layers.
+Add `:lang/julia` to your layers.
 
 ### Requirements
 
