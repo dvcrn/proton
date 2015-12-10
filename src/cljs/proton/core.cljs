@@ -12,6 +12,7 @@
 
             ;; tools
             [proton.layers.tools.git.core :as git-layer]
+            [proton.layers.tools.pomodoro.core :as pomodoro-layer]
 
             ;; langs
             [proton.layers.lang.clojure.core :as clojure-layer]
