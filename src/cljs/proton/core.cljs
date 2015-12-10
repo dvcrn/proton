@@ -11,13 +11,16 @@
             [proton.layers.core.core :as core-layer]
 
             ;; tools
-            [proton.layers.tools.minimap.core :as minimap-layer]
-            [proton.layers.tools.git.core :as git-layer]
+            [proton.layers.tools.minimap.core]
+            [proton.layers.tools.git.core]
+
+            ;; etc
+            [proton.layers.fun.power_mode.core]
 
             ;; langs
-            [proton.layers.lang.clojure.core :as clojure-layer]
-            [proton.layers.lang.python.core :as python-layer]
-            [proton.layers.lang.julia.core :as julia-layer]
+            [proton.layers.lang.clojure.core]
+            [proton.layers.lang.python.core]
+            [proton.layers.lang.julia.core]
 
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
