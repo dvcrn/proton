@@ -4,7 +4,8 @@
             [proton.lib.package_manager :as package]
             [proton.layers.core.keybindings :refer [keybindings]]
             [proton.layers.core.actions :as actions :refer [state]]
-            [proton.layers.core.packages :refer [packages]]))
+            [proton.layers.core.packages :refer [packages]]
+            [cljs.nodejs :as node]))
 
 (def keymaps (atom
               [{:selector "body" :keymap [["ctrl-j" "core:move-down"]
@@ -18,13 +19,15 @@
                                                     ["alt-[" "native!"]]}]))
 
 ;; Method definitions
-
 (defmethod get-initial-config :core []
   [["proton.core.showTabBar" false]
    ["proton.core.relativeLineNumbers" false]
    ["proton.core.quickOpenProvider" :normal]
    ["vim-mode.useClipboardAsDefaultRegister" true]
-   ["vim-mode.useSmartcaseForSearch" true]])
+   ["vim-mode.useSmartcaseForSearch" true]
+   ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
+   ["editor.softWrap" true]
+   ["editor.fontFamily" "Hack"]])
 
 (defmethod init-layer! :core
   [_ config]
