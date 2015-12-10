@@ -54,9 +54,9 @@ or through the package manager here: https://atom.io/packages/proton-mode
 #### Running it
 
 ```
-lein cljsbuild once dev
+lein run -m build/release
 # or if you want auto-compile on change:
-lein cljsbuild auto dev
+lein run -m build/dev
 ```
 will compile the clojurescript code into javascript. Once that's done, go into the `plugin/` folder and run
 
