@@ -55,8 +55,9 @@ or through the package manager here: https://atom.io/packages/proton-mode
 
 ```
 lein run -m build/release
+
 # or if you want auto-compile on change:
-lein run -m build/dev
+lein run -m build/dev-repl
 ```
 will compile the clojurescript code into javascript. Once that's done, go into the `plugin/` folder and run
 
