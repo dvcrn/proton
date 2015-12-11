@@ -114,3 +114,57 @@
         merged-chan (async/merge chans)
         reduced-chan (async/reduce #(and %1 %2) true merged-chan)]
     reduced-chan))
+
+(defn outdated-packages-chan []
+  (println "finding outdated packages")
+  (let [c (chan)]
+    (go
+      (.exec child-process "apm outdated --json"
+        (fn [err stdout stderr]
+          (if (nil? err)
+            (do
+              (println (str "The json is here: " (map #(.-name %) (.parse js/JSON stdout))))
+              (go (>! c (map #(.-name %) (.parse js/JSON stdout))))
+              (close! c))
+            (do
+              (go (>! c false))
+              (close! c))))))
+    c))
+
+(defn outdated-packages []
+  (println "finding outdated packages sync style")
+  (mapv #(.-name %) (.parse js/JSON (.execSync child-process "apm outdated --json"))))
+
+(defn update-package [package-name]
+  (println "Updating: " package-name)
+  (let [c (chan)]
+    (go
+      (if (not (is-installed? package-name))
+        (do
+          (>! c true)
+          (close! c))
+        (do
+          (.exec child-process (str (get-apm-path) " update " package-name " --no-colors")
+            (fn [err stdout stderr]
+              (if (nil? err)
+                (.setTimeout js/window #(do
+                                         (force-reload-package package-name)
+                                         (println (str "done: " package-name))
+                                         (go (>! c true))
+                                         (close! c))
+                  1000)
+
+                  ; on error, just close channel
+                (do
+                  (go (>! c false))
+                  (close! c))))))))
+    c))
+
+(defn update-packages [packages]
+  (let [chans (map update-package packages)
+        merged-chan (async/merge chans)
+        reduced-chan (async/reduce #(and %1 %2) true merged-chan)]
+    reduced-chan))
+
+(defn update-all-packages []
+  (update-packages (doall outdated-packages)))
