@@ -9,6 +9,7 @@
 (defn- find-first [f coll] (first (filter f coll)))
 
 (defn editor-grammar [editor] (.-name (.getGrammar editor)))
+(defn editor-grammar-scope [editor] (.-scopeName (.getGrammar editor)))
 
 (defn file-extension [editor]
   "Returns file extenstion.
@@ -39,6 +40,11 @@
    (first filtered)
    nil))
 
+(defn find-mode-by-scope [scope]
+  (if-let [filtered (first (filter-modes-by-key-val :atom-scope scope))]
+   (first filtered)
+   nil))
+
 (defn mode-extensions-filter [ext]
   (fn [coll]
     (if-let [extensions (second coll)]
@@ -59,8 +65,9 @@
 
 (defn get-available-mode [editor]
    (let [by-grammar (find-mode-by-grammar (editor-grammar editor))
-         by-extension (find-mode-by-file-extension (file-extension editor))]
-    (or by-grammar by-extension)))
+         by-extension (find-mode-by-file-extension (file-extension editor))
+         by-scope (find-mode-by-scope (editor-grammar-scope editor))]
+    (or by-grammar by-extension by-scope)))
 
 (defn activate-mode [editor]
   (when-not (nil? editor)

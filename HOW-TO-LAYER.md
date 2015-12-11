@@ -184,10 +184,11 @@ in our example `, t p` and `<spc> m t p` execute same action.
 To define mode you should use `(defmethod describe-mode :{{your-layer}} [] {})`. For now following options are available.
 
 - `:mode-name` - __keyword__ to define name of the mode. This option is required.
-- `:atom-grammars` - __vector of strings__ or __single string__ name of grammar to capture.
-- `:file-extensions` - __vector of regular__ expressions to detect filename.
+- `:atom-grammars` - __vector of strings__ or __single string__ name of grammar to capture, e.g. "Clojure", ["GitHub Flawored Markdown"]
+- `:atom-scope` - __vector of strings__ or __single string__ name of the grammar scope to capture, e.g. "source.clojure", ["source.gfm"]
+- `:file-extensions` - __vector of regular__ expressions to detect filename extension, e.g. [#"\.cljs$", #"\.clj"]
 - `:mode-keybindings` - map description of keybindings used for this mode. Format is the same as for `get-keybindings` function.
-- `:init` - __function__ to initialize on mode activation
+- `:init` - __function__ to initialize on mode activation.
 
 
 ### Testing your layer
