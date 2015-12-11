@@ -9,3 +9,4 @@
 (defmulti get-packages dispatch)
 (defmulti get-keybindings dispatch)
 (defmulti get-keymaps dispatch)
+(defmulti describe-mode dispatch)

@@ -23,8 +23,8 @@
 
 (defn is-mode-activated? [editor] (get editor :active))
 
-(defn define-mode [name & options]
-  (swap! modes assoc-in [name] (apply hash-map options)))
+(defn define-mode [name options]
+  (swap! modes assoc-in [name] options))
 
 (defn define-keybindings [name keymap]
   (swap! modes assoc-in [name :mode-keybindings] keymap))

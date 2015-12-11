@@ -40,6 +40,11 @@
 (defn init-layers! [layers config]
   (doall (map #(layerbase/init-layer! (keyword %) config) layers)))
 
+(defn init-modes-for-layers [layers]
+  (doall
+    (map #(mode-manager/define-mode (get % :mode-name) (dissoc % :mode-name))
+     (filter #(not (nil? (get % :mode-name))) (map #(layerbase/describe-mode %) layers)))))
+
 (defn- on-active-pane-item [item]
   (if-let [editor (atom-env/get-active-editor)]
     (when (= (.-id editor) (.-id item))

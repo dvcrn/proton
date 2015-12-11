@@ -52,9 +52,9 @@
 (defonce command-tree (atom {}))
 (defonce current-chain (atom []))
 
-(def mode-key :m)
+(def mode-keys [:m (keyword ",")])
 (defn is-mode-key? [chain-key]
-  (not (nil? (some #{mode-key} chain-key))))
+  (not (nil? (some #{(first chain-key)} mode-keys))))
 
 (defn chain [e]
   (let [key-code (helpers/extract-keycode-from-event e)
@@ -153,6 +153,7 @@
                 (atom-env/mark-last-step-as-completed!))))
 
           (atom-env/insert-process-step! "All done!" "")
+          (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
           (.setTimeout js/window #(atom-env/hide-modal-panel) 3000))))))
 
@@ -161,9 +162,20 @@
   (atom-env/update-bottom-panel (helpers/tree->html @command-tree))
   (atom-env/activate-proton-mode!))
 
+(defn on-comma []
+  (reset! current-chain [])
+  (if-let [mode-keymap (mode-manager/get-mode-keybindings (atom-env/get-active-editor))]
+   (let [core-mode-key (first mode-keys)]
+    (swap! current-chain conj core-mode-key)
+    (swap! command-tree assoc-in [:m] mode-keymap)
+    (atom-env/update-bottom-panel (helpers/tree->html (get-in @command-tree @current-chain)))
+    (atom-env/activate-proton-mode!))))
+
 (defn activate [state]
   (.setTimeout js/window #(init) 2000)
   (let [disposable (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))]
+    (swap! disposables conj disposable))
+  (let [disposable (.onDidMatchBinding keymaps #(if (= "," (.-keystrokes %)) (on-comma)))]
     (swap! disposables conj disposable))
   (swap! disposables conj (proton/panel-item-subscription))
   (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
@@ -173,6 +185,8 @@
   (doseq [disposable @disposables]
     (.log js/console disposable)
     (.dispose disposable))
+  (reset! mode-manager/editors {})
+  (reset! mode-manager/modes {})
   (atom-env/reset-process-steps!))
 
 (defn serialize [] nil)
