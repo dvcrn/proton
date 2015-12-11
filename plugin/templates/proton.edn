@@ -16,6 +16,7 @@
     ;; :lang/clojure
     ;; :lang/python
     ;; :lang/julia
+    ;; :lang/latex
 
     ;; etc
     ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/fun
