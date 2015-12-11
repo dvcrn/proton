@@ -1,5 +1,7 @@
 ## Proton
 
+[![Join the chat at https://gitter.im/dvcrn/proton](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dvcrn/proton?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [spacemacs][1] and [sublimious][2] style editing in Atom.
 
 ![demo][3]
