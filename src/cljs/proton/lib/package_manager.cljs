@@ -36,14 +36,22 @@
   (println (str "enabling package " package-name))
   (.enablePackage packages package-name))
 
-(defn disable-package [package-name]
-  (if (is-activated? package-name)
-    (do
-      (println (str "disabling package " package-name))
-      (.disablePackage packages package-name))))
+(defn disable-package
+  ([package-name]
+   (disable-package package-name false))
+
+  ([package-name force]
+   (if (or (is-activated? package-name) force)
+       (do
+         (println (str "disabling package " package-name))
+         (.disablePackage packages package-name)))))
 
 (defn reload-package [package-name]
   (disable-package package-name)
+  (enable-package package-name))
+
+(defn force-reload-package [package-name]
+  (disable-package package-name true)
   (enable-package package-name))
 
 (defn install-package [package-name]
@@ -60,7 +68,7 @@
               ;; Disable and enable here to force Atom to reload the packages
               ;; We are doing this with a 1s delay to give Atom some time to find the new package
               (.setTimeout js/window #(do
-                                        (reload-package package-name)
+                                        (force-reload-package package-name)
                                         (println (str "done: " package-name))
                                         (go (>! c true))
                                         (close! c))
