@@ -33,7 +33,7 @@
   (reduce conj (filter #(not (empty? %)) (map #(layerbase/get-initial-config (keyword %)) layers))))
 
 (defn keymaps-for-layers [layers]
-  (reduce helpers/deep-merge (map #(layerbase/get-keymaps (keyword %)) layers)))
+  (reduce concat (map #(layerbase/get-keymaps (keyword %)) layers)))
 
 (defn init-layers! [layers config]
   (doall (map #(layerbase/init-layer! (keyword %) config) layers)))
