@@ -5,3 +5,9 @@ This layer adds support for clojure based file editind powered by [parinfer](htt
 ### Install
 
 Add `:lang/clojure` to your layers.
+
+### Key Bindings
+
+|Key Binding                | Description                   |
+|--------------------------:|------------------------------:|
+| <kbd>SPC m t p</kbd>      | toggle Parinfer mode          |
