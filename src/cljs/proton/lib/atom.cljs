@@ -51,6 +51,7 @@
         (let [view (.getView views editor)
               classList (.-classList view)]
             (.remove classList "vim-mode")
+            (.remove classList "vim-mode-plus")
             (.add classList "proton-mode")
             (show-bottom-panel)))))
 
@@ -62,6 +63,7 @@
               classList (.-classList view)]
             (.remove classList "proton-mode")
             (.add classList "vim-mode")
+            (.add classList "vim-mode-plus")
             (hide-bottom-panel)))))
 
 (defn eval-action! [tree sequence]
