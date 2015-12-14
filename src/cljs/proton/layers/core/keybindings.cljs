@@ -19,6 +19,19 @@
               :title "focus left pane"}
           :tab {:action "tab-switcher:next"
                 :title "previous buffer"}
+          :f {:category "files"
+               :e {:category "editor(atom)"
+                   :d {:title "find-dotfile"
+                       :fx (fn []
+                             (.open (.-workspace js/atom) proton/config-path))}
+                   :s {:title "find-stylesheet"
+                       :action "application:open-your-stylesheet"}
+                   :i {:title "find-init script"
+                       :action "application:open-your-init-script"}
+                   :p {:title "find-snippets"
+                       :action "application:open-your-snippets"}}
+               :f {:title "advanced-open-file"
+                   :action "advanced-open-file:toggle"}}
           :w {:category "window"
               :d {:action "pane:close"
                   :target actions/get-active-pane

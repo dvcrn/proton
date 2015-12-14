@@ -14,6 +14,9 @@
      :hyperclick
      :nuclide-file-watcher
 
+     ;; other
+     :advanced-open-file
+
      ;; current default theme
      :atom-material-ui
      :atom-material-syntax
