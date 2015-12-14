@@ -6,6 +6,7 @@
     ;; adding them here so proton doesn't remove them by accident
     [:proton-mode
      :vim-mode
+     :vim-mode-plus
      :ex-mode
      :relative-numbers
      :tab-switcher
