@@ -1,5 +1,5 @@
 (ns proton.layers.core.core
-  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps]])
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]])
   (:require [proton.lib.proton :as proton]
             [proton.lib.package_manager :as package]
             [proton.layers.core.keybindings :refer [keybindings]]
@@ -55,3 +55,4 @@
 (defmethod get-keybindings :core [] @keybindings)
 (defmethod get-keymaps :core [] @keymaps)
 (defmethod get-packages :core [] @packages)
+(defmethod describe-mode :core [] {})

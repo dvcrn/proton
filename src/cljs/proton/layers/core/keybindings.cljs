@@ -77,6 +77,7 @@
                         (do
                           (actions/toggle-relative-lines true)
                           (swap! state assoc-in [:relative-numbers] true))))}}
+          :m {:category "mode"}
           :_ {:category "meta"
               :d {:title "find-dotfile"
                   :fx (fn []

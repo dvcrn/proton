@@ -8,6 +8,7 @@
 (def keymaps (.-keymaps js/atom))
 (def views (.-views js/atom))
 (def config (.-config js/atom))
+(def grammars (.-grammars (.-grammars js/atom)))
 
 (def element (atom (generate-div "test" "proton-which-key")))
 (def bottom-panel (atom (.addBottomPanel workspace
@@ -115,3 +116,17 @@
   (let [binding-map (reduce deep-merge (map #(hash-map (get % 0) (get % 1)) bindings))
         selector-bound-map (hash-map selector binding-map)]
     (.add keymaps "custom-keymap" (clj->js selector-bound-map))))
+
+(defn get-active-editor []
+  (if-let [editor (.getActiveTextEditor workspace)]
+   (if-not (.isMini editor) editor nil)
+   nil))
+
+(defn find-grammar-by-name [name]
+ (first (filter #(= (.-name %) name) grammars)))
+
+(defn set-grammar [grammar]
+  (if-let [editor (get-active-editor)]
+    (if (string? grammar)
+     (.setGrammar editor (find-grammar-by-name grammar))
+     (.setGrammar editor grammar))))

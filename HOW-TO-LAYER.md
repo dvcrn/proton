@@ -29,6 +29,10 @@ Creating a layer is very simple. Here is how your base sceleton could look like 
 (defmethod get-keymaps :{{your-layer}}
   []
   [])
+
+(defmethod describe-mode :{{your-layer}}
+  []
+  {})
 ```
 
 #### namespace
@@ -153,6 +157,38 @@ Here we return a keymap with `:selector` `.tree-view`, meaning that whatever com
 The keymap specifies that once the user hits `escape` inside that `.tree-view`, dispatch `tree-view:toggle`.
 
 _Custom functions and custom targets are not supported yet_.
+
+#### mode keybindings
+
+you can specify keybindings related to special file types and grammars using `describe-mode` function. This keybindings will be available by `<spc> m` orc short alias `,`. For example:
+
+```clj
+(defmethod describe-mode :lang/clojure []
+  {:mode-name :clojure
+   :atom-grammars ["Clojure"]
+   :file-extensions [#"\.proton$"]
+   :mode-keybindings
+   {:t {:category "toggles"
+        :p {:action "parinfer:toggleMode" :title "Toggle Parinfer Mode"}}}})
+```
+
+What we did here is, created new mode called `:clojure` which will be activated
+when opened file grammar is `"Clojure"` or filename ends with `.proton`. Also we
+define keybinding within `:mode-keybindings` keyword to toggle parinfer mode by `t p` keys. Now when we open
+clojure file or __.proton__ and hit `<spc> m` we'll see special keymaps available for our mode.
+Now we can toggle parinfer mode using `<spc> m t p`. Also all mode keybindings can be executed by short alias `,` instead of `<spc> m`,
+in our example `, t p` and `<spc> m t p` execute same action.
+
+#### mode options
+
+To define mode you should use `(defmethod describe-mode :{{your-layer}} [] {})`. For now following options are available.
+
+- `:mode-name` - __keyword__ to define name of the mode. This option is required.
+- `:atom-grammars` - __vector of strings__ or __single string__ name of grammar to capture, e.g. "Clojure", ["GitHub Flawored Markdown"]
+- `:atom-scope` - __vector of strings__ or __single string__ name of the grammar scope to capture, e.g. "source.clojure", ["source.gfm"]
+- `:file-extensions` - __vector of regular__ expressions to detect filename extension, e.g. [#"\.cljs$", #"\.clj"]
+- `:mode-keybindings` - map description of keybindings used for this mode. Format is the same as for `get-keybindings` function.
+- `:init` - __function__ to initialize on mode activation.
 
 
 ### Testing your layer

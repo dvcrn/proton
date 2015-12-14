@@ -1,5 +1,10 @@
 (ns proton.layers.lang.clojure.core
-  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps]]))
+  (:require [proton.lib.mode :as mode :refer [define-mode define-keybindings]]
+            [proton.lib.atom :as atom-env :refer [set-grammar]])
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
+
+(defn- clojure-mode-init []
+ (atom-env/set-grammar "Clojure"))
 
 (defmethod init-layer! :lang/clojure
   [_ config]
@@ -8,6 +13,16 @@
 (defmethod get-packages :lang/clojure
   []
   [:Parinfer])
+
+(defmethod describe-mode :lang/clojure []
+  {:mode-name :clojure
+   :atom-grammars ["Clojure"]
+   :file-extensions [#"\.proton$"]
+   :mode-keybindings
+   {:t {:category "toggles"
+        :p {:action "parinfer:toggleMode" :title "Toggle Parinfer Mode"}}}
+   :init clojure-mode-init})
+
 
 (defmethod get-keymaps :lang/clojure [] [])
 (defmethod get-initial-config :lang/clojure [] [])
