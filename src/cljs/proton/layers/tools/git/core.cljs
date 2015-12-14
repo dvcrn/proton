@@ -5,6 +5,7 @@
   [_ config]
   (println "init git"))
 
+(defmethod describe-mode :tools/git [] {})
 
 (defn get-active-editor [atom]
   (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
@@ -35,4 +36,4 @@
 (defmethod get-keybindings :git [] (get-keybindings :tools/git))
 (defmethod get-initial-config :git [] (get-initial-config :tools/git))
 (defmethod init-layer! :git [] (init-layer! :tools/git))
-(defmethod describe-mode :git [] {})
+(defmethod describe-mode :git [] (describe-mode :tools/git))
