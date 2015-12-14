@@ -24,8 +24,6 @@
    ["proton.core.relativeLineNumbers" false]
    ["proton.core.quickOpenProvider" :normal]
    ;; vim-mode
-   ["vim-mode.useClipboardAsDefaultRegister" true]
-   ["vim-mode.useSmartcaseForSearch" true]
    ["vim-mode-plus.useSmartcaseForSearch" true]
    ["vim-mode-plus.incrementalSearch" true]
    ["vim-mode-plus.flashOnUndoRedo" true]
