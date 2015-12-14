@@ -1,7 +1,7 @@
 {
   "name": "proton-mode",
   "main": "./lib/proton",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Spacemacs helps Atom to become a better editor",
   "keywords": [],
   "repository": "https://github.com/dvcrn/proton-bin",
