@@ -3,6 +3,9 @@
 
 (def state (atom {}))
 
+(defn get-active-editor [atom]
+  (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
+  
 (defn get-active-pane [atom]
   (.getView (.-views atom) (.getActivePane (.-workspace atom))))
 
