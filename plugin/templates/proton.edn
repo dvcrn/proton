@@ -62,5 +62,5 @@
   :keymaps [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}
             ;; Wanna rebind ESC to something else? You can do that here.
             ;; If you are good with esc, just remote the following line.
-            {:selector "atom-text-editor.vim-mode.insert-mode" :keymap [["f d" "vim-mode:activate-normal-mode"]]}]
+            {:selector "atom-text-editor.vim-mode-plus.insert-mode" :keymap [["f d" "vim-mode:activate-normal-mode"]]}]
 }
