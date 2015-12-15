@@ -59,9 +59,10 @@
     nil))
 
 (defn get-mode-keybindings [editor]
-  (if-let [mode-name (find-mode-by-grammar (editor-grammar editor))]
-    (get-in @modes [mode-name :mode-keybindings])
-    nil))
+  (when-not (nil? editor)
+    (if-let [mode-name (get-in @editors [(.-id editor) :mode])]
+      (get-in @modes [mode-name :mode-keybindings])
+      nil)))
 
 (defn get-available-mode [editor]
    (let [by-grammar (find-mode-by-grammar (editor-grammar editor))
