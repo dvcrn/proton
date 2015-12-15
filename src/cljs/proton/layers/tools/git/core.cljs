@@ -13,21 +13,27 @@
 (defmethod get-keybindings :tools/git
   []
   {:g {:category "git"
-       :a {:action "git-plus:add"}
-       :S {:action "git-plus:status"}
-       :s {:action "git-plus:stage-files"}
-       :P {:action "git-plus:push"}
-       :c {:action "git-plus:commit"}
+       :a {:action "git-plus:add" :title "add files"}
+       :S {:action "git-plus:status" :title "git-plus status"}
+       :s {:action "atomatigit:toggle" :title "status" :target get-active-editor}
+       :P {:action "git-plus:push" :title "push"}
+       :c {:action "git-plus:commit" :title "commit"}
        :d {:category "git diff"
-           :n {:action "git-diff:move-to-next-diff" :target get-active-editor}
-           :N {:action "git-diff:move-to-previous-diff" :target get-active-editor}
-           :l {:action "git-diff:toggle-diff-list" :target get-active-editor}}}})
+           :n {:action "git-diff:move-to-next-diff" :target get-active-editor :title "next diff"}
+           :N {:action "git-diff:move-to-previous-diff" :target get-active-editor :title "previous diff"}
+           :l {:action "git-diff:toggle-diff-list" :target get-active-editor :title "list diffs"}}}})
 
 (defmethod get-packages :tools/git
   []
-  [:git-plus])
+  [:git-plus
+   :language-diff
+   :atomatigit])
 
-(defmethod get-keymaps :tools/git [] [])
+(defmethod get-keymaps :tools/git []
+  [{:selector ".atomatigit .file-list-view" :keymap [["s" "atomatigit:stage"]
+                                                     ["d" "atomatigit:toggle-diff"]
+                                                     ["u" "atomatigit:unstage"]]}])
+
 (defmethod get-initial-config :tools/git [] [])
 
 ;; Downwards compatibility. Don't use these.
