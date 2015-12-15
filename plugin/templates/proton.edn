@@ -54,7 +54,6 @@
   ]
 
   ;; Don't like a keybinding or want to add something yourself? Do it here
-  ;; (not implemented yet)
   :keybindings {}
 
   ;; Want some custom behavior inside a certain window?
