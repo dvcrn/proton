@@ -21,6 +21,8 @@
      :atom-material-ui
      :atom-material-syntax
 
+     :file-icons
+
      ;; core packages
      ;; TODO: move me somewhere else
      :tree-view
