@@ -23,6 +23,7 @@
             [proton.layers.lang.python.core]
             [proton.layers.lang.julia.core]
             [proton.layers.lang.latex.core]
+            [proton.layers.lang.markdown.core]
 
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
