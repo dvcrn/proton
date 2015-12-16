@@ -103,7 +103,7 @@
 
         (let [all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
               all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
-              all-keybindings (proton/keybindings-for-layers all-layers)]
+              all-keybindings (helpers/deep-merge (proton/keybindings-for-layers all-layers) keybindings)]
 
           ;; wipe existing config
           (atom-env/insert-process-step! "Wiping existing configuration")
