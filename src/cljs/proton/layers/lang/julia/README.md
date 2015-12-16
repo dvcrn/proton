@@ -18,3 +18,15 @@ Add `:lang/julia` to your layers.
 - [julia](http://julialang.org/) and a few Julia packages (it is recommended to do `Pkg.add("PkgName"); Pkg.checkout("PkgName")` for each of the packages below):
   - [Atom](https://github.com/JunoLab/Atom.jl)
   - [JuliaParser](https://github.com/jakebolewski/JuliaParser.jl)
+
+### Key Bindings
+
+Key Binding   | Description
+--------------|-----------------------------
+`SPC m s`     | Start a Julia client
+`SPC m r`     | Open a REPL
+`SPC m R`     | Start a REPL client
+`SPC m l`     | Reset loading indicator
+`SPC m k`     | Kill Julia client
+`SPC m c c`   | Clear Julia console
+`SPC m c i`   | Clear inline results
