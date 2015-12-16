@@ -2,7 +2,7 @@
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (defmethod get-initial-config :lang/latex []
-  ["proton.lang.latex.use-latex-plus" false])
+  [["proton.lang.latex.use-latex-plus" false]])
 
 ; Define default packages
 (def packages
