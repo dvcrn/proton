@@ -16,6 +16,27 @@
    :julia-client
    :ink])
 
+(defmethod describe-mode :lang/julia
+ []
+ {:mode-name :julia
+  :atom-scope ["source.julia"]
+  :mode-keybindings
+    {:r {:action "julia-client:open-a-repl"
+         :title "Open a REPL"}
+     :s {:action "julia-client:start-julia"
+         :title "Start Julia"}
+     :R {:action "julia-client:start-repl-client"
+         :title "Start REPL client"}
+     :c {:category "clear"
+           :c {:action "julia-client:clear-console"
+               :title "Console"}
+           :i {:action "inline-results:clear-all"
+               :title "Inline"}}
+     :l {:action "julia-client:reset-loading-indicator"
+         :title "Reset indicator"}
+     :k {:action "julia-client:kill-julia"
+         :title "Kill Julia"}}})
+
 (defmethod get-keymaps :lang/julia [] [])
 (defmethod get-keybindings :lang/julia [] {})
 
@@ -25,4 +46,3 @@
 (defmethod get-keybindings :julia [] (get-keybindings :lang/julia))
 (defmethod get-initial-config :julia [] (get-initial-config :lang/julia))
 (defmethod init-layer! :julia [] (init-layer! :lang/julia))
-(defmethod describe-mode :lang/julia [] {})
