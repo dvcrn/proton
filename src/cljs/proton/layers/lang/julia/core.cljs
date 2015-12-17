@@ -6,7 +6,7 @@
   [])
 
 (defmethod init-layer! :lang/julia
-  [_ config]
+  [_ {:keys [config layers]}]
   (println "init julia"))
 
 (defmethod get-packages :lang/julia

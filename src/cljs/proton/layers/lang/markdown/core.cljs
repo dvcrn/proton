@@ -10,7 +10,7 @@
   [])
 
 (defmethod init-layer! :lang/markdown
-  [_ config]
+  [_ {:keys [config layers]}]
   (println "init markdown"))
 
 (defmethod get-keybindings :lang/markdown

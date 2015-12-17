@@ -40,7 +40,7 @@
   (reduce concat (map #(layerbase/get-keymaps (keyword %)) layers)))
 
 (defn init-layers! [layers config]
-  (doall (map #(layerbase/init-layer! (keyword %) config) layers)))
+  (doall (map #(layerbase/init-layer! (keyword %) {:config config :layers layers}) layers)))
 
 (defn init-modes-for-layers [layers]
   (doall

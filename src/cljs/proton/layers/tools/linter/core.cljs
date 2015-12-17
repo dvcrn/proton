@@ -23,7 +23,7 @@
              :target (fn [atom] (.getView (.-views atom) (.-workspace atom)))}}})
 
 (defmethod init-layer! :tools/linter
-  [_ config]
+  [_ {:keys [config layers]}]
   (println "init linter")
   (let [config-map (into (hash-map) config)]
     (swap! layer-state assoc :provider (config-map "proton.linter.provider"))))

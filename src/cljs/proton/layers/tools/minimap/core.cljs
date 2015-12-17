@@ -2,7 +2,7 @@
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (defmethod init-layer! :tools/minimap
-  [_ config]
+  [_ {:keys [config layers]}]
   (println "init minimap"))
 
 (defmethod get-keybindings :tools/minimap

@@ -3,17 +3,18 @@
             [proton.lib.atom :as atom-env :refer [set-grammar]])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
+(def packages (atom [:Parinfer]))
+
 (defn- clojure-mode-init []
  (atom-env/set-grammar "Clojure"))
 
 (defmethod init-layer! :lang/clojure
-  [_ config]
-  (println "init clojure"))
+  [_ {:keys [config layers]}]
+  (println "init clojure")
+  (if (contains? (set layers) :tools/linter)
+    (swap! packages conj :linter-clojure)))
 
-(defmethod get-packages :lang/clojure
-  []
-  [:Parinfer
-   :linter-clojure])
+(defmethod get-packages :lang/clojure [] @packages)
 
 (defmethod describe-mode :lang/clojure []
   {:mode-name :clojure
