@@ -1,11 +1,13 @@
 (ns proton.layers.lang.python.core
+  (:require [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (def packages (atom [:autocomplete-python :python-yapf]))
 
 (defmethod init-layer! :lang/python
   [_ {:keys [config layers]}]
-  (println "init python")
+  (helpers/console! "init" :lang/python)
+
   (if (contains? (set layers) :tools/linter)
     (swap! packages conj :linter-pep8)))
 

@@ -44,6 +44,16 @@
     (not (nil? (get-in tree (conj sequence :fx))))
     (not (nil? (get-in tree (conj sequence :action))))))
 
+(defn console!
+  ([s] (console! s nil))
+  ([s key] (console! s key true))
+  ([s key js-print]
+   (let [k (if (nil? key) "proton" (str "proton:" key))
+         s (str "["k"] " s)]
+    (if js-print
+      (.log js/console s)
+      (println s)))))
+
 (defn tree->html [tree]
   (->>
     (map (fn [element]

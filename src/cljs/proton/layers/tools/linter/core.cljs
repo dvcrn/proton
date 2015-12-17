@@ -1,4 +1,5 @@
 (ns proton.layers.tools.linter.core
+  (:require [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (def layer-state (atom {}))
@@ -24,7 +25,7 @@
 
 (defmethod init-layer! :tools/linter
   [_ {:keys [config layers]}]
-  (println "init linter")
+  (helpers/console! "init" :tools/linter)
   (let [config-map (into (hash-map) config)]
     (swap! layer-state assoc :provider (config-map "proton.linter.provider"))))
 

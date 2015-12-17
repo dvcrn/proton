@@ -46,7 +46,7 @@
   (amend-last-step! (str (get (last @steps) 0)) "[ok]"))
 
 (defn activate-proton-mode! []
-  (.log js/console "----> Proton Chain activated!")
+  (.log js/console "[proton] Proton Chain activated!")
   (let [editors (.getTextEditors workspace)]
       (doseq [editor editors]
         (let [view (.getView views editor)
@@ -57,7 +57,7 @@
             (show-bottom-panel)))))
 
 (defn deactivate-proton-mode! []
-  (.log js/console "----> Proton Chain deactivated!")
+  (.log js/console "[proton] Proton Chain deactivated!")
   (let [editors (.getTextEditors workspace)]
       (doseq [editor editors]
         (let [view (.getView views editor)
@@ -68,7 +68,6 @@
             (hide-bottom-panel)))))
 
 (defn eval-action! [tree sequence]
-  (println "evalling")
   (let [action (get-in tree (conj sequence :action))
         target (get-in tree (conj sequence :target))
         selector (when (string? target) (js/document.querySelector target))
@@ -79,7 +78,7 @@
     (if (not (nil? fx))
       (fx)
       (do
-        (.log js/console (str "Dispatching " action " to "))
+        (.log js/console (str "[proton] Dispatching " action " to "))
         (.log js/console dom-target)
         (.dispatch commands dom-target action)))
     (deactivate-proton-mode!)))
@@ -101,7 +100,7 @@
     @parsed-config))
 
 (defn set-config! [selector value]
-  (.log js/console (str "Setting " selector " to " (clj->js value)))
+  (.log js/console (str "[proton] Setting " selector " to " (clj->js value)))
   (.set config selector (clj->js value)))
 
 (defn add-to-config! [selector value]

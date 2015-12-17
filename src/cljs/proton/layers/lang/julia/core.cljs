@@ -1,4 +1,5 @@
 (ns proton.layers.lang.julia.core
+  (:require [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (defmethod get-initial-config :lang/julia
@@ -7,7 +8,7 @@
 
 (defmethod init-layer! :lang/julia
   [_ {:keys [config layers]}]
-  (println "init julia"))
+  (helpers/console! "init" :lang/julia))
 
 (defmethod get-packages :lang/julia
   []

@@ -1,5 +1,6 @@
 (ns proton.layers.lang.markdown.core
-  (:require [proton.layers.core.actions :as actions :refer [state]])
+  (:require [proton.layers.core.actions :as actions :refer [state]]
+            [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (defn markdown-preview-element []
@@ -11,7 +12,7 @@
 
 (defmethod init-layer! :lang/markdown
   [_ {:keys [config layers]}]
-  (println "init markdown"))
+  (helpers/console! "init" :lang/markdown))
 
 (defmethod get-keybindings :lang/markdown
   []
