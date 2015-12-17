@@ -29,7 +29,7 @@
     (swap! layer-state assoc :provider (config-map "proton.linter.provider"))))
 
 (defmethod get-initial-config :tools/linter []
-  [["proton.linter.provider" :linter]])
+  [["proton.linter.provider" :atom]])
 
 (defmethod get-packages :tools/linter []
   (case (@layer-state :provider)
