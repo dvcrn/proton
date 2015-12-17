@@ -8,6 +8,6 @@ Add `:lang/clojure` to your layers.
 
 ### Key Bindings
 
-|Key Binding                | Description                   |
-|--------------------------:|------------------------------:|
-| <kbd>SPC m t p</kbd>      | toggle Parinfer mode          |
+| Key Binding          | Description          |
+|----------------------|----------------------|
+| <kbd>SPC m t p</kbd> | toggle Parinfer mode |

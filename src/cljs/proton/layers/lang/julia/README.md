@@ -21,12 +21,12 @@ Add `:lang/julia` to your layers.
 
 ### Key Bindings
 
-Key Binding   | Description
---------------|-----------------------------
-`SPC m s`     | Start a Julia client
-`SPC m r`     | Open a REPL
-`SPC m R`     | Start a REPL client
-`SPC m l`     | Reset loading indicator
-`SPC m k`     | Kill Julia client
-`SPC m c c`   | Clear Julia console
-`SPC m c i`   | Clear inline results
+Key Binding          | Description
+---------------------|------------------------
+<kbd>SPC m s</kbd>   | Start a Julia client
+<kbd>SPC m r</kbd>   | Open a REPL
+<kbd>SPC m R</kbd>   | Start a REPL client
+<kbd>SPC m l</kbd>   | Reset loading indicator
+<kbd>SPC m k</kbd>   | Kill Julia client
+<kbd>SPC m c c</kbd> | Clear Julia console
+<kbd>SPC m c i</kbd> | Clear inline results

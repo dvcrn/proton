@@ -10,10 +10,6 @@ Includes the following atom packages:
 - [pdf-view](https://atom.io/packages/pdf-view): View pdf produced by building the tex file
 - [latex-plus](https://atom.io/packages/latex-plus) _or_ [latex](https://github.com/thomasjo/atom-latex) (see config section): `latexmk` wrapper
 
-### Config variables
-
-- `"proton.lang.latex.use-latex-plus"`: a boolean where if true, use the package "latex-plus" for invoking `latexmk` and if false use the package "latex". The default is `false`.
-
 ### Install
 
 Add `:lang/latex` to your layers.
@@ -21,3 +17,9 @@ Add `:lang/latex` to your layers.
 ### Requirements
 
 - A modern tex distribution with at least `latexmk`
+
+### Configuration
+
+Name                               | Default | Type        | Description
+-----------------------------------|---------|-------------|-----------------------------
+`proton.lang.latex.use-latex-plus` | false   | __boolean__ | use latex-plus for `latexmk`

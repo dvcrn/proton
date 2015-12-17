@@ -14,29 +14,29 @@ Add `:lang/markdown` to your layers.
 
 ### Key Bindings
 
-Key Binding   | Description
---------------|-----------------------------
-`SPC m i l`   | Insert Link
-`SPC m i i`   | Insert Image
-`SPC m i t`   | Insert Table
-`SPC m f t`   | Format Table
-`SPC m f o`   | Correct Order List Numbers
-`SPC m t c`   | Toggle Code Text
-`SPC m t b`   | Toggle Bold Text
-`SPC m t i`   | Toggle Italic Text
-`SPC m t s`   | Toggle Strikethrough Text
-`SPC m t k`   | Toggle Keystrokes
-`SPC m t t`   | Toggle Task
-`SPC m t d`   | Toggle Task Done
-`SPC m t o`   | Toggle Ordered List
-`SPC m t u`   | Toggle Unordered List
-`SPC m t q`   | Toggle Blockquote
-`SPC m t h 1` | Togle H1
-`SPC m t h 2` | Togle H2
-`SPC m t h 3` | Togle H3
-`SPC m t h 4` | Togle H4
-`SPC m t h 5` | Togle H5
-`SPC m p t`   | Toggle Preview
-`SPC m p i`   | Zoom In in Preview Window
-`SPC m p o`   | Zoom Out in Preview Window
-`SPC m p r`   | Reset Zoom in Preview Window
+Key Binding            | Description
+-----------------------|-----------------------------
+<kbd>SPC m i l</kbd>   | Insert Link
+<kbd>SPC m i i</kbd>   | Insert Image
+<kbd>SPC m i t</kbd>   | Insert Table
+<kbd>SPC m f t</kbd>   | Format Table
+<kbd>SPC m f o</kbd>   | Correct Order List Numbers
+<kbd>SPC m t c</kbd>   | Toggle Code Text
+<kbd>SPC m t b</kbd>   | Toggle Bold Text
+<kbd>SPC m t i</kbd>   | Toggle Italic Text
+<kbd>SPC m t s</kbd>   | Toggle Strikethrough Text
+<kbd>SPC m t k</kbd>   | Toggle Keystrokes
+<kbd>SPC m t t</kbd>   | Toggle Task
+<kbd>SPC m t d</kbd>   | Toggle Task Done
+<kbd>SPC m t o</kbd>   | Toggle Ordered List
+<kbd>SPC m t u</kbd>   | Toggle Unordered List
+<kbd>SPC m t q</kbd>   | Toggle Blockquote
+<kbd>SPC m t h 1</kbd> | Togle H1
+<kbd>SPC m t h 2</kbd> | Togle H2
+<kbd>SPC m t h 3</kbd> | Togle H3
+<kbd>SPC m t h 4</kbd> | Togle H4
+<kbd>SPC m t h 5</kbd> | Togle H5
+<kbd>SPC m p t</kbd>   | Toggle Preview
+<kbd>SPC m p i</kbd>   | Zoom In in Preview Window
+<kbd>SPC m p o</kbd>   | Zoom Out in Preview Window
+<kbd>SPC m p r</kbd>   | Reset Zoom in Preview Window
