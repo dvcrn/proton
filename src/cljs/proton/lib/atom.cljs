@@ -79,7 +79,8 @@
     (if (not (nil? fx))
       (fx)
       (do
-        (println (str "Dispatching " action " to "))
+        (.log js/console (str "Dispatching " action " to "))
+        (.log js/console dom-target)
         (.dispatch commands dom-target action)))
     (deactivate-proton-mode!)))
 
