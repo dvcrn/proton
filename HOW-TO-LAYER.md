@@ -15,7 +15,7 @@ Creating a layer is very simple. Here is how your base sceleton could look like 
   [])
 
 (defmethod init-layer! :{{your-layer}}
-  [_ config]
+  [_ {:keys [config layers]}]
   (println "hello world"))
 
 (defmethod get-keybindings :{{your-layer}}
@@ -67,7 +67,7 @@ If you want to know if you should print hello world now, you could do something 
 
 ```clj
 (defmethod init-layer! :core
-  [_ config]
+  [_ {:keys [config layers]}]
   (let [config-map (into (hash-map) config)]
     (if (config-map "myLayer.printHelloWorld")
      (println "Hello World!"))))
