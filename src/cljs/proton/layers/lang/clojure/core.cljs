@@ -12,7 +12,8 @@
 
 (defmethod get-packages :lang/clojure
   []
-  [:Parinfer])
+  [:Parinfer
+   :linter-clojure])
 
 (defmethod describe-mode :lang/clojure []
   {:mode-name :clojure
