@@ -8,7 +8,8 @@
 (defmethod get-packages :lang/python
   []
   [:autocomplete-python
-   :python-yapf])
+   :python-yapf
+   :linter-pep8])
 
 (defmethod get-keymaps :lang/python [] [])
 (defmethod get-initial-config :lang/python [] [])
