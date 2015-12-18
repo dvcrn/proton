@@ -66,6 +66,10 @@
                  :title "find in project"}
              :p {:action "project-manager:list-projects"
                  :title "switch projects"}
+             :s {:action "project-manager:save-project"
+                 :title "save project"}
+             :e {:action "project-manager:edit-projects"
+                 :title "edit projects"}
              :r {:action "recent-files-fuzzy-finder:toggle-finder"
                  :title "recent files"}}
          :t {:category "toggles"
