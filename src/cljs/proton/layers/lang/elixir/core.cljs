@@ -1,24 +1,22 @@
 (ns proton.layers.lang.elixir.core
   (:require [proton.lib.helpers :as helpers]
             [proton.lib.atom :as atom-env :refer [set-grammar]])
-  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode register-layer-dependencies]]))
 
-(def packages (atom [:language-elixir
-                     :autocomplete-elixir
-                     :elixir-docs
-                     :iex]))
+(register-layer-dependencies :tools/linter [:linter-elixirc])
 
 (defmethod init-layer! :lang/elixir
   [_ {:keys [config layers]}]
-  (helpers/console! "init" :lang/elixir)
-
-  (if (contains? (set layers) :tools/linter)
-    (swap! packages conj :linter-elixir)))
+  (helpers/console! "init" :lang/elixir))
 
 (defn- elixir-mode-init []
  (atom-env/set-grammar "Elixir"))
 
-(defmethod get-packages :lang/elixir [] @packages)
+(defmethod get-packages :lang/elixir []
+  [:language-elixir
+   :autocomplete-elixir
+   :elixir-docs
+   :iex])
 
 (defmethod describe-mode :lang/elixir []
   {:mode-name :elixir

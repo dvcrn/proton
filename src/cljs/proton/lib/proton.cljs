@@ -26,7 +26,11 @@
   (reader/read-string (helpers/read-file config-path)))
 
 (defn packages-for-layers [layers]
-  (into [] (distinct (reduce concat (map #(layerbase/get-packages (keyword %)) layers)))))
+  (let [layer-packages (reduce concat (map #(layerbase/get-packages (keyword %)) layers))
+        layer-dependencies (reduce concat (map #(if (contains? @layerbase/layer-dependencies %) (get @layerbase/layer-dependencies %)) layers))
+        package-dependencies (reduce concat (map #(if (contains? @layerbase/package-dependencies %) (get @layerbase/package-dependencies %)) layer-packages))]
+        
+    (into [] (distinct (concat layer-packages layer-dependencies package-dependencies)))))
 
 (defn keybindings-for-layers [layers]
   (reduce helpers/deep-merge (map #(layerbase/get-keybindings (keyword %)) layers)))
