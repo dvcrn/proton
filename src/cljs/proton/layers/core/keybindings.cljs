@@ -81,6 +81,8 @@
                  :action "editor:toggle-line-numbers"}
              :f {:title "full screen"
                  :action "window:toggle-full-screen"}
+             :s {:title "status bar"
+                 :action "status-bar:toggle"}
              :n {:title "relative numbers"
                  :fx (fn []
                        (if (get @state :relative-numbers)
