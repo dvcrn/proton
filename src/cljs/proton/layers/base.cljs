@@ -3,7 +3,6 @@
 
 (defn dispatch [layer-name] (keyword layer-name))
 (def layer-dependencies (atom {}))
-(def package-dependencies (atom {}))
 
 ;; multimethods to be used inside layer
 (defmulti init-layer! dispatch)
@@ -12,13 +11,6 @@
 (defmulti get-keybindings dispatch)
 (defmulti get-keymaps dispatch)
 (defmulti describe-mode dispatch)
-
-(defn register-package-dependencies [key deps]
-  (let [package-deps @package-dependencies]
-    ;; check if we already have that key inside the deps
-    (if (contains? package-deps key)
-      (swap! package-dependencies assoc key (into [] (distinct (concat (get package-deps key) deps))))
-      (swap! package-dependencies assoc key deps))))
 
 (defn register-layer-dependencies [key deps]
   (let [layer-deps @layer-dependencies]
