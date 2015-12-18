@@ -23,6 +23,7 @@
   [["proton.core.showTabBar" false]
    ["proton.core.relativeLineNumbers" false]
    ["proton.core.quickOpenProvider" :normal]
+   ["proton.core.post-init-timeout" 3000]
    ;; vim-mode
    ["vim-mode-plus.useSmartcaseForSearch" true]
    ["vim-mode-plus.incrementalSearch" true]
