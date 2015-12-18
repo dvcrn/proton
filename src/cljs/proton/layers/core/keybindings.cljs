@@ -64,6 +64,8 @@
                  :title "tree-view"}
              :f {:action "fuzzy-finder:toggle-file-finder"
                  :title "find in project"}
+             :p {:action "project-manager:list-projects"
+                 :title "switch projects"}
              :r {:action "recent-files-fuzzy-finder:toggle-finder"
                  :title "recent files"}}
          :t {:category "toggles"
