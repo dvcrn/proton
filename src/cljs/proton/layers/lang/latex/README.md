@@ -20,6 +20,6 @@ Add `:lang/latex` to your layers.
 
 ### Configuration
 
-Name                               | Default | Type        | Description
------------------------------------|---------|-------------|-----------------------------
-`proton.lang.latex.use-latex-plus` | false   | __boolean__ | use latex-plus for `latexmk`
+| Name                            | Default | Type        | Description                                                         |
+|---------------------------------|---------|-------------|---------------------------------------------------------------------|
+| `proton.latex.latexmk-provider` | :latex  | __keyword__ | which latex provider to pick? Options are `:latex` or `:latex-plus` |
