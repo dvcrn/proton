@@ -16,6 +16,7 @@
 
      ;; other
      :advanced-open-file
+     :project-manager
 
      ;; current default theme
      :atom-material-ui
