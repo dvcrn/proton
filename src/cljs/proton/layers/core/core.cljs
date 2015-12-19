@@ -23,11 +23,14 @@
   [["proton.core.showTabBar" false]
    ["proton.core.relativeLineNumbers" false]
    ["proton.core.quickOpenProvider" :normal]
+   ["proton.core.vim-provider" :vim-mode-plus]
    ;; vim-mode
    ["vim-mode-plus.useSmartcaseForSearch" true]
    ["vim-mode-plus.incrementalSearch" true]
    ["vim-mode-plus.flashOnUndoRedo" true]
    ["vim-mode-plus.useClipboardAsDefaultRegister" true]
+   ["vim-mode.useClipboardAsDefaultRegister" true]
+   ["vim-mode.useSmartcaseForSearch" true]
 
    ;; ui
    ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
@@ -50,6 +53,10 @@
 
     (swap! state assoc-in [:relative-numbers] (config-map "proton.core.relativeLineNumbers"))
     (swap! state assoc-in [:tabs] (config-map "proton.core.showTabBar"))
+
+    (case (config-map "proton.core.vim-provider")
+      :vim-mode (swap! packages #(into [] (concat % [:vim-mode])))
+      :vim-mode-plus (swap! packages #(into [] (concat % [:vim-mode-plus]))))
 
     (if (= (config-map "proton.core.quickOpenProvider") :nuclide)
       (do
