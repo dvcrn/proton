@@ -29,8 +29,15 @@
    ["vim-mode-plus.flashOnUndoRedo" true]
    ["vim-mode-plus.useClipboardAsDefaultRegister" true]
 
-
+   ;; ui
    ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
+   ["atom-material-ui.ui.accentColor" "Cyan"]
+   ["atom-material-ui.tabs.tabSize" "Small"]
+   ["atom-material-ui.tabs.rippleAccentColor" true]
+   ["atom-material-ui.tabs.showTabIcons" "Show on active tab"]
+   ["atom-material-ui.treeView.compactTreeView" true]
+   ["atom-material-ui.panels.panelContrast" true]
+
    ["editor.softWrap" true]
    ["editor.fontFamily" "Hack"]])
 
