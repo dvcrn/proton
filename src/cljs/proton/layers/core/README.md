@@ -8,11 +8,12 @@ The core layer should get included by default. No installation needed.
 
 ### Configuration
 
-Name                              | Default | Type        | Description
-----------------------------------|---------|-------------|----------------------------------------------------------------------
-`proton.core.showTabBar`          | false   | __boolean__ | whether the tab bar should be visible by default
-`proton.core.relativeLineNumbers` | false   | __boolean__ | whether to use relative line numbers instead of absolute ones
-`proton.core.quickOpenProvider`   | :normal | __keyword__ | which quickOpen to use. Possible options are `:normal` and `:nuclide`
+| Name                              | Default        | Type        | Description                                                                                |
+|-----------------------------------|----------------|-------------|--------------------------------------------------------------------------------------------|
+| `proton.core.showTabBar`          | false          | __boolean__ | whether the tab bar should be visible by default                                           |
+| `proton.core.relativeLineNumbers` | false          | __boolean__ | whether to use relative line numbers instead of absolute ones                              |
+| `proton.core.quickOpenProvider`   | :normal        | __keyword__ | which quickOpen to use. Possible options are `:normal` and `:nuclide`                      |
+| `proton.core.vim-provider`        | :vim-mode-plus | __keyword__ | which vim emulation provider to use. Possible options are `:vim-mode-plus` and `:vim-mode` |
 
 ### Key Bindings
 
