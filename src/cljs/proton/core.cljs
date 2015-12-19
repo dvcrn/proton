@@ -92,7 +92,7 @@
           proton-default proton-config/default]
 
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
-            all-configuration (into [] (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration)))
+            all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))
             all-disabled (:ensure-disabled editor-default)]
 
         (doall (map pm/disable-package (map name all-disabled)))

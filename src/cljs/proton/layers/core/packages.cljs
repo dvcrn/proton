@@ -5,7 +5,6 @@
     ;; most of these packages are atom defaults
     ;; adding them here so proton doesn't remove them by accident
     [:proton-mode
-     :vim-mode-plus
      :ex-mode
      :relative-numbers
      :tab-switcher
@@ -16,6 +15,7 @@
 
      ;; other
      :advanced-open-file
+     :project-manager
 
      ;; current default theme
      :atom-material-ui
