@@ -157,7 +157,8 @@
           (atom-env/insert-process-step! "All done!" "")
           (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
-          (.setTimeout js/window #(atom-env/hide-modal-panel) 3000))))))
+          (let [config-map (into (hash-map) all-configuration)]
+            (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout"))))))))
 
 (defn on-space []
   (reset! current-chain [])
