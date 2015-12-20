@@ -109,7 +109,9 @@
 
           ;; wipe existing config
           (atom-env/insert-process-step! "Wiping existing configuration")
-          (doall (map atom-env/unset-config! (filter #(not (= "core.themes" %)) (atom-env/get-all-settings))))
+          (doall (map atom-env/unset-config! (filter #(not (or (= "core.themes" %)
+                                                               (= "core.disabledPackages" %)))
+                                                      (atom-env/get-all-settings))))
           (atom-env/mark-last-step-as-completed!)
 
           ;; set the user config
