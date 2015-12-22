@@ -1,10 +1,31 @@
 (ns proton.layers.core.keybindings
   (:require [proton.layers.core.actions :as actions :refer [state]]
+            [proton.lib.pane_manager :as panes]
             [proton.lib.proton :as proton]))
 
+(defn select-window-fn [n]
+  (fn []
+    (panes/focus-on-item n)))
+
 (def keybindings
-  (atom { :0 {:action "tree-view:toggle-focus"
-              :title "focus tree-view"}
+  (atom { :0 {:fx (select-window-fn 0)
+              :title "window 0"}
+          :1 {:fx (select-window-fn 1)
+              :title "window 1"}
+          :2 {:fx (select-window-fn 2)
+              :title "window 2"}
+          :3 {:fx (select-window-fn 3)
+              :title "window 3"}
+          :5 {:fx (select-window-fn 4)
+              :title "window 4"}
+          :6 {:fx (select-window-fn 6)
+              :title "window 6"}
+          :7 {:fx (select-window-fn 7)
+              :title "window 7"}
+          :8 {:fx (select-window-fn 8)
+              :title "window 8"}
+          :9 {:fx (select-window-fn 9)
+              :title "window 9"}
           :j {:action "window:focus-pane-below"
               :target actions/get-active-pane
               :title "focus below pane"}
