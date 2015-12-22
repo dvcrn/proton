@@ -6,11 +6,11 @@
             [proton.lib.atom :as atom-env]
             [proton.layers.base :as layerbase]))
 
-(def config-path (str (.. js/process -env -HOME) "/.proton"))
+(def path (node/require "path"))
+(def config-path (.normalize path (str helpers/user-home-dir "/.proton")))
 
 (defn get-config-template-path []
-  (let [path (node/require "path")]
-    (.resolve path (str js/__dirname "/../templates/proton.edn"))))
+  (.resolve path (str js/__dirname "/../templates/proton.edn")))
 
 (defn has-config? []
   (helpers/is-file? config-path))

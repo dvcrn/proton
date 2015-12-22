@@ -3,6 +3,9 @@
             [cljs.nodejs :as node]))
 
 (def fs (node/require "fs"))
+(def path (node/require "path"))
+(def user-home-dir (.normalize path (if (= (.-platform js/process) "win32") (.. js/process -env -USERPROFILE) (.. js/process -env -HOME))))
+
 ;; seperate map with overrides. 189 (underscore) kept getting resolved as '½' which we don't want.
 (def char-code-override {189 "_"
                          9 "tab"})

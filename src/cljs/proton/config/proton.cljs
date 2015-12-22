@@ -1,4 +1,5 @@
-(ns proton.config.proton)
+(ns proton.config.proton
+  (:require [proton.lib.helpers :as helpers]))
 
-(def default {:config-path (str (.. js/process -env -HOME) "/.proton")
+(def default {:config-path (str helpers/user-home-dir "/.proton")
               :layers [:core]})
