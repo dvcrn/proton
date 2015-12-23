@@ -3,23 +3,34 @@
   ;; To get a list of all available layers, check github.com/dvcrn/proton/layers/
   :layers
   [
+    ;; -----------------------------------
     ;; core layer. Don't remove.
+    ;; -----------------------------------
     :core
 
+
+    ;; -----------------------------------
     ;; tools
     ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/tools
+    ;; -----------------------------------
     :tools/git
     ;; :tools/minimap
 
+
+    ;; -----------------------------------
     ;; Languages
     ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/lang
-    ;; :lang/clojure
+    ;; -----------------------------------
+    :lang/clojure
     ;; :lang/python
     ;; :lang/julia
     ;; :lang/latex
 
+
+    ;; -----------------------------------
     ;; etc
     ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/fun
+    ;; -----------------------------------
     ;; :fun/power_mode
   ]
 
@@ -38,8 +49,7 @@
     ;; appearance
     ["editor.fontFamily" "Hack"]
 
-    ;; javascript arrays are deonated as vectors
-    ;; the following would translate into ["one-dark-ui", "one-dark-syntax"]
+    ;; javascript arrays are denoted as vectors
     ;; to use atoms default theme, change to ["core.themes" ["one-dark-ui" "one-dark-syntax"]]
     ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
 
@@ -47,10 +57,12 @@
     ["proton.core.showTabBar" false]
     ["proton.core.relativeLineNumbers" false]
 
-    ;; Prefer facebooks nuclide quick open instead of the normal atom one?
-    ;; Un-comment the following line to install the nuclide version
-    ;; (may take a while to install)
-    ;; ["proton.core.quickOpenProvider" :nuclide]
+    ;; prefer classic vim mode? Change this to :vim-mode
+    ["proton.core.vim-provider" :vim-mode-plus]
+
+    ;; prefer facebooks nuclide quick open instead of the normal atom one?
+    ;; Change the following to :nuclide
+    ["proton.core.quickOpenProvider" :normal]
   ]
 
   ;; Don't like a keybinding or want to add something yourself? Do it here
