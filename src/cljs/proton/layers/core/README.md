@@ -60,6 +60,9 @@ Key Binding          | Description
 
 Key Binding          | Description
 ---------------------|--------------------------
+<kbd> SPC p p </kbd> | Switch project
+<kbd> SPC p s </kbd> | Save project
+<kbd> SPC p e </kbd> | Edit project 
 <kbd> SPC p b </kbd> | Find project buffer
 <kbd> SPC p t </kbd> | Toggle tree view
 <kbd> SPC p f </kbd> | Open project file
