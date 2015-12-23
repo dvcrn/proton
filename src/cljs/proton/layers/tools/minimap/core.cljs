@@ -1,9 +1,10 @@
 (ns proton.layers.tools.minimap.core
+  (:require [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (defmethod init-layer! :tools/minimap
-  [_ config]
-  (println "init minimap"))
+  [_ {:keys [config layers]}]
+  (helpers/console! "init" :tools/minimap))
 
 (defmethod get-keybindings :tools/minimap
   []

@@ -2,7 +2,8 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [cljs.nodejs :as node]
             [cljs.core.async :as async :refer [close! chan put! pub sub unsub >! <!]]
-            [proton.lib.atom :as atom]))
+            [proton.lib.atom :as atom]
+            [proton.lib.helpers :as helpers]))
 
 (def sys (node/require "sys"))
 (def child-process (node/require "child_process"))
@@ -33,7 +34,7 @@
     (> (count filtered-packages) 0)))
 
 (defn enable-package [package-name]
-  (println (str "enabling package " package-name))
+  (helpers/console! (str "enabling package " package-name))
   (.enablePackage packages package-name))
 
 (defn disable-package
@@ -43,7 +44,7 @@
   ([package-name force]
    (if (or (is-activated? package-name) force)
        (do
-         (println (str "disabling package " package-name))
+         (helpers/console! (str "disabling package " package-name))
          (.disablePackage packages package-name)))))
 
 (defn reload-package [package-name]
@@ -55,7 +56,7 @@
   (enable-package package-name))
 
 (defn install-package [package-name]
-  (println "Installing: " package-name)
+  (helpers/console! (str "Installing: " package-name))
   (let [c (chan)]
     (go
       (if (is-installed? package-name)
@@ -69,7 +70,7 @@
               ;; We are doing this with a 1s delay to give Atom some time to find the new package
               (.setTimeout js/window #(do
                                         (force-reload-package package-name)
-                                        (println (str "done: " package-name))
+                                        (helpers/console! (str "done: " package-name))
                                         (go (>! c true))
                                         (close! c))
                 1000)
@@ -81,7 +82,7 @@
     c))
 
 (defn remove-package [package-name]
-  (println "Removing: " package-name)
+  (helpers/console! (str "Removing: " package-name))
   (let [c (chan)]
     (go
       (if (not (is-installed? package-name))

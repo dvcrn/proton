@@ -1,9 +1,10 @@
 (ns proton.layers.fun.power_mode.core
+  (:require [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (defmethod init-layer! :fun/power_mode
-  [_ config]
-  (println "init power mode"))
+  [_ {:keys [config layers]}]
+  (helpers/console! "init" :fun/power_mode))
 
 (defmethod get-packages :fun/power_mode
   []

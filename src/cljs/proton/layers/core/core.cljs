@@ -46,7 +46,7 @@
    ["editor.fontFamily" "Hack"]])
 
 (defmethod init-layer! :core
-  [_ config]
+  [_ {:keys [config layers]}]
   (let [config-map (into (hash-map) config)]
     ;; hide tab bar if showTabBar is false
     (actions/toggle-tabs (config-map "proton.core.showTabBar"))

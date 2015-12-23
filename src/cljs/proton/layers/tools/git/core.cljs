@@ -1,10 +1,11 @@
 (ns proton.layers.tools.git.core
-  (:require [proton.layers.core.actions :as actions :refer [state]])
+  (:require [proton.layers.core.actions :as actions :refer [state]]
+            [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
 
 (defmethod init-layer! :tools/git
-  [_ config]
-  (println "init git"))
+  [_ {:keys [config layers]}]
+  (helpers/console! "init" :tools/git))
 
 (defmethod describe-mode :tools/git [] {})
 

@@ -1,12 +1,14 @@
 (ns proton.layers.lang.python.core
-  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
+  (:require [proton.lib.helpers :as helpers])
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode register-layer-dependencies]]))
+
+(register-layer-dependencies :tools/linter [:linter-pep8])
 
 (defmethod init-layer! :lang/python
-  [_ config]
-  (println "init python"))
+  [_ {:keys [config layers]}]
+  (helpers/console! "init" :lang/python))
 
-(defmethod get-packages :lang/python
-  []
+(defmethod get-packages :lang/python []
   [:autocomplete-python
    :python-yapf])
 

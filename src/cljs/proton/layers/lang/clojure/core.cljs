@@ -1,17 +1,19 @@
 (ns proton.layers.lang.clojure.core
   (:require [proton.lib.mode :as mode :refer [define-mode define-keybindings]]
-            [proton.lib.atom :as atom-env :refer [set-grammar]])
-  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]]))
+            [proton.lib.atom :as atom-env :refer [set-grammar]]
+            [proton.lib.helpers :as helpers])
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode register-layer-dependencies]]))
 
 (defn- clojure-mode-init []
  (atom-env/set-grammar "Clojure"))
 
-(defmethod init-layer! :lang/clojure
-  [_ config]
-  (println "init clojure"))
+(register-layer-dependencies :tools/linter [:linter-clojure])
 
-(defmethod get-packages :lang/clojure
-  []
+(defmethod init-layer! :lang/clojure
+  [_ {:keys [config layers]}]
+  (helpers/console! "init" :lang/clojure))
+
+(defmethod get-packages :lang/clojure []
   [:Parinfer])
 
 (defmethod describe-mode :lang/clojure []

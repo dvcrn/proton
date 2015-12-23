@@ -8,8 +8,9 @@
   [["proton.latex.latexmk-provider" :latex]])
 
 (defmethod init-layer! :lang/latex
-  [_ config]
-  (println "init latex")
+  [_ {:keys [config layers]}]
+  (helpers/console! "init" :lang/latex)
+
   (let [config-map (into (hash-map) config)]
     (swap! layer-state assoc :provider (config-map "proton.latex.latexmk-provider"))))
 

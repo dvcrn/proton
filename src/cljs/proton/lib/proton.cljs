@@ -26,7 +26,10 @@
   (reader/read-string (helpers/read-file config-path)))
 
 (defn packages-for-layers [layers]
-  (into [] (distinct (reduce concat (map #(layerbase/get-packages (keyword %)) layers)))))
+  (let [layer-packages (reduce concat (map #(layerbase/get-packages (keyword %)) layers))
+        layer-dependencies (reduce concat (map #(if (contains? @layerbase/layer-dependencies %) (get @layerbase/layer-dependencies %)) layers))]
+
+    (into [] (distinct (concat layer-packages layer-dependencies)))))
 
 (defn keybindings-for-layers [layers]
   (reduce helpers/deep-merge (map #(layerbase/get-keybindings (keyword %)) layers)))
@@ -40,7 +43,7 @@
   (reduce concat (map #(layerbase/get-keymaps (keyword %)) layers)))
 
 (defn init-layers! [layers config]
-  (doall (map #(layerbase/init-layer! (keyword %) config) layers)))
+  (doall (map #(layerbase/init-layer! (keyword %) {:config config :layers layers}) layers)))
 
 (defn init-modes-for-layers [layers]
   (doall
