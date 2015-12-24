@@ -26,7 +26,9 @@
 
 (defmethod get-keymaps :lang/markdown
   []
-  [])
+  [{:selector "atom-workspace atom-text-editor.autocomplete-active:not([mini])[data-grammar~='gfm']"
+    :keymap [["enter" "autocomplete-plus:confirm"]
+             ["tab" "autocomplete-plus:confirm"]]}])
 
 (defmethod describe-mode :lang/markdown
   []
