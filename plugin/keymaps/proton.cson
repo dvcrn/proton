@@ -10,6 +10,12 @@
 'atom-workspace':
   'ctrl-alt-o': 'proton:toggle'
 
+'body atom-text-editor.vim-mode-plus:not(.insert-mode)':
+  'space': 'proton:toggle'
+
+'atom-text-editor.vim-mode:not(.insert-mode)':
+  'space': 'proton:toggle'
+
 'atom-text-editor.proton-mode':
   'a': 'proton:chain'
   'b': 'proton:chain'
