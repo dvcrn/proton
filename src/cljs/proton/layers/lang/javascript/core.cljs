@@ -4,7 +4,7 @@
             [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-packages describe-mode register-layer-dependencies]]))
 
-(def fallback-linter "eslint")
+(def fallback-linter :eslint)
 
 (register-layer-dependencies :tools/linter [:linter-eslint :linter-jshint])
 
@@ -13,8 +13,8 @@
   [["proton.lang.javascript.linter" fallback-linter]])
 
 (defn- toggle-linter [linter]
-  (let [linter (if (nil? (some #{linter} ["eslint" "jshint"])) fallback-linter linter)]
-    (case (keyword linter)
+  (let [linter (if (nil? (some #{linter} [:eslint :jshint])) fallback-linter linter)]
+    (case linter
      :eslint (do
               (package/enable-package "linter-eslint")
               (package/disable-package "linter-jshint" true))
@@ -54,5 +54,5 @@
          :r {:category "rename"
              :v {:action "tern:rename" :target actions/get-active-editor :title "tern rename variable"}}}
      :L {:category "linters"
-          :e {:fx (fn [] (toggle-linter "eslint")) :title "use eslint"}
-          :j {:fx (fn [] (toggle-linter "jshint")) :title "use jshint"}}}})
+          :e {:fx (fn [] (toggle-linter :eslint)) :title "use eslint"}
+          :j {:fx (fn [] (toggle-linter :jshint)) :title "use jshint"}}}})

@@ -21,7 +21,7 @@ For linters support add `:tools/linters`.
 
 Name                            | Default  | Type       | Description
 --------------------------------|----------|------------|-------------------------------
-`proton.lang.javascript.linter` | "eslint" | __string__ | Which linter to use by default
+`proton.lang.javascript.linter` | :eslint | __keyword__ | Which linter to use by default
 
 ### Packages configurations
 
