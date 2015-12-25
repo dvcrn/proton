@@ -21,7 +21,7 @@
 
 (defn is-file? [path]
   (try
-    (.isFile (.lstatSync fs path))
+    (.isFile (.statSync fs path))
     (catch js/Error e
       false)))
 
