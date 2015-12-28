@@ -167,8 +167,10 @@
 
 (defn on-space []
   (reset! current-chain [])
-  (atom-env/update-bottom-panel (helpers/tree->html @command-tree))
+  ;(atom-env/update-bottom-panel (helpers/tree->html @command-tree))
+  (atom-env/update-bottom-panel (helpers/keybindings->html @keymap-manager/proton-keymap @keymap-manager/keymap-category))
   (atom-env/activate-proton-mode!))
+
 
 (defn on-comma []
   (reset! current-chain [])

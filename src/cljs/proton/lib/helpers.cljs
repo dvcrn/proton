@@ -65,11 +65,31 @@
                             (options :title)
                             (options :action)))]
 
-            (str "<li class='flex-item'>[" (name key) "] ➜ " value "</li>")))
+            (str "<li class='flex-item '>[" (name key) "] ➜ " value "</li>")))
       (seq (dissoc tree :category)))
     (string/join " ")
     (conj [])
     (apply #(str "<p>Keybindings:</p><ul class='flex-container'>" % "</ul>"))))
+
+(defn keybinding-row-html [keybinding]
+  (let [options (nth keybinding 1)
+        {:keys [category action title]} options
+        is-category? ((comp not nil?) category)
+        class-name (if is-category? "proton-category" "proton-action")
+        value (if is-category? (str "+" category) (or title action))]
+      (prn options)
+      (str "<li class='flex-item " class-name "'>[" (first keybinding) "] ➜ " value "</li>")))
+
+(defn keybindings->html
+  ([keybindings category]
+   (keybindings->html keybindings category ""))
+  ([keybindings category current-key]
+   (let [keybindings (sort (filter #(= (count (first %)) (inc (count current-key))) (merge keybindings category)))]
+    (->>
+      (map keybinding-row-html keybindings)
+      (string/join " ")
+      (conj [])
+      (apply #(str "<ul class='flex-container'>" % "</ul>"))))))
 
 (defn process->html [steps]
   (let [steps-html (map #(str "<tr><td class='process-step'>" (get % 0) "</td><td class='process-status'>" (get % 1) "</td></tr>") steps)]
