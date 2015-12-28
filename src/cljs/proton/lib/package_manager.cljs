@@ -34,8 +34,8 @@
     (> (count filtered-packages) 0)))
 
 (defn enable-package [package-name]
-  (helpers/console! (str "enabling package " package-name))
-  (.enablePackage packages package-name))
+  (helpers/console! (str "enabling package " (name package-name)))
+  (.enablePackage packages (name package-name)))
 
 (defn disable-package
   ([package-name]

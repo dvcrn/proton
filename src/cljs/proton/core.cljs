@@ -94,17 +94,15 @@
           proton-default proton-config/default]
 
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
-            all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))
-            all-disabled (:ensure-disabled editor-default)]
-
-        (doall (map pm/disable-package (map name all-disabled)))
+            all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))]
 
         ;; Init layers
         (atom-env/insert-process-step! "Initialising layers")
         (proton/init-layers! all-layers all-configuration)
         (atom-env/mark-last-step-as-completed!)
 
-        (let [all-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
+        (let [layer-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
+              all-packages (into [] (distinct (concat layer-packages (:core-packages editor-default))))
               all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
               all-keybindings (helpers/deep-merge (proton/keybindings-for-layers all-layers) keybindings)]
 
@@ -155,6 +153,9 @@
               (do
                 (atom-env/insert-process-step! (str "Removing orphaned packages: None"))
                 (atom-env/mark-last-step-as-completed!))))
+
+          ;; Make sure all collected packages are definitely enabled
+          (doall (map #(pm/enable-package %) layer-packages))
 
           (atom-env/insert-process-step! "All done!" "")
           (proton/init-modes-for-layers all-layers)
