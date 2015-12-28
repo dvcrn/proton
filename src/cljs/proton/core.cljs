@@ -5,6 +5,7 @@
             [proton.lib.package_manager :as pm]
             [proton.lib.proton :as proton]
             [proton.lib.mode :as mode-manager]
+            [proton.lib.keymap :as keymap-manager]
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]
 
@@ -92,7 +93,7 @@
     (let [{:keys [additional-packages layers configuration keybindings keymaps]} (proton/load-config)
           editor-default editor-config/default
           proton-default proton-config/default]
-
+      (keymap-manager/convert-from-hash-map keybindings)
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
             all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))]
 
@@ -160,6 +161,7 @@
           (atom-env/insert-process-step! "All done!" "")
           (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
+          (apply keymap-manager/set-proton-leader-keys (keymap-manager/convert-from-hash-map all-keybindings))
           (let [config-map (into (hash-map) all-configuration)]
             (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout"))))))))
 
@@ -193,6 +195,7 @@
     (.dispose disposable))
   (reset! mode-manager/editors {})
   (reset! mode-manager/modes {})
+  (keymap-manager/cleanup!)
   (atom-env/reset-process-steps!))
 
 (defn serialize [] nil)
