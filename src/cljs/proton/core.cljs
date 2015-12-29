@@ -88,6 +88,7 @@
 
 (defn init []
   (go
+    (proton/init-proton-mode-keymaps!)
     (atom-env/show-modal-panel)
     (atom-env/insert-process-step! "Initialising proton... Just a moment!" "")
     (let [{:keys [additional-packages layers configuration keybindings keymaps]} (proton/load-config)

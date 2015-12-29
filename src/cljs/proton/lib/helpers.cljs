@@ -1,5 +1,5 @@
 (ns proton.lib.helpers
-  (:require [clojure.string :as string :refer [upper-case lower-case]]
+  (:require [clojure.string :as string :refer [split upper-case lower-case]]
             [cljs.nodejs :as node]))
 
 (def fs (node/require "fs"))
@@ -75,16 +75,17 @@
   (let [options (nth keybinding 1)
         {:keys [category action title]} options
         is-category? ((comp not nil?) category)
-        class-name (if is-category? "proton-category" "proton-action")
+        class-name (if is-category? "proton-key-category" "proton-key-action")
         value (if is-category? (str "+" category) (or title action))]
-      (prn options)
-      (str "<li class='flex-item " class-name "'>[" (first keybinding) "] ➜ " value "</li>")))
+      (str "<li class='flex-item'><span class='proton-key'>[" (first keybinding) "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
 
 (defn keybindings->html
   ([keybindings category]
    (keybindings->html keybindings category ""))
-  ([keybindings category current-key]
-   (let [keybindings (sort (filter #(= (count (first %)) (inc (count current-key))) (merge keybindings category)))]
+  ([keybindings category current-keys]
+   (let [all-keymaps (merge keybindings category)
+         current-count (count (string/split current-keys #" "))
+         keybindings (sort (filter #(= (count (string/split (first %) #" ")) (inc current-count)) all-keymaps))]
     (->>
       (map keybinding-row-html keybindings)
       (string/join " ")

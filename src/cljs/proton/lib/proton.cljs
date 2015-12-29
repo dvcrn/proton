@@ -1,6 +1,7 @@
 (ns proton.lib.proton
   (:require [cljs.reader :as reader]
             [cljs.nodejs :as node]
+            [clojure.string :as string :refer [upper-case]]
             [proton.lib.mode :as mode-manager]
             [proton.lib.helpers :as helpers]
             [proton.lib.atom :as atom-env]
@@ -56,3 +57,18 @@
      (mode-manager/activate-mode editor))))
 
 (defn panel-item-subscription [] (.onDidChangeActivePaneItem atom-env/workspace on-active-pane-item))
+
+(defn init-proton-mode-keymaps! []
+  (let [selector "atom-text-editor.proton-mode"
+        command "proton:chain"
+        make-char-fn (comp (partial map char) range)
+        letters (make-char-fn 97 123)
+        numbers (map str (range 0 9))
+        punctuation (flatten (map #(apply make-char-fn %) [[33 47] [59 64] [91 96] [123 126]]))
+        special-chars ["escape" "tab" "backspace" "delete"]
+        all-chars (into [] (concat [] letters (map string/upper-case letters) numbers special-chars punctuation))
+        combo ["ctrl-" "ctrl-alt-" "ctrl-shift-" "ctrl-shift-alt-" "alt-" "alt-shift-"]
+        all-combos (for [x all-chars y combo] (str y x))
+        ret (flatten (concat [] all-chars all-combos))
+        ret-map (reduce #(assoc %1 %2 command) {} (map identity ret))]
+      (atom-env/set-keymap! selector ret-map)))

@@ -1,5 +1,6 @@
 (ns proton.lib.keymap
-  (:require [proton.lib.atom :as atom-env]
+  (:require [clojure.string :as string :refer [join split]]
+            [proton.lib.atom :as atom-env]
             [proton.layers.core.actions :as actions]
             [proton.lib.pane_manager :as panes]))
 
@@ -63,7 +64,7 @@
     (or action target fx title)))
 
 (defn- convert-from-hash-iter [combo keybinding-key hash]
-  (let [combo (str combo (name keybinding-key))
+  (let [combo (string/join " " (conj (string/split combo #" ") (name keybinding-key)))
         current (into (hash-map) hash)]
       (if (is-exec? current)
         {combo current}
