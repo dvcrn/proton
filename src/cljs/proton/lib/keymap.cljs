@@ -1,6 +1,6 @@
 (ns proton.lib.keymap
   (:require [clojure.string :as string :refer [join split]]
-            [proton.lib.atom :as atom-env]
+            [proton.lib.atom :as atom-env :refer [workspace commands views eval-action!]]
             [proton.layers.core.actions :as actions]
             [proton.lib.pane_manager :as panes]))
 
@@ -63,8 +63,13 @@
   (let [{:keys [action target fx title]} hash]
     (or action target fx title)))
 
+(defn- atom-keystroke [character]
+  (if-let [uppercased? (not (empty? (filter #(= character %) (map char (range 65 91)))))]
+    (str "shift-" character)
+    character))
+
 (defn- convert-from-hash-iter [combo keybinding-key hash]
-  (let [combo (string/join " " (conj (string/split combo #" ") (name keybinding-key)))
+  (let [combo (string/join " " (conj (string/split combo #" ") (atom-keystroke (name keybinding-key))))
         current (into (hash-map) hash)]
       (if (is-exec? current)
         {combo current}
@@ -84,3 +89,18 @@
   (reset! proton-keymap {})
   (reset! mode-keymap {})
   (reset! keymap-category {}))
+
+; TODO "m" should be configurable
+(defn find-proton-keybindings [keybinding]
+  (let [is-mode? (= (nth keybinding 0) "m")
+        keymap (merge (if is-mode? @mode-keymap @proton-keymap) @keymap-category)
+        filtered-keymap (filter #(not= -1 (.indexOf (name (first %)) keybinding)) keymap)
+        matched-keybinding (first (filter #(= keybinding (name (first %))) filtered-keymap))]
+      (if ((comp not nil?) matched-keybinding)
+        (if (and ((val matched-keybinding) :catogry) (> 1 (count filtered-keymap)))
+          filtered-keymap
+          (if (not (empty? filtered-keymap))
+            filtered-keymap)))))
+
+(defn exec-binding [keymap-item]
+  (atom-env/eval-action! (val keymap-item)))

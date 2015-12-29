@@ -67,11 +67,9 @@
             (.add classList "vim-mode-plus")
             (hide-bottom-panel)))))
 
-(defn eval-action! [tree sequence]
-  (let [action (get-in tree (conj sequence :action))
-        target (get-in tree (conj sequence :target))
+(defn eval-action! [action-map]
+  (let [{:keys [action target fx]} action-map
         selector (when (string? target) (js/document.querySelector target))
-        fx (get-in tree (conj sequence :fx))
         dom-target (if (nil? target) (.getView views workspace) (or selector (target js/atom)))]
 
     ;; functions always go first

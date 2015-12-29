@@ -10,6 +10,11 @@
 (def char-code-override {189 "_"
                          9 "tab"})
 
+(defn- normalize-key [keystroke]
+  (if (= 0 (.indexOf keystroke "shift-"))
+    (last keystroke)
+    keystroke))
+
 (defn generate-div [text class-name]
   (let [d (.createElement js/document "div")]
     (set! (.-textContent d) text)
@@ -38,6 +43,9 @@
 
 (defn extract-keycode-from-event [event]
   (.. event -originalEvent -keyCode))
+
+(defn extract-keystroke-from-event [event]
+  (.keystrokeForKeyboardEvent js/atom.keymaps (.-originalEvent event)))
 
 (defn is-action? [tree sequence]
   (or
@@ -76,18 +84,18 @@
         {:keys [category action title]} options
         is-category? ((comp not nil?) category)
         class-name (if is-category? "proton-key-category" "proton-key-action")
-        value (if is-category? (str "+" category) (or title action))]
-      (str "<li class='flex-item'><span class='proton-key'>[" (first keybinding) "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
+        value (if is-category? (str "+" category) (or title action))
+        keystroke (last (string/split (first keybinding) #" "))]
+      (str "<li class='flex-item'><span class='proton-key'>[" (normalize-key keystroke) "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
 
 (defn keybindings->html
-  ([keybindings category]
-   (keybindings->html keybindings category ""))
-  ([keybindings category current-keys]
-   (let [all-keymaps (merge keybindings category)
-         current-count (count (string/split current-keys #" "))
-         keybindings (sort (filter #(= (count (string/split (first %) #" ")) (inc current-count)) all-keymaps))]
+  ([keymap]
+   (keybindings->html keymap ""))
+  ([keymap current-keys]
+   (let [next-count (inc (count (string/split current-keys #" ")))
+         filtered-keymap (sort (filter #(= (count (string/split (first %) #" ")) next-count) keymap))]
     (->>
-      (map keybinding-row-html keybindings)
+      (map keybinding-row-html filtered-keymap)
       (string/join " ")
       (conj [])
       (apply #(str "<ul class='flex-container'>" % "</ul>"))))))
