@@ -155,7 +155,7 @@
                 (atom-env/mark-last-step-as-completed!))))
 
           ;; Make sure all collected packages are definitely enabled
-          (doall (map #(pm/enable-package %) layer-packages))
+          (doall (map #(pm/enable-package %) (filter pm/is-package? layer-packages)))
 
           (atom-env/insert-process-step! "All done!" "")
           (proton/init-modes-for-layers all-layers)
