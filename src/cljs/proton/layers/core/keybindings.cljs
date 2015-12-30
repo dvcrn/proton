@@ -54,6 +54,8 @@
                :f {:title "advanced-open-file"
                    :action "advanced-open-file:toggle"}}
           :w {:category "window"
+              :m {:title "close others"
+                  :fx panes/close-other-panes}
               :d {:action "pane:close"
                   :target actions/get-active-pane
                   :title "destroy pane"}

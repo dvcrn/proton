@@ -18,6 +18,15 @@
   (when-not (nil? pane)
     (.activate pane)))
 
+(defn destroy-pane [pane]
+  (when-not (nil? pane)
+    (.destroy pane)))
+
+(defn close-other-panes []
+  (let [panes (get-panes)
+        filtered-panes (filter #(not (.-focused %)) panes)]
+    (doall (map destroy-pane filtered-panes))))
+
 (defn focus-on-item [n]
   (let [panels-left (get-panels "left")
         panels-left-count (count panels-left)
