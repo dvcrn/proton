@@ -1,4 +1,9 @@
 {
+  ;; This is your main proton configuration file
+  ;; While using proton, all atom related configuration has to go inside here
+  ;; Everything that is not set up through this file will get wiped on start
+  ;; We gave you some cool defaults below but if you don't like it, feel free to change :)
+
   ;; Layers you wish to have active
   ;; To get a list of all available layers, check github.com/dvcrn/proton/layers/
   :layers
@@ -43,22 +48,22 @@
     ;; :pigments
   ]
 
-  ;; In a later version, proton will attempt to take over your configuration
-  ;; This will be merged with a default version so use this here to override things
+  ;; Proton takes over your atom configuration. All settings that are not listed here will get wiped
+  ;; Configurations are denoted as 2 element vector consisting of k/v
+  ;; sub-vectors inside v will get treated like javascript arrays
   :configuration
   [
     ;; appearance
     ["editor.fontFamily" "Hack"]
 
-    ;; javascript arrays are denoted as vectors
     ;; to use atoms default theme, change to ["core.themes" ["one-dark-ui" "one-dark-syntax"]]
     ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
 
-    ;; stuff for proton
-    ["proton.core.showTabBar" false]
+    ;; proton configuration
+    ["proton.core.showTabBar" true]
     ["proton.core.relativeLineNumbers" false]
 
-    ;; prefer classic vim mode? Change this to :vim-mode
+    ;; prefer classic vim mode over vim-mode-plus? Change this to :vim-mode
     ["proton.core.vim-provider" :vim-mode-plus]
 
     ;; prefer facebooks nuclide quick open instead of the normal atom one?
@@ -70,10 +75,10 @@
   :keybindings {}
 
   ;; Want some custom behavior inside a certain window?
-  ;; For example you prefer navigating with esc and enter? Add it here.
+  ;; Add your own nifty things here!
   :keymaps [{:selector ".tree-view" :keymap [["escape" "tree-view:toggle"]]}
-            ;; Wanna rebind ESC to something else? You can do that here.
-            ;; If you are good with esc, just remote the following line.
+            ;; Want to rebind ESC to something else? You can do that here.
+            ;; If you are good with esc, just remove the following line.
             {:selector "atom-text-editor.vim-mode-plus.insert-mode" :keymap [["f d" "vim-mode-plus:activate-normal-mode"]]}
             ;; {:selector "atom-text-editor.vim-mode.insert-mode" :keymap [["f d" "vim-mode:activate-normal-mode"]]}
   ]
