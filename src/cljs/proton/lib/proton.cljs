@@ -64,7 +64,7 @@
         make-char-fn (comp (partial map char) range)
         letters (make-char-fn 97 123)
         numbers (map str (range 0 9))
-        punctuation (flatten (map #(apply make-char-fn %) [[33 47] [59 64] [91 96] [123 126]]))
+        punctuation (flatten (map #(apply make-char-fn %) [[33 48] [58 65] [91 97] [123 127]]))
         special-chars ["escape" "tab" "backspace" "delete"]
         all-chars (into [] (concat [] letters (map string/upper-case letters) numbers special-chars punctuation))
         combo ["ctrl-" "ctrl-alt-" "ctrl-shift-" "ctrl-shift-alt-" "alt-" "alt-shift-"]

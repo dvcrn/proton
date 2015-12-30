@@ -41,6 +41,7 @@
               :title "focus left pane"}
           :tab {:action "tab-switcher:next"
                 :title "previous buffer"}
+          (keyword ":") {:action "command-palette:toggle" :title "run command"}
           :f {:category "files"
                :e {:category "editor(atom)"
                    :d {:title "find-dotfile"
