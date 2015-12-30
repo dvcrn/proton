@@ -62,23 +62,6 @@
       (.log js/console s)
       (println s)))))
 
-(defn tree->html [tree]
-  (->>
-    (map (fn [element]
-          (let [key (nth element 0)
-                options (nth element 1)
-                value (if (not (nil? (options :category)))
-                          (options :category)
-                          (if (not (nil? (options :title)))
-                            (options :title)
-                            (options :action)))]
-
-            (str "<li class='flex-item '>[" (name key) "] ➜ " value "</li>")))
-      (seq (dissoc tree :category)))
-    (string/join " ")
-    (conj [])
-    (apply #(str "<p>Keybindings:</p><ul class='flex-container'>" % "</ul>"))))
-
 (defn keybinding-row-html [keybinding]
   (let [options (nth keybinding 1)
         {:keys [category action title]} options

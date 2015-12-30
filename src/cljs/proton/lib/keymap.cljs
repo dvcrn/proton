@@ -4,40 +4,34 @@
             [proton.layers.core.actions :as actions]
             [proton.lib.pane_manager :as panes]))
 
-; todo remove
-(defn select-window-fn [n]
-  (fn []
-    (panes/focus-on-item n)))
+(defonce atom-keymap (atom {}))
+(defonce proton-keymap (atom {}))
+(defonce mode-keymap (atom {}))
+(defonce keymap-category (atom {}))
 
-(def atom-keymap (atom {}))
-(def proton-keymap (atom {}))
-(def mode-keymap (atom {}))
-(def keymap-category (atom {}))
+(defn get-current-editor-mode [] (proton.lib.mode/get-current-editor-mode))
 
-(defn- gen-key [keybinding func])
+; Example usage:
+; (set-proton-keys-for-mode :clojure
+;   "t p" {:action "some-action" :target "target"}
+;   "g shift-D" {:action "some-action2" :target "target2"}
+;   "m g ctrl-alt-d" {:action "some-action3" :target "target3"})"
+(defn set-proton-keys-for-mode [mode-name & args]
+  "Define multiple key bindings associated with mode."
+  {:pre [(even? (count args))]}
+  (let [keybindings-map (reduce #(assoc %1 (key (vec %2)) (val (vec %2))) {} (partition 2 args))]
+    (swap! mode-keymap merge (assoc {} mode-name keybindings-map))))
 
-(defn- gen-category [keybinding category]
-  {keybinding {:name category}})
-
-(defn define-keymap [keymap-type keybinding func]
-  (swap! keymap-type assoc-in (gen-key keybinding func)))
-
-(defn proton-leader-set-key-for-mode [mode keybinding func]
-  (swap! mode-keymap assoc-in [mode] (gen-key keybinding func)))
-
-(defn proton-set-keys [& args]
-  (prn (into (hash-map) (partition 2 args))))
-
-(defn proton-leader-set-mode-keys [mode & args]
-  (prn mode (into (hash-map) (partition 3 args))))
-
-(defn define-category [keybinding category]
-  (swap! keymap-category assoc-in (gen-category keybinding category)))
-
-(defn set-mode-keys [mode-name & body]
-  (partition 2 body))
-
-(defn set-proton-leader-keys [& args]
+; Example usage:
+; (set-proton-leader-keys
+;   "g d" {:action "some-action" :target "target"}
+;   "g shift-D" {:action "some-action2" :target "target2"}
+;   "m g ctrl-alt-d" {:action "some-action3" :target "target3"})"
+(defn set-proton-leader-keys
+  "Define multiple key bindings with associated action for `proton-keymap`.
+  Accept pair `keybinding` `options`."
+  [& args]
+  {:pre [(even? (count args))]}
   (let [keybindings-map (map identity (reduce #(assoc %1 (first %2) (into (hash-map) (rest %2))) {} (partition 2 args)))
         category-filter-fn (fn [v] (contains? (last v) :category))
         category-map (filter category-filter-fn keybindings-map)
@@ -82,6 +76,8 @@
                 (concat keybinding [combo {:category category}])))))))
 
 (defn convert-from-hash-map [hash]
+  "Convert hash-map formated keybindings to appropriate format used to
+  store key bindings in keymaps."
   (flatten (reduce concat (map #(convert-from-hash-iter "" (first %) (rest %)) (map identity hash)))))
 
 (defn cleanup! []
@@ -90,15 +86,30 @@
   (reset! mode-keymap {})
   (reset! keymap-category {}))
 
-; TODO "m" should be configurable
-(defn find-proton-keybindings [keybinding]
-  (let [is-mode? (= (nth keybinding 0) "m")
-        keymap (merge (if is-mode? @mode-keymap @proton-keymap) @keymap-category)
+(defn get-mode-keybindings [mode-name]
+  (get @mode-keymap (keyword mode-name)))
+
+(defn- prepend-keystroke-for-keymap
+  "Adds `keystroke` prefix for each key binding in specified `keymap`."
+  [keystroke keymap]
+  (reduce #(assoc %1 (str keystroke " " (key (vec %2))) (val (vec %2))) {} keymap))
+
+(defn find-proton-keybindings
+  "Find all key bindings in `proton-keymap` and `mode-keymap` associated with 'keybinding'. Keybinding is simple string which contains of atom keystrokes separated by space character, e.g. \"g d\", \"w shift-V\". Returns collection of matched items."
+  [keybinding]
+  (let [current-mode (get-current-editor-mode)
+        mode-prefix-key (name (first proton.core/mode-keys))
+        keymap (merge ((comp (partial prepend-keystroke-for-keymap mode-prefix-key) get-mode-keybindings) current-mode) @proton-keymap @keymap-category)
         filtered-keymap (filter #(not= -1 (.indexOf (name (first %)) keybinding)) keymap)
         matched-keybinding (first (filter #(= keybinding (name (first %))) filtered-keymap))]
+      ;; when nothing found return nil
       (if ((comp not nil?) matched-keybinding)
+        ;; check if matched keybinding is category and it has linked keybindings
         (if (and ((val matched-keybinding) :catogry) (> 1 (count filtered-keymap)))
+          ;; return all filtered items
           filtered-keymap
+          ;; when not category return found items
+          ;; when found single item then this item is action
           (if (not (empty? filtered-keymap))
             filtered-keymap)))))
 

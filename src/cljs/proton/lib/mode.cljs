@@ -1,5 +1,7 @@
 (ns proton.lib.mode
-  (:require [cljs.nodejs :as nodejs]))
+  (:require [cljs.nodejs :as nodejs]
+            [proton.lib.keymap :as km :refer [set-proton-keys-for-mode convert-from-hash-map]]
+            [proton.lib.atom :as atom-env :refer [get-active-editor]]))
 
 (def path (nodejs/require "path"))
 
@@ -7,6 +9,9 @@
 (defonce editors (atom {}))
 
 (defn- find-first [f coll] (first (filter f coll)))
+
+(defn find-editor-by-id [editor-id]
+  (get @editors editor-id))
 
 (defn editor-grammar [editor] (.-name (.getGrammar editor)))
 (defn editor-grammar-scope [editor] (.-scopeName (.getGrammar editor)))
@@ -24,8 +29,15 @@
 
 (defn is-mode-activated? [editor] (get editor :active))
 
-(defn define-mode [name options]
-  (swap! modes assoc-in [name] options))
+(defn get-current-editor-mode []
+  (if-let [active-editor (atom-env/get-active-editor)]
+    (if-let [editor (find-editor-by-id (.-id active-editor))]
+      (editor :mode))))
+
+(defn define-mode [mode-name options]
+  (if-let [mode-keybindings (options :mode-keybindings)]
+    (apply km/set-proton-keys-for-mode mode-name (km/convert-from-hash-map mode-keybindings)))
+  (swap! modes assoc-in [mode-name] (dissoc options :mode-keybindings)))
 
 (defn define-keybindings [name keymap]
   (swap! modes assoc-in [name :mode-keybindings] keymap))
@@ -80,3 +92,7 @@
                                   (swap! editors dissoc (.-id editor))))
           (if-let [init-fn (get-in @modes [mode :init])]
              (init-fn)))))))
+
+(defn cleanup! []
+  (reset! modes {})
+  (reset! editors {}))

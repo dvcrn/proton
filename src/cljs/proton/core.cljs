@@ -54,7 +54,6 @@
 (def subscriptions (new composite-disposable))
 (swap! disposables conj subscriptions)
 
-(defonce command-tree (atom {}))
 (defonce current-chain (atom []))
 
 (def mode-keys [:m (keyword ",")])
@@ -115,7 +114,6 @@
 
           ;; save commands into command tree
           (atom-env/insert-process-step! "Initialising keybinding tree")
-          (reset! command-tree all-keybindings)
           (atom-env/mark-last-step-as-completed!)
 
           ;; set all custom keybindings from layers + user config
@@ -164,15 +162,12 @@
   (atom-env/update-bottom-panel (helpers/keybindings->html (merge @keymap-manager/proton-keymap @keymap-manager/keymap-category)))
   (atom-env/activate-proton-mode!))
 
-
-; TODO fix mode keybindings panel
 (defn on-comma []
   (reset! current-chain [])
-  (if-let [mode-keymap (mode-manager/get-mode-keybindings (atom-env/get-active-editor))]
-   (let [core-mode-key (first mode-keys)]
+  (if-let [mode-keymap (keymap-manager/get-mode-keybindings (keymap-manager/get-current-editor-mode))]
+   (let [core-mode-key (name (first mode-keys))]
     (swap! current-chain conj core-mode-key)
-    (swap! command-tree assoc-in [:m] mode-keymap)
-    (atom-env/update-bottom-panel (helpers/tree->html (get-in @command-tree @current-chain)))
+    (atom-env/update-bottom-panel (helpers/keybindings->html (keymap-manager/find-proton-keybindings core-mode-key) core-mode-key))
     (atom-env/activate-proton-mode!))))
 
 (defn activate [state]
@@ -189,9 +184,8 @@
   (doseq [disposable @disposables]
     (.log js/console disposable)
     (.dispose disposable))
-  (reset! mode-manager/editors {})
-  (reset! mode-manager/modes {})
   (keymap-manager/cleanup!)
+  (mode-manager/cleanup!)
   (atom-env/reset-process-steps!))
 
 (defn serialize [] nil)
