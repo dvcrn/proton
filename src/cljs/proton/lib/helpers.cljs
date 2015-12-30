@@ -10,8 +10,11 @@
 (def char-code-override {189 "_"
                          9 "tab"})
 
-(defn- normalize-key [keystroke]
-  (if (= 0 (.indexOf keystroke "shift-"))
+(defn normalize-keystroke
+  "Remove 'shift-' prefix from keystroke. For uppercase letter atom keystroke will be
+  'shift-<capital_letter>' e.g. :S equal to 'shift-S'."
+  [keystroke]
+  (if (zero? (.indexOf keystroke "shift-"))
     (last keystroke)
     keystroke))
 
@@ -47,11 +50,6 @@
 (defn extract-keystroke-from-event [event]
   (.keystrokeForKeyboardEvent js/atom.keymaps (.-originalEvent event)))
 
-(defn is-action? [tree sequence]
-  (or
-    (not (nil? (get-in tree (conj sequence :fx))))
-    (not (nil? (get-in tree (conj sequence :action))))))
-
 (defn console!
   ([s] (console! s nil))
   ([s key] (console! s key true))
@@ -68,20 +66,16 @@
         is-category? ((comp not nil?) category)
         class-name (if is-category? "proton-key-category" "proton-key-action")
         value (if is-category? (str "+" category) (or title action))
-        keystroke (last (string/split (first keybinding) #" "))]
-      (str "<li class='flex-item'><span class='proton-key'>[" (normalize-key keystroke) "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
+        keystroke (name (key keybinding))]
+      (str "<li class='flex-item'><span class='proton-key'>[" keystroke "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
 
-(defn keybindings->html
-  ([keymap]
-   (keybindings->html keymap ""))
-  ([keymap current-keys]
-   (let [next-count (inc (count (string/split current-keys #" ")))
-         filtered-keymap (sort (filter #(= (count (string/split (first %) #" ")) next-count) keymap))]
-    (->>
-      (map keybinding-row-html filtered-keymap)
-      (string/join " ")
-      (conj [])
-      (apply #(str "<ul class='flex-container'>" % "</ul>"))))))
+(defn tree->html [tree]
+  (->>
+    (sort (seq (dissoc tree :category)))
+    (map keybinding-row-html)
+    (string/join " ")
+    (conj [])
+    (apply #(str "<p>Keybindings:</p><ul class='flex-container'>" % "</ul>"))))
 
 (defn process->html [steps]
   (let [steps-html (map #(str "<tr><td class='process-step'>" (get % 0) "</td><td class='process-status'>" (get % 1) "</td></tr>") steps)]

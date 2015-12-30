@@ -67,9 +67,8 @@
             (.add classList "vim-mode-plus")
             (hide-bottom-panel)))))
 
-(defn eval-action! [action-map]
-  (let [{:keys [action target fx]} action-map
-        selector (when (string? target) (js/document.querySelector target))
+(defn eval-action! [{:keys [action target fx]}]
+  (let [selector (when (string? target) (js/document.querySelector target))
         dom-target (if (nil? target) (.getView views workspace) (or selector (target js/atom)))]
 
     ;; functions always go first

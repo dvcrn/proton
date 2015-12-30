@@ -67,17 +67,17 @@
         (atom-env/deactivate-proton-mode!)
         (do
           ;; append new key to chain
-          (swap! current-chain conj keystroke)
+          (swap! current-chain conj (keyword (helpers/normalize-keystroke keystroke)))
           ;; check if the current character sequence is a action
-          (let [keybinding (string/join " " @current-chain)
-                keymaps (keymap-manager/find-proton-keybindings keybinding)]
+          (let [keymaps (keymap-manager/find-keybindings @current-chain)]
             (if (or (nil? keymaps) (empty? keymaps))
               (atom-env/deactivate-proton-mode!)
-              (if (= (count keymaps) 1)
+              (if (keymap-manager/is-action? keymaps)
                 (do
                   (atom-env/deactivate-proton-mode!)
-                  (keymap-manager/exec-binding (first keymaps)))
-                (atom-env/update-bottom-panel (helpers/keybindings->html keymaps keybinding)))))))))
+                  (reset! current-chain [])
+                  (keymap-manager/exec-binding keymaps))
+                (atom-env/update-bottom-panel (helpers/tree->html keymaps)))))))))
 
 (defn init []
   (go
@@ -153,21 +153,21 @@
           (atom-env/insert-process-step! "All done!" "")
           (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
-          (apply keymap-manager/set-proton-leader-keys (keymap-manager/convert-from-hash-map all-keybindings))
+          (keymap-manager/set-proton-leader-keys all-keybindings)
           (let [config-map (into (hash-map) all-configuration)]
             (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout"))))))))
 
 (defn on-space []
   (reset! current-chain [])
-  (atom-env/update-bottom-panel (helpers/keybindings->html (merge @keymap-manager/proton-keymap @keymap-manager/keymap-category)))
+  (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings [])))
   (atom-env/activate-proton-mode!))
 
 (defn on-comma []
   (reset! current-chain [])
   (if-let [mode-keymap (keymap-manager/get-mode-keybindings (keymap-manager/get-current-editor-mode))]
-   (let [core-mode-key (name (first mode-keys))]
+   (let [core-mode-key (first mode-keys)]
     (swap! current-chain conj core-mode-key)
-    (atom-env/update-bottom-panel (helpers/keybindings->html (keymap-manager/find-proton-keybindings core-mode-key) core-mode-key))
+    (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain)))
     (atom-env/activate-proton-mode!))))
 
 (defn activate [state]

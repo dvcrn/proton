@@ -1,6 +1,6 @@
 (ns proton.lib.mode
   (:require [cljs.nodejs :as nodejs]
-            [proton.lib.keymap :as km :refer [set-proton-keys-for-mode convert-from-hash-map]]
+            [proton.lib.keymap :as km :refer [set-proton-keys-for-mode]]
             [proton.lib.atom :as atom-env :refer [get-active-editor]]))
 
 (def path (nodejs/require "path"))
@@ -36,7 +36,7 @@
 
 (defn define-mode [mode-name options]
   (if-let [mode-keybindings (options :mode-keybindings)]
-    (apply km/set-proton-keys-for-mode mode-name (km/convert-from-hash-map mode-keybindings)))
+    (km/set-proton-keys-for-mode mode-name mode-keybindings))
   (swap! modes assoc-in [mode-name] (dissoc options :mode-keybindings)))
 
 (defn define-keybindings [name keymap]
