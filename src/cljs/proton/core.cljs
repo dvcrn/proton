@@ -5,8 +5,9 @@
             [proton.lib.package_manager :as pm]
             [proton.lib.proton :as proton]
             [proton.lib.mode :as mode-manager]
+            [proton.lib.keymap :as keymap-manager]
             [cljs.nodejs :as node]
-            [clojure.string :as string :refer [lower-case upper-case]]
+            [clojure.string :as string :refer [join lower-case upper-case]]
 
             [proton.layers.base :as layerbase]
             [proton.layers.core.core :as core-layer]
@@ -53,7 +54,6 @@
 (def subscriptions (new composite-disposable))
 (swap! disposables conj subscriptions)
 
-(defonce command-tree (atom {}))
 (defonce current-chain (atom []))
 
 (def mode-keys [:m (keyword ",")])
@@ -61,38 +61,32 @@
   (not (nil? (some #{(first chain-key)} mode-keys))))
 
 (defn chain [e]
-  (let [key-code (helpers/extract-keycode-from-event e)
-        letter (helpers/extract-keyletter-from-event e)]
-
+  (let [keystroke (helpers/extract-keystroke-from-event e)]
       ;; check for ESC key
-      (if (= key-code 27)
+      (if (= keystroke "escape")
         (atom-env/deactivate-proton-mode!)
         (do
           ;; append new key to chain
-          (swap! current-chain conj letter)
+          (swap! current-chain conj (keyword (helpers/normalize-keystroke keystroke)))
           ;; check if the current character sequence is a action
-          (if (helpers/is-action? @command-tree @current-chain)
-            (atom-env/eval-action! @command-tree @current-chain)
-            ;; if not, continue chaining
-            (let [extracted-chain (get-in @command-tree @current-chain)]
-              (cond (nil? extracted-chain) (atom-env/deactivate-proton-mode!)
-                    (is-mode-key? @current-chain)
-                    (do
-                      (if-let [mode-keymap (mode-manager/get-mode-keybindings (atom-env/get-active-editor))]
-                        (do
-                          (swap! command-tree assoc-in [:m] mode-keymap)
-                          (atom-env/update-bottom-panel (helpers/tree->html (get-in @command-tree @current-chain))))
-                        (atom-env/deactivate-proton-mode!)))
-                    :else (atom-env/update-bottom-panel (helpers/tree->html extracted-chain)))))))))
+          (let [keymaps (keymap-manager/find-keybindings @current-chain)]
+            (if (or (nil? keymaps) (empty? keymaps))
+              (atom-env/deactivate-proton-mode!)
+              (if (keymap-manager/is-action? keymaps)
+                (do
+                  (atom-env/deactivate-proton-mode!)
+                  (reset! current-chain [])
+                  (keymap-manager/exec-binding keymaps))
+                (atom-env/update-bottom-panel (helpers/tree->html keymaps)))))))))
 
 (defn init []
   (go
+    (proton/init-proton-mode-keymaps!)
     (atom-env/show-modal-panel)
     (atom-env/insert-process-step! "Initialising proton... Just a moment!" "")
     (let [{:keys [additional-packages layers configuration keybindings keymaps]} (proton/load-config)
           editor-default editor-config/default
           proton-default proton-config/default]
-
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
             all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))]
 
@@ -120,7 +114,6 @@
 
           ;; save commands into command tree
           (atom-env/insert-process-step! "Initialising keybinding tree")
-          (reset! command-tree all-keybindings)
           (atom-env/mark-last-step-as-completed!)
 
           ;; set all custom keybindings from layers + user config
@@ -160,21 +153,21 @@
           (atom-env/insert-process-step! "All done!" "")
           (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
+          (keymap-manager/set-proton-leader-keys all-keybindings)
           (let [config-map (into (hash-map) all-configuration)]
             (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout"))))))))
 
 (defn on-space []
   (reset! current-chain [])
-  (atom-env/update-bottom-panel (helpers/tree->html @command-tree))
+  (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings [])))
   (atom-env/activate-proton-mode!))
 
 (defn on-comma []
   (reset! current-chain [])
-  (if-let [mode-keymap (mode-manager/get-mode-keybindings (atom-env/get-active-editor))]
+  (if-let [mode-keymap (keymap-manager/get-mode-keybindings (keymap-manager/get-current-editor-mode))]
    (let [core-mode-key (first mode-keys)]
     (swap! current-chain conj core-mode-key)
-    (swap! command-tree assoc-in [:m] mode-keymap)
-    (atom-env/update-bottom-panel (helpers/tree->html (get-in @command-tree @current-chain)))
+    (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain)))
     (atom-env/activate-proton-mode!))))
 
 (defn activate [state]
@@ -191,8 +184,8 @@
   (doseq [disposable @disposables]
     (.log js/console disposable)
     (.dispose disposable))
-  (reset! mode-manager/editors {})
-  (reset! mode-manager/modes {})
+  (keymap-manager/cleanup!)
+  (mode-manager/cleanup!)
   (atom-env/reset-process-steps!))
 
 (defn serialize [] nil)

@@ -1,6 +1,7 @@
 (ns proton.layers.core.keybindings
   (:require [proton.layers.core.actions :as actions :refer [state]]
             [proton.lib.pane_manager :as panes]
+            [proton.lib.package_manager :as pm :refer [force-reload-package]]
             [proton.lib.proton :as proton]))
 
 (defn select-window-fn [n]
@@ -40,6 +41,7 @@
               :title "focus left pane"}
           :tab {:action "tab-switcher:next"
                 :title "previous buffer"}
+          (keyword ":") {:action "command-palette:toggle" :title "run command"}
           :f {:category "files"
                :e {:category "editor(atom)"
                    :d {:title "find-dotfile"
@@ -129,4 +131,6 @@
               :R {:title "reload-editor"
                   :action "window:reload" :dom-target "body"}
               :c {:title "dev-tools"
-                  :action "window:toggle-dev-tools"}}}))
+                  :action "window:toggle-dev-tools"}
+              :r {:title "reload-proton"
+                  :fx (fn [] (pm/force-reload-package "proton-mode"))}}}))

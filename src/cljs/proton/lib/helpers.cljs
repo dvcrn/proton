@@ -1,5 +1,5 @@
 (ns proton.lib.helpers
-  (:require [clojure.string :as string :refer [upper-case lower-case]]
+  (:require [clojure.string :as string :refer [split upper-case lower-case]]
             [cljs.nodejs :as node]))
 
 (def fs (node/require "fs"))
@@ -9,6 +9,14 @@
 ;; seperate map with overrides. 189 (underscore) kept getting resolved as '½' which we don't want.
 (def char-code-override {189 "_"
                          9 "tab"})
+
+(defn normalize-keystroke
+  "Remove 'shift-' prefix from keystroke. For uppercase letter atom keystroke will be
+  'shift-<capital_letter>' e.g. :S equal to 'shift-S'."
+  [keystroke]
+  (if (zero? (.indexOf keystroke "shift-"))
+    (last keystroke)
+    keystroke))
 
 (defn generate-div [text class-name]
   (let [d (.createElement js/document "div")]
@@ -39,10 +47,8 @@
 (defn extract-keycode-from-event [event]
   (.. event -originalEvent -keyCode))
 
-(defn is-action? [tree sequence]
-  (or
-    (not (nil? (get-in tree (conj sequence :fx))))
-    (not (nil? (get-in tree (conj sequence :action))))))
+(defn extract-keystroke-from-event [event]
+  (.keystrokeForKeyboardEvent js/atom.keymaps (.-originalEvent event)))
 
 (defn console!
   ([s] (console! s nil))
@@ -54,19 +60,19 @@
       (.log js/console s)
       (println s)))))
 
+(defn keybinding-row-html [keybinding]
+  (let [options (nth keybinding 1)
+        {:keys [category action title]} options
+        is-category? ((comp not nil?) category)
+        class-name (if is-category? "proton-key-category" "proton-key-action")
+        value (if is-category? (str "+" category) (or title action))
+        keystroke (name (key keybinding))]
+      (str "<li class='flex-item'><span class='proton-key'>[" keystroke "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
+
 (defn tree->html [tree]
   (->>
-    (map (fn [element]
-          (let [key (nth element 0)
-                options (nth element 1)
-                value (if (not (nil? (options :category)))
-                          (options :category)
-                          (if (not (nil? (options :title)))
-                            (options :title)
-                            (options :action)))]
-
-            (str "<li class='flex-item'>[" (name key) "] ➜ " value "</li>")))
-      (seq (dissoc tree :category)))
+    (sort (seq (dissoc tree :category)))
+    (map keybinding-row-html)
     (string/join " ")
     (conj [])
     (apply #(str "<p>Keybindings:</p><ul class='flex-container'>" % "</ul>"))))
