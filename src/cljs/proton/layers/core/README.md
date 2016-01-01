@@ -47,6 +47,7 @@ Key Binding          | Description
 <kbd> SPC w h </kbd> | Split horizontally
 <kbd> SPC w V </kbd> | Split vertically and focus left
 <kbd> SPC w H </kbd> | Split horizontally and focus up
+<kbd> SPC w m </kbd> | Destroy all other panes (maximise current pane)
 
 #### Buffer
 
