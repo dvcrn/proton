@@ -35,7 +35,7 @@ Check out [all available layers here][4].
 Proton *(name subject to change)* is still in a very early stage. It's pretty usable but keep that in mind before installing.
 
 #### Pre-warning
-Proton tries to be your unified configuration system. Please use a fresh atom installation or backup your existing config as proton will very likely __wipe your settings and packages__. Alternatively make sure your `~/proton` file contains your current configuration. The template you can copy is available [here](https://github.com/dvcrn/proton/blob/master/templates/proton.edn)
+Proton tries to be your unified configuration system. Please use a fresh atom installation or backup your existing config as proton will very likely __wipe your settings and packages__. Alternatively make sure your `~/proton` file contains your current configuration. The template you can copy is available [here](https://github.com/dvcrn/proton/blob/master/plugin/templates/proton.edn)
 
 #### Going full proton
 
