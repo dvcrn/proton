@@ -25,6 +25,7 @@
    ["proton.core.quickOpenProvider" :normal]
    ["proton.core.post-init-timeout" 3000]
    ["proton.core.vim-provider" :vim-mode-plus]
+
    ;; vim-mode
    ["vim-mode-plus.useSmartcaseForSearch" true]
    ["vim-mode-plus.incrementalSearch" true]
@@ -43,7 +44,9 @@
    ["atom-material-ui.panels.panelContrast" true]
 
    ["editor.softWrap" true]
-   ["editor.fontFamily" "Hack"]])
+   ["editor.fontFamily" "Hack"]
+
+   ["autoupdate-packages.handling" "Update automatically and silently"]])
 
 (defmethod init-layer! :core
   [_ {:keys [config layers]}]

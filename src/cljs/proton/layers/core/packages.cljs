@@ -9,6 +9,7 @@
      :relative-numbers
      :tab-switcher
      :recent-files-fuzzy-finder
+     :autoupdate-packages
 
      :hyperclick
      :nuclide-file-watcher
