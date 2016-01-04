@@ -5,10 +5,11 @@
             [proton.lib.mode :as mode-manager]
             [proton.lib.helpers :as helpers]
             [proton.lib.atom :as atom-env]
-            [proton.layers.base :as layerbase]))
+            [proton.layers.base :as layerbase]
+            [proton.config.proton :as config]))
 
 (def path (node/require "path"))
-(def config-path (.normalize path (str helpers/user-home-dir "/.proton")))
+(def config-path (config/default :config-path))
 
 (defn get-config-template-path []
   (.resolve path (str js/__dirname "/../templates/proton.edn")))

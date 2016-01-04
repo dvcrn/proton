@@ -1,10 +1,10 @@
 (ns proton.lib.helpers
   (:require [clojure.string :as string :refer [split upper-case lower-case]]
-            [cljs.nodejs :as node]))
+            [cljs.nodejs :as node]
+            [proton.config.proton :as config]))
 
 (def fs (node/require "fs"))
 (def path (node/require "path"))
-(def user-home-dir (.normalize path (if (= (.-platform js/process) "win32") (.. js/process -env -USERPROFILE) (.. js/process -env -HOME))))
 
 ;; seperate map with overrides. 189 (underscore) kept getting resolved as '½' which we don't want.
 (def char-code-override {189 "_"
@@ -56,9 +56,10 @@
   ([s key js-print]
    (let [k (if (nil? key) "proton" (str "proton:" key))
          s (str "["k"] " s)]
-    (if js-print
-      (.log js/console s)
-      (println s)))))
+    (if (config/default :debug)
+      (if js-print
+        (.log js/console s)
+        (println s))))))
 
 (defn keybinding-row-html [keybinding]
   (let [options (nth keybinding 1)

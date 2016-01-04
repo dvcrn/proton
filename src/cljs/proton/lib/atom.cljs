@@ -1,5 +1,5 @@
 (ns proton.lib.atom
-  (:require [proton.lib.helpers :refer [generate-div process->html deep-merge]]
+  (:require [proton.lib.helpers :refer [generate-div process->html deep-merge console!]]
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]))
 
@@ -46,7 +46,7 @@
   (amend-last-step! (str (get (last @steps) 0)) "[ok]"))
 
 (defn activate-proton-mode! []
-  (.log js/console "[proton] Proton Chain activated!")
+  (console! "Chain activated!")
   (let [editors (.getTextEditors workspace)]
       (doseq [editor editors]
         (let [view (.getView views editor)
@@ -57,7 +57,7 @@
             (show-bottom-panel)))))
 
 (defn deactivate-proton-mode! []
-  (.log js/console "[proton] Proton Chain deactivated!")
+  (console! "Chain deactivated!")
   (let [editors (.getTextEditors workspace)]
       (doseq [editor editors]
         (let [view (.getView views editor)
@@ -75,8 +75,7 @@
     (if (not (nil? fx))
       (fx)
       (do
-        (.log js/console (str "[proton] Dispatching " action " to "))
-        (.log js/console dom-target)
+        (console! (str "Dispatching: " action))
         (.dispatch commands dom-target action)))
     (deactivate-proton-mode!)))
 
@@ -97,7 +96,7 @@
     @parsed-config))
 
 (defn set-config! [selector value]
-  (.log js/console (str "[proton] Setting " selector " to " (clj->js value)))
+  (console! (str "Setting " selector " to " (clj->js value)))
   (.set config selector (clj->js value)))
 
 (defn add-to-config! [selector value]
