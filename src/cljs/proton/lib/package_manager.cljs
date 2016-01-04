@@ -21,10 +21,12 @@
     (not (= -1 (.indexOf pkgs package-name)))))
 
 (defn is-theme? [package-name]
-  (.isTheme (.getLoadedPackage packages (name package-name))))
+  (when (is-installed? package-name)
+    (.isTheme (.getLoadedPackage packages (name package-name)))))
 
 (defn is-package? [package-name]
-  ((comp not is-theme?) package-name))
+  (when (is-installed? package-name)
+    ((comp not is-theme?) package-name)))
 
 (defn get-to-remove [all-packages]
   (let [pkgs (set all-packages)]
