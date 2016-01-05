@@ -1,11 +1,13 @@
 (ns proton.lib.keymap
+  #_(:require [proton.core]
+              [proton.lib.mode])
   (:require [proton.lib.atom :as atom-env :refer [workspace commands views eval-action!]]))
 
 (defonce atom-keymap (atom {}))
 (defonce proton-keymap (atom {}))
 (defonce mode-keymap (atom {}))
 
-(defn get-current-editor-mode [] (proton.lib.mode/get-current-editor-mode))
+(def get-current-editor-mode #(proton.lib.mode.get-current-editor-mode))
 
 (defn set-proton-keys-for-mode
   "Define multiple key bindings associated with mode."
@@ -31,7 +33,7 @@
 
 (defn find-keybindings [ks]
   (let [current-mode (get-current-editor-mode)
-        mode-prefix-key (keyword (first proton.core/mode-keys))
+        mode-prefix-key (keyword (first proton.core.mode-keys))
         mode-keymap {mode-prefix-key (conj (get @proton-keymap mode-prefix-key) (get-mode-keybindings current-mode))}
         keymap (merge @proton-keymap mode-keymap)]
       (get-in keymap ks)))
