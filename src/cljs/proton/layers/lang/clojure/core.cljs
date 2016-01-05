@@ -7,11 +7,10 @@
 (defn- clojure-mode-init []
  (atom-env/set-grammar "Clojure"))
 
-(register-layer-dependencies :tools/linter [:linter-clojure])
-
 (defmethod init-layer! :lang/clojure
   [_ {:keys [config layers]}]
-  (helpers/console! "init" :lang/clojure))
+  (helpers/console! "init" :lang/clojure)
+  (register-layer-dependencies :tools/linter [:linter-clojure]))
 
 (defmethod get-packages :lang/clojure []
   [:Parinfer])

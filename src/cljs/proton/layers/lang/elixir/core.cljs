@@ -3,11 +3,10 @@
             [proton.lib.atom :as atom-env :refer [set-grammar]])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode register-layer-dependencies]]))
 
-(register-layer-dependencies :tools/linter [:linter-elixirc])
-
 (defmethod init-layer! :lang/elixir
   [_ {:keys [config layers]}]
-  (helpers/console! "init" :lang/elixir))
+  (helpers/console! "init" :lang/elixir)
+  (register-layer-dependencies :tools/linter [:linter-elixirc]))
 
 (defn- elixir-mode-init []
  (atom-env/set-grammar "Elixir"))

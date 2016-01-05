@@ -2,11 +2,10 @@
   (:require [proton.lib.helpers :as helpers])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode register-layer-dependencies]]))
 
-(register-layer-dependencies :tools/linter [:linter-pep8])
-
 (defmethod init-layer! :lang/python
   [_ {:keys [config layers]}]
-  (helpers/console! "init" :lang/python))
+  (helpers/console! "init" :lang/python)
+  (register-layer-dependencies :tools/linter [:linter-pep8]))
 
 (defmethod get-packages :lang/python []
   [:autocomplete-python

@@ -6,8 +6,6 @@
 
 (def fallback-linter :eslint)
 
-(register-layer-dependencies :tools/linter [:linter-eslint :linter-jshint])
-
 (defmethod get-initial-config :lang/javascript
   []
   [["proton.lang.javascript.linter" fallback-linter]])
@@ -26,7 +24,9 @@
   [_ {:keys [config layers]}]
   (let [config-map (into (hash-map) config)]
     (toggle-linter (config-map "proton.lang.javascript.linter")))
-  (helpers/console! "init" :lang/javascript))
+
+  (helpers/console! "init" :lang/javascript)
+  (register-layer-dependencies :tools/linter [:linter-eslint :linter-jshint]))
 
 (defmethod get-packages :lang/javascript
   []
