@@ -91,7 +91,6 @@
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
             all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))]
 
-        ;; Init layers
         (atom-env/insert-process-step! "Initialising layers")
         (proton/init-layers! all-layers all-configuration)
         (atom-env/mark-last-step-as-completed!)
@@ -155,6 +154,7 @@
           (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
           (keymap-manager/set-proton-leader-keys all-keybindings)
+          (proton/init-proton-leader-keys! all-configuration)
           (let [config-map (into (hash-map) all-configuration)]
             (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout"))))))))
 
@@ -163,7 +163,7 @@
   (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings [])))
   (atom-env/activate-proton-mode!))
 
-(defn on-comma []
+(defn on-mode-key []
   (reset! current-chain [])
   (if-let [mode-keymap (keymap-manager/get-mode-keybindings (keymap-manager/get-current-editor-mode))]
    (let [core-mode-key (first mode-keys)]
@@ -171,14 +171,26 @@
     (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain)))
     (atom-env/activate-proton-mode!))))
 
+(defn toggle [e]
+  (if (helpers/is-proton-target? e)
+    (if (atom-env/is-proton-mode-active?)
+      (atom-env/deactivate-proton-mode!)
+      (on-space))
+    (.abortKeyBinding e)))
+
+(defn toggle-mode [e]
+  (if (helpers/is-proton-target? e)
+    (if (atom-env/is-proton-mode-active?)
+      (atom-env/deactivate-proton-mode!)
+      (on-mode-key))
+    (.abortKeyBinding e)))
+
 (defn activate [state]
   (.setTimeout js/window #(init) 2000)
-  (let [disposable (.onDidMatchBinding keymaps #(if (= "space" (.-keystrokes %)) (on-space)))]
-    (swap! disposables conj disposable))
-  (let [disposable (.onDidMatchBinding keymaps #(if (= "," (.-keystrokes %)) (on-comma)))]
-    (swap! disposables conj disposable))
   (swap! disposables conj (proton/panel-item-subscription))
-  (.add subscriptions (.add commands "atom-text-editor.proton-mode" "proton:chain" chain)))
+  (.add subscriptions (.add commands "atom-workspace.proton-mode" "proton:chain" chain))
+  (.add subscriptions (.add commands "atom-workspace" "proton:toggle" toggle))
+  (.add subscriptions (.add commands "atom-workspace" "proton:toggleMode" toggle-mode)))
 
 (defn deactivate []
   (.log js/console "deactivating...")
@@ -187,10 +199,11 @@
     (.dispose disposable))
   (keymap-manager/cleanup!)
   (mode-manager/cleanup!)
+  ;; wipe custom keybindings
+  (atom-env/clear-keymap!)
   (atom-env/reset-process-steps!))
 
 (defn serialize [] nil)
-
 
 ;; live-reload
 ;; calls stop before hotswapping code

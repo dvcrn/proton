@@ -11,6 +11,8 @@
         {:activate 'proton.core/activate
          :serialize 'proton.core/serialize
          :deactivate 'proton.core/deactivate
+         :toggle 'proton.core/toggle
+         :toggleMode 'proton.core/toggle-mode
          :chain 'proton.core/chain}
         {:output-to "plugin/lib/proton.js"})))
 

@@ -1,7 +1,8 @@
 (ns proton.lib.proton
+  #_(:require [proton.core])
   (:require [cljs.reader :as reader]
             [cljs.nodejs :as node]
-            [clojure.string :as string :refer [upper-case]]
+            [clojure.string :as string :refer [upper-case join]]
             [proton.lib.mode :as mode-manager]
             [proton.lib.helpers :as helpers]
             [proton.lib.atom :as atom-env]
@@ -60,7 +61,13 @@
 (defn panel-item-subscription [] (.onDidChangeActivePaneItem atom-env/workspace on-active-pane-item))
 
 (defn init-proton-mode-keymaps! []
-  (let [selector "atom-text-editor.proton-mode"
+  (let [selectors ["body atom-workspace.proton-mode atom-text-editor:not([mini])"
+                   "body atom-workspace.proton-mode atom-panel-container.right"
+                   "body atom-workspace.proton-mode atom-panel-container.right atom-panel.right.tool-panel"
+                   "body atom-workspace.proton-mode atom-panel-container.left"
+                   "body atom-workspace.proton-mode atom-panel-container.left atom-panel.left.tool-panel"
+                   "body atom-workspace.proton-mode"]
+        selector (string/join ", " selectors)
         command "proton:chain"
         make-char-fn (comp (partial map char) range)
         letters (make-char-fn 97 123)
@@ -72,4 +79,19 @@
         all-combos (for [x all-chars y combo] (str y x))
         ret (flatten (concat [] all-chars all-combos))
         ret-map (reduce #(assoc %1 %2 command) {} (map identity ret))]
-      (atom-env/set-keymap! selector ret-map)))
+      (atom-env/set-keymap! selector ret-map 100)))
+
+(defn init-proton-leader-keys! [configs]
+  (let [config-map (into (hash-map) configs)
+        selectors ["body atom-workspace:not(.proton-mode) atom-text-editor:not([mini]):not(.insert-mode)"
+                   "body atom-workspace:not(.proton-mode) atom-panel-container.left"
+                   "body atom-workspace:not(.proton-mode) atom-panel-container.right"
+                   "body atom-workspace:not(.proton-mode) atom-panel-container.bottom"
+                   "atom-workspace:not(.proton-mode)"]
+        selector (string/join ", " selectors)
+        leader-command "proton:toggle"
+        proton-leader-key "space"
+        proton-mode-key (name (nth proton.core/mode-keys 1))
+        mode-command "proton:toggleMode"
+        keymap (hash-map proton-leader-key leader-command proton-mode-key mode-command)]
+    (atom-env/set-keymap! selector keymap 100)))
