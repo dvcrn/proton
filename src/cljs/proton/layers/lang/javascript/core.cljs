@@ -15,10 +15,10 @@
     (case linter
      :eslint (do
               (package/enable-package "linter-eslint")
-              (package/disable-package "linter-jshint" true))
+              (package/disable-package "linter-jshint"))
      :jshint (do
               (package/enable-package "linter-jshint")
-              (package/disable-package "linter-eslint" true)))))
+              (package/disable-package "linter-eslint")))))
 
 (defmethod init-layer! :lang/javascript
   [_ {:keys [config layers]}]

@@ -8,76 +8,62 @@
 (def sys (node/require "sys"))
 (def child-process (node/require "child_process"))
 
-(def packages (.-packages js/atom))
+(defonce packages (atom {}))
 
-(defn get-apm-path []
-  (.getApmPath packages))
+(defn cleanup! []
+  (reset! packages {}))
 
-(defn get-all-packages []
-  (.getAvailablePackageNames packages))
+(defn register-packages [package-names]
+  (let [packages-map (reduce #(assoc-in %1 [%2] {:atom-disabled (atom/is-package-disabled? (name %2))}) {} package-names)]
+    (swap! packages #(helpers/deep-merge packages-map %))))
 
-(defn is-installed? [package-name]
-  (let [pkgs (get-all-packages)]
-    (not (= -1 (.indexOf pkgs package-name)))))
+(defn set-installed! [package-name]
+  (swap! packages assoc-in [(keyword package-name) :atom-disabled] false))
 
-(defn is-theme? [package-name]
-  (when (is-installed? package-name)
-    (.isTheme (.getLoadedPackage packages (name package-name)))))
+(defn unset-package! [package-name]
+  (swap! packages dissoc (keyword package-name)))
 
-(defn is-package? [package-name]
-  (when (is-installed? package-name)
-    ((comp not is-theme?) package-name)))
+(defn enable-package [package-name]
+  (when (atom/is-package-disabled? (name package-name))
+    (do
+      (atom/enable-package (name package-name))))
+  (swap! packages update-in [(keyword package-name)] assoc :atom-disabled false :proton-disabled false))
+
+(defn disable-package [package-name]
+  (when-not (atom/is-package-disabled? (name package-name))
+    (atom/disable-package (name package-name)))
+  (swap! packages update-in [(keyword package-name)] assoc :atom-disabled true :proton-disabled true))
 
 (defn get-to-remove [all-packages]
   (let [pkgs (set all-packages)]
-    (filter #(if (not (contains? pkgs %)) %) (into [] (map keyword (get-all-packages))))))
+    (filter #(if (not (contains? pkgs %)) %) (into [] (map keyword (atom/get-all-packages))))))
 
 (defn get-to-install [all-packages]
-  (let [pkgs (set (into [] (map keyword (get-all-packages))))]
+  (let [pkgs (set (into [] (map keyword (atom/get-all-packages))))]
     (filter #(if (not (contains? pkgs %)) %) all-packages)))
 
-(defn is-activated? [package-name]
-  (let [package-names (->> (.getActivePackages packages) js->clj (map #(.-name %)))
-        filtered-packages (filter #(= package-name %) package-names)]
-    (> (count filtered-packages) 0)))
-
-(defn enable-package [package-name]
-  (helpers/console! (str "enabling package " (name package-name)))
-  (.enablePackage packages (name package-name)))
-
-(defn disable-package
-  ([package-name]
-   (disable-package package-name false))
-
-  ([package-name force]
-   (if (or (is-activated? package-name) force)
-       (do
-         (helpers/console! (str "disabling package " package-name))
-         (.disablePackage packages package-name)))))
-
-(defn reload-package [package-name]
-  (disable-package package-name)
-  (enable-package package-name))
-
-(defn force-reload-package [package-name]
-  (disable-package package-name true)
-  (enable-package package-name))
+(defn activate-packages! []
+  (let [enabled-packages (filter #(not ((val %) :proton-disabled)) @packages)
+        disabled-packages (filter #(= true ((val %) :proton-disabled)) @packages)]
+    (doall (map #(enable-package (key %)) enabled-packages))
+    (doall (map #(disable-package (key %)) disabled-packages))))
 
 (defn install-package [package-name]
   (helpers/console! (str "Installing: " package-name))
   (let [c (chan)]
     (go
-      (if (is-installed? package-name)
+      (if (atom/is-installed? package-name)
         (do
           (>! c true)
           (close! c))
-        (.exec child-process (str (get-apm-path) " install " package-name " --no-colors")
+        (.exec child-process (str (atom/get-apm-path) " install " package-name " --no-colors")
           (fn [err stdout stderr]
             (if (nil? err)
               ;; Disable and enable here to force Atom to reload the packages
               ;; We are doing this with a 1s delay to give Atom some time to find the new package
               (.setTimeout js/window #(do
-                                        (force-reload-package package-name)
+                                        (atom/force-reload-package package-name)
+                                        (set-installed! package-name)
                                         (helpers/console! (str "done: " package-name))
                                         (go (>! c true))
                                         (close! c))
@@ -93,17 +79,18 @@
   (helpers/console! (str "Removing: " package-name))
   (let [c (chan)]
     (go
-      (if (not (is-installed? package-name))
+      (if (not (atom/is-installed? package-name))
         (do
           (>! c true)
           (close! c))
         (do
           ;; disable the package first to make sure no errors pop up on the way
-          (disable-package package-name)
-          (.exec child-process (str (get-apm-path) " uninstall " package-name " --no-colors")
+          (atom/disable-package package-name)
+          (.exec child-process (str (atom/get-apm-path) " uninstall " package-name " --hard --no-colors")
             (fn [err stdout stderr]
               (if (nil? err)
                 (do
+                  (unset-package! package-name)
                   (go (>! c true))
                   (close! c))
                 (do
