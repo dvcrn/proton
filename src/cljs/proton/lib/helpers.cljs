@@ -1,6 +1,7 @@
 (ns proton.lib.helpers
   (:require [clojure.string :as string :refer [split upper-case lower-case]]
             [cljs.nodejs :as node]
+            [clojure.set :as cljset]
             [proton.config.proton :as config]))
 
 (def fs (node/require "fs"))
@@ -102,3 +103,22 @@
   (if (every? map? vs)
     (apply merge-with (partial deep-merge-with f) vs)
     (apply f vs)))
+
+
+(defn is-proton-target? [e]
+  (let [target (.-target e)
+        tag-name (string/lower-case (.-tagName target))
+        class-list (set (array-seq (.-classList target)))
+        ignored-tags #{"input" "textarea"}
+        tag-ok? (nil? (some #{tag-name} ignored-tags))
+        ignored-attrs ["mini"]
+        ignored-attrs-ok? (empty? (filter (comp not nil?) (map #(.getNamedItem (.-attributes target) %) ignored-attrs)))
+        ignored-editor-classes #{"insert-mode" "mini"}
+        ignored-editor-class-ok? (empty? (cljset/intersection class-list ignored-editor-classes))
+        required-editor-classes #{"vim-mode" "vim-mode-plus"}
+        required-editor-class-ok? (not (empty? (cljset/intersection class-list required-editor-classes)))]
+    (if tag-ok?
+      (if (= tag-name "atom-text-editor")
+        (and required-editor-class-ok? ignored-attrs-ok? ignored-editor-class-ok?)
+        true)
+      false)))

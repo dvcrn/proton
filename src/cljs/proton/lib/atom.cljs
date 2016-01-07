@@ -9,6 +9,7 @@
 (def views (.-views js/atom))
 (def config (.-config js/atom))
 (def grammars (.-grammars (.-grammars js/atom)))
+(def workspace-view (.getView views workspace))
 
 (def element (atom (generate-div "test" "proton-which-key")))
 (def bottom-panel (atom (.addBottomPanel workspace
@@ -47,25 +48,19 @@
 
 (defn activate-proton-mode! []
   (console! "Chain activated!")
-  (let [editors (.getTextEditors workspace)]
-      (doseq [editor editors]
-        (let [view (.getView views editor)
-              classList (.-classList view)]
-            (.remove classList "vim-mode")
-            (.remove classList "vim-mode-plus")
-            (.add classList "proton-mode")
-            (show-bottom-panel)))))
+  (let [classList (.-classList workspace-view)]
+    (.add classList "proton-mode")
+    (show-bottom-panel)))
 
 (defn deactivate-proton-mode! []
   (console! "Chain deactivated!")
-  (let [editors (.getTextEditors workspace)]
-      (doseq [editor editors]
-        (let [view (.getView views editor)
-              classList (.-classList view)]
-            (.remove classList "proton-mode")
-            (.add classList "vim-mode")
-            (.add classList "vim-mode-plus")
-            (hide-bottom-panel)))))
+  (let [classList (.-classList workspace-view)]
+    (.remove classList "proton-mode")
+    (hide-bottom-panel)))
+
+(defn is-proton-mode-active? []
+  (let [classList (array-seq (.-classList workspace-view))]
+    (not (nil? (some #{"proton-mode"} classList)))))
 
 (defn eval-action! [{:keys [action target fx]}]
   (let [selector (when (string? target) (js/document.querySelector target))
@@ -111,10 +106,16 @@
 (defn unset-config! [selector]
   (.unset config selector))
 
-(defn set-keymap! [selector bindings]
-  (let [binding-map (reduce deep-merge (map #(hash-map (get % 0) (get % 1)) bindings))
-        selector-bound-map (hash-map selector binding-map)]
-    (.add keymaps "custom-keymap" (clj->js selector-bound-map))))
+(defn set-keymap!
+  ([selector bindings]
+   (set-keymap! selector bindings 0))
+  ([selector bindings priority]
+   (let [binding-map (reduce deep-merge (map #(hash-map (get % 0) (get % 1)) bindings))
+         selector-bound-map (hash-map selector binding-map)]
+    (.add keymaps "custom-keymap" (clj->js selector-bound-map) priority))))
+
+(defn clear-keymap! []
+  (.removeBindingsFromSource keymaps "custom-keymap"))
 
 (defn get-active-editor []
   (if-let [editor (.getActiveTextEditor workspace)]
