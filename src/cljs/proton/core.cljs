@@ -106,6 +106,9 @@
           (doall (map atom-env/unset-config! (filter #(not (or (= "core.themes" %)
                                                                (= "core.disabledPackages" %)))
                                                       (atom-env/get-all-settings))))
+          (pm/register-packages all-packages)
+          ; avoid duplicates
+          (atom-env/set-config! "core.disabledPackages" (distinct (array-seq (atom-env/get-config "core.disabledPackages"))))
           (atom-env/mark-last-step-as-completed!)
 
           ;; set the user config
@@ -149,8 +152,7 @@
                 (atom-env/mark-last-step-as-completed!))))
 
           ;; Make sure all collected packages are definitely enabled
-          (doall (map #(pm/enable-package %) (filter pm/is-package? layer-packages)))
-
+          (pm/activate-packages!)
           (atom-env/insert-process-step! "All done!" "")
           (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
@@ -200,8 +202,8 @@
     (.dispose disposable))
   (keymap-manager/cleanup!)
   (mode-manager/cleanup!)
-  ;; wipe custom keybindings
   (atom-env/clear-keymap!)
+  (pm/cleanup!)
   (atom-env/reset-process-steps!))
 
 (defn serialize [] nil)

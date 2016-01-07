@@ -10,6 +10,7 @@
 (def config (.-config js/atom))
 (def grammars (.-grammars (.-grammars js/atom)))
 (def workspace-view (.getView views workspace))
+(def packages (.-packages js/atom))
 
 (def element (atom (generate-div "test" "proton-which-key")))
 (def bottom-panel (atom (.addBottomPanel workspace
@@ -27,7 +28,11 @@
 (defn show-bottom-panel [] (.show @bottom-panel))
 (defn hide-bottom-panel [] (.hide @bottom-panel))
 
+(defn get-apm-path []
+  (.getApmPath packages))
+
 (def steps (atom []))
+
 (defn reset-process-steps! [] (reset! steps []))
 (defn insert-process-step!
   ([text] (insert-process-step! text "[..]"))
@@ -90,6 +95,9 @@
                 (swap! parsed-config conj (str config-prefix "." config-postfix))))))))
     @parsed-config))
 
+(defn get-config [selector]
+  (.get config selector))
+
 (defn set-config! [selector value]
   (console! (str "Setting " selector " to " (clj->js value)))
   (.set config selector (clj->js value)))
@@ -130,3 +138,49 @@
     (if (string? grammar)
      (.setGrammar editor (find-grammar-by-name grammar))
      (.setGrammar editor grammar))))
+
+(defn is-activated? [package-name]
+  (.isPackageActive packages package-name))
+
+(defn is-package-disabled? [package-name]
+  (.isPackageDisabled packages package-name))
+
+(defn get-all-packages []
+  (.getAvailablePackageNames packages))
+
+(defn get-package [package-name]
+  (.getLoadedPackage packages package-name))
+
+(defn is-installed? [package-name]
+  (if (.isPackageLoaded packages package-name)
+    true
+    (let [pkgs (get-all-packages)]
+      (not (= -1 (.indexOf pkgs package-name))))))
+
+(defn enable-package [package-name]
+  (console! (str "enabling package " (name package-name)))
+  (.enablePackage packages package-name))
+
+
+(defn disable-package
+  ([package-name]
+   (disable-package package-name false))
+
+  ([package-name force]
+   (if (or (is-activated? package-name) force)
+       (do
+         (when-not (is-package-disabled? package-name)
+          (do
+            (console! (str "disabling package " package-name))
+            (.disablePackage packages package-name)))))))
+
+(defn is-activated? [package-name]
+  (.isPackageActive packages package-name))
+
+(defn reload-package [package-name]
+  (disable-package package-name)
+  (enable-package package-name))
+
+(defn force-reload-package [package-name]
+  (disable-package package-name true)
+  (enable-package package-name))
