@@ -29,6 +29,7 @@
             [proton.layers.lang.markdown.core]
             [proton.layers.lang.elixir.core]
             [proton.layers.lang.javascript.core]
+            [proton.layers.lang.rust.core]
 
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
