@@ -11,6 +11,10 @@
 (defn- elixir-mode-init []
  (atom-env/set-grammar "Elixir"))
 
+(defmethod get-initial-config :lang/elixir []
+  [["autocomplete-elixir.erlangHome" "/usr/local/bin"]
+   ["autocomplete-elixir.elixirPath" "/usr/local/bin"]])
+
 (defmethod get-packages :lang/elixir []
   [:language-elixir
    :autocomplete-elixir
@@ -40,5 +44,4 @@
    :init elixir-mode-init})
 
 (defmethod get-keymaps :lang/elixir [] [])
-(defmethod get-initial-config :lang/elixir [] [])
 (defmethod get-keybindings :lang/elixir [] {})

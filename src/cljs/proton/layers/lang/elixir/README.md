@@ -9,6 +9,13 @@ Make sure that you have elixir (and iex) available on your system.
 
 Add `:lang/elixir` to your layers.
 
+### Configuration
+
+Name                             | Default          | Type       | Description
+---------------------------------|------------------|------------|-----------------------------------
+`autocomplete-elixir.erlangHome` | "/usr/local/bin" | __string__ | where is your `erl` located at?
+`autocomplete-elixir.elixirPath` | "/usr/local/bin" | __string__ | where is your `elixir` located at?
+
 ### Key Bindings
 
 | Key Binding          | Description                         |
