@@ -81,7 +81,7 @@
 
 (defn process->html [steps]
   (let [steps-html (map #(str "<tr><td class='process-step'>" (get % 0) "</td><td class='process-status'>" (get % 1) "</td></tr>") steps)]
-    (str "<h2>Welcome to proton<h2><table>" (string/join " " steps-html) "</table>")))
+    (str "<h2>Welcome to proton</h2><table>" (string/join " " steps-html) "</table>")))
 
 (defn deep-merge
   "Deeply merges maps so that nested maps are combined rather than replaced.

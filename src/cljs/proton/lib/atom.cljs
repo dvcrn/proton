@@ -22,7 +22,11 @@
                                                            :item @modal-element}))))
 
 (defn update-bottom-panel [html] (aset @element "innerHTML" html))
-(defn update-modal-panel [html] (aset @modal-element "innerHTML" html))
+(defn update-modal-panel [html]
+  (let [element @modal-element]
+    (aset element "innerHTML" html)
+    (aset element "scrollTop" (.-scrollHeight element))))
+
 (defn show-modal-panel [] (.show @modal-panel))
 (defn hide-modal-panel [] (.hide @modal-panel))
 (defn show-bottom-panel [] (.show @bottom-panel))
