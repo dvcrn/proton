@@ -1,7 +1,7 @@
 {
   "name": "proton-mode",
   "main": "./lib/proton",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Fully featured configuration kit with batteries included",
   "keywords": [],
   "repository": "https://github.com/dvcrn/proton-bin",
