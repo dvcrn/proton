@@ -111,11 +111,6 @@
           (atom-env/set-config! "core.disabledPackages" (distinct (array-seq (atom-env/get-config "core.disabledPackages"))))
           (atom-env/mark-last-step-as-completed!)
 
-          ;; set the user config
-          (atom-env/insert-process-step! "Applying user configuration")
-          (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
-          (atom-env/mark-last-step-as-completed!)
-
           ;; save commands into command tree
           (atom-env/insert-process-step! "Initialising keybinding tree")
           (atom-env/mark-last-step-as-completed!)
@@ -151,8 +146,16 @@
                 (atom-env/insert-process-step! (str "Removing orphaned packages: None"))
                 (atom-env/mark-last-step-as-completed!))))
 
+          ;; set the user config
+          (atom-env/insert-process-step! "Applying user configuration")
+          (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
+          (atom-env/mark-last-step-as-completed!)
+
           ;; Make sure all collected packages are definitely enabled
+          (atom-env/insert-process-step! "Verifying package state")
           (pm/activate-packages!)
+          (atom-env/mark-last-step-as-completed!)
+
           (atom-env/insert-process-step! "All done!" "")
           (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
