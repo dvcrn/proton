@@ -124,27 +124,21 @@
           (let [to-install (pm/get-to-install all-packages)]
             (if (> (count to-install) 0)
               (do
-                (atom-env/insert-process-step! (str "Installing " (count to-install) " new packages") "")
+                (atom-env/insert-process-step! (str "Installing <span class='proton-status-package-count'>" (count to-install) "</span> new packages") "")
                 (doseq [package to-install]
-                  (atom-env/insert-process-step! (str "Installing " package))
+                  (atom-env/insert-process-step! (str "Installing <span class='proton-status-package'>" (name package) "</span>"))
                   (<! (pm/install-package (name package)))
-                  (atom-env/mark-last-step-as-completed!)))
-              (do
-                (atom-env/insert-process-step! (str "Installing new packages: None"))
-                (atom-env/mark-last-step-as-completed!))))
+                  (atom-env/mark-last-step-as-completed!)))))
 
           ;; Remove deleted packages
           (let [to-remove (pm/get-to-remove all-packages)]
             (if (> (count to-remove) 0)
               (do
-                (atom-env/insert-process-step! (str "Removing " (count to-remove) " orphaned packages") "")
+                (atom-env/insert-process-step! (str "Removing <span class='proton-status-package-count'>" (count to-remove) "</span> orphaned packages") "")
                 (doseq [package to-remove]
-                  (atom-env/insert-process-step! (str "Removing " package))
+                  (atom-env/insert-process-step! (str "Removing <span class='proton-status-package'>" (name package) "</span>"))
                   (<! (pm/remove-package (name package)))
-                  (atom-env/mark-last-step-as-completed!)))
-              (do
-                (atom-env/insert-process-step! (str "Removing orphaned packages: None"))
-                (atom-env/mark-last-step-as-completed!))))
+                  (atom-env/mark-last-step-as-completed!)))))
 
           ;; set the user config
           (atom-env/insert-process-step! "Applying user configuration")

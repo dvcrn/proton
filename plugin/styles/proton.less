@@ -25,10 +25,9 @@
    font-style: italic, oblique;
 }
 
-
 .proton-which-key {
   font-size: 13px;
-  font-family: Courier New;
+  font-family: Hack;
 }
 
 .proton-which-key .flex-container {
@@ -68,25 +67,45 @@
 }
 
 .proton-modal-panel {
-  font-family: Courier New;
+  font-family: Hack;
   font-size: 13px;
   max-height: 500px;
   overflow-x: scroll;
   margin: 20px 0;
   padding: 0px 12px;
-}
 
-.proton-modal-panel table {
-  width: 100%;
-}
+  h2 {
+    color: @text-color-success;
+  }
 
-.proton-modal-panel tr {
-  line-height: 20px;
-}
+  table {
+    width: 100%;
+  }
 
-.proton-modal-panel .process-status {
-  text-align: right;
-  width: 45px;
+  tr {
+    line-height: 20px;
+  }
+
+  .process-status {
+    text-align: right;
+    width: 45px;
+  }
+
+  .proton-status-ok {
+    color: @text-color-success;
+  }
+
+  .proton-status-progress {
+    color: @text-color-info;
+  }
+
+  .proton-status-package {
+    color: @text-color-info;
+  }
+
+  .proton-status-package-count {
+    color: @text-color-info;
+  }
 }
 
 // other overrides

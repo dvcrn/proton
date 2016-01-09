@@ -39,21 +39,21 @@
 
 (defn reset-process-steps! [] (reset! steps []))
 (defn insert-process-step!
-  ([text] (insert-process-step! text "[..]"))
+  ([text] (insert-process-step! text "<span class='proton-status-progress'>[..]</span>"))
 
   ([text status]
    (swap! steps conj [text status])
    (update-modal-panel (process->html @steps))))
 
 (defn amend-last-step!
-  ([text] (amend-last-step! text "[..]"))
+  ([text] (amend-last-step! text "<span class='proton-status-progress'>[..]</span>"))
 
   ([text status]
    (swap! steps #(conj (into [] (butlast %)) [text status]))
    (update-modal-panel (process->html @steps))))
 
 (defn mark-last-step-as-completed! []
-  (amend-last-step! (str (get (last @steps) 0)) "[ok]"))
+  (amend-last-step! (str (get (last @steps) 0)) "<span class='proton-status-ok'>[ok]</span>"))
 
 (defn activate-proton-mode! []
   (console! "Chain activated!")
