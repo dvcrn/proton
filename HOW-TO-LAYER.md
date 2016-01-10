@@ -1,10 +1,12 @@
+_Pre-warning_: This readme might be outdated. To get a good grasp on how powerful layers are, check out the [core layer](https://github.com/dvcrn/proton/tree/master/src/cljs/proton/layers/core) which implements all of protons core functionality.
+
 ## How to contribute a Layer
 
 Layers are the core *packages* of proton. Each layer is a bundle of sub-packages, keybindings, keymaps and settings. All together that makes one layer that you put on top of your editor.
 
 ### Creating a layer
 
-Creating a layer is very simple. Here is how your base sceleton could look like (don't worry, I'll go into detail in a bit):
+Creating a layer is very simple. Here is how your base skeleton could look like (don't worry, I'll go into detail in a bit):
 
 ```clj
 (ns proton.layers.{{your-layer}}.core
