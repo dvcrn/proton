@@ -3,6 +3,15 @@
             [cljs.nodejs :as node]
             [clojure.string :as string :refer [lower-case upper-case]]))
 
+;; reference to atom shell API
+(def ashell (node/require "atom"))
+
+;; get atom.CompositeDisposable so we can work with it
+(def composite-disposable (.-CompositeDisposable ashell))
+
+;; Initialise new composite-disposable so we can add stuff to it later
+(def subscriptions (new composite-disposable))
+
 (def commands (.-commands js/atom))
 (def workspace (.-workspace js/atom))
 (def keymaps (.-keymaps js/atom))
@@ -174,7 +183,7 @@
 (defn get-package [package-name]
   (.getLoadedPackage packages package-name))
 
-(defn is-installed? [package-name]
+(defn is-package-installed? [package-name]
   (if (.isPackageLoaded packages package-name)
     true
     (let [pkgs (get-all-packages)]

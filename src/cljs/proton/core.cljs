@@ -37,24 +37,10 @@
             [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]
             [clojure.string]))
 
-;; reference to atom shell API
-(def ashell (node/require "atom"))
-
-;; js/atom is not the same as require 'atom'.
-(def commands (.-commands js/atom))
-(def workspace (.-workspace js/atom))
-(def keymaps (.-keymaps js/atom))
-(def views (.-views js/atom))
-
 ;; Atom for holding all disposables objects
 (def disposables (atom []))
 
-;; get atom.CompositeDisposable so we can work with it
-(def composite-disposable (.-CompositeDisposable ashell))
-
-;; Initialise new composite-disposable so we can add stuff to it later
-(def subscriptions (new composite-disposable))
-(swap! disposables conj subscriptions)
+(swap! disposables conj atom-env/subscriptions)
 
 (defonce current-chain (atom []))
 
@@ -107,6 +93,7 @@
           (doall (map atom-env/unset-config! (filter #(not (or (= "core.themes" %)
                                                                (= "core.disabledPackages" %)))
                                                       (atom-env/get-all-settings))))
+          (atom-env/set-config! "proton.core.selectedLayers" (clj->js (map #(subs (str %) 1) all-layers)))
           (pm/register-packages all-packages)
           ; avoid duplicates
           (atom-env/set-config! "core.disabledPackages" (distinct (array-seq (atom-env/get-config "core.disabledPackages"))))
@@ -152,11 +139,11 @@
 
           ;; Make sure all collected packages are definitely enabled
           (atom-env/insert-process-step! "Verifying package state")
+          (proton/init-modes-for-layers all-layers)
           (pm/activate-packages!)
           (atom-env/mark-last-step-as-completed!)
 
           (atom-env/insert-process-step! "All done!" "")
-          (proton/init-modes-for-layers all-layers)
           (mode-manager/activate-mode (atom-env/get-active-editor))
           (keymap-manager/set-proton-leader-keys all-keybindings)
           (proton/init-proton-leader-keys! all-configuration)
@@ -191,10 +178,11 @@
 
 (defn activate [state]
   (.setTimeout js/window #(init) 2000)
+  (pm/init-subscriptions!)
   (swap! disposables conj (proton/panel-item-subscription))
-  (.add subscriptions (.add commands "atom-workspace.proton-mode" "proton:chain" chain))
-  (.add subscriptions (.add commands "atom-workspace" "proton:toggle" toggle))
-  (.add subscriptions (.add commands "atom-workspace" "proton:toggleMode" toggle-mode)))
+  (.add atom-env/subscriptions (.add atom-env/commands "atom-workspace.proton-mode" "proton:chain" chain))
+  (.add atom-env/subscriptions (.add atom-env/commands "atom-workspace" "proton:toggle" toggle))
+  (.add atom-env/subscriptions (.add atom-env/commands "atom-workspace" "proton:toggleMode" toggle-mode)))
 
 (defn deactivate []
   (.log js/console "deactivating...")

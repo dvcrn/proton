@@ -53,6 +53,11 @@
     (map #(mode-manager/define-mode (get % :mode-name) (dissoc % :mode-name))
      (filter #(not (nil? (get % :mode-name))) (map #(layerbase/describe-mode %) layers)))))
 
+(defn run-init-package-hook [package-name]
+  (if-let [selected-layers (atom-env/get-config "proton.core.selectedLayers")]
+    (let [layers (map keyword (array-seq selected-layers))]
+      (doall (map #(layerbase/init-package [% package-name]) layers)))))
+
 (defn- on-active-pane-item [item]
   (if-let [editor (atom-env/get-active-editor)]
     (when (= (.-id editor) (.-id item))

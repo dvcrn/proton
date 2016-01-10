@@ -2,7 +2,10 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [cljs.nodejs :as node]
             [cljs.core.async :as async :refer [close! chan put! pub sub unsub >! <!]]
+            [proton.lib.mode :as mode]
+            [proton.lib.keymap :as keymap]
             [proton.lib.atom :as atom]
+            [proton.lib.proton :as proton]
             [proton.lib.helpers :as helpers]))
 
 (def sys (node/require "sys"))
@@ -27,11 +30,14 @@
   (when (atom/is-package-disabled? (name package-name))
     (do
       (atom/enable-package (name package-name))))
+  (proton/run-init-package-hook package-name)
   (swap! packages update-in [(keyword package-name)] assoc :atom-disabled false :proton-disabled false))
 
 (defn disable-package [package-name]
   (when-not (atom/is-package-disabled? (name package-name))
     (atom/disable-package (name package-name)))
+  (mode/unset-mode! (mode/package-mode-name package-name))
+  (keymap/unset-keymap-for-mode! (mode/package-mode-name package-name))
   (swap! packages update-in [(keyword package-name)] assoc :atom-disabled true :proton-disabled true))
 
 (defn get-to-remove [all-packages]
@@ -52,7 +58,7 @@
   (helpers/console! (str "Installing: " package-name))
   (let [c (chan)]
     (go
-      (if (atom/is-installed? package-name)
+      (if (atom/is-package-installed? package-name)
         (do
           (>! c true)
           (close! c))
@@ -79,7 +85,7 @@
   (helpers/console! (str "Removing: " package-name))
   (let [c (chan)]
     (go
-      (if (not (atom/is-installed? package-name))
+      (if (not (atom/is-package-installed? package-name))
         (do
           (>! c true)
           (close! c))
@@ -110,3 +116,17 @@
         merged-chan (async/merge chans)
         reduced-chan (async/reduce #(and %1 %2) true merged-chan)]
     reduced-chan))
+
+(defn on-package-deactivated [package]
+  (let [package-name (.-name package)]
+    (helpers/console! (str "atom disabled package" package-name) :package_manager/on-package-deactivated)
+    (disable-package (keyword package-name))))
+
+(defn on-package-activated [package]
+  (let [package-name (.-name package)]
+    (helpers/console! (str "atom activated package" package-name) :package_manager/on-package-activated)
+    (enable-package (keyword package-name))))
+
+(defn init-subscriptions! []
+  (.add atom/subscriptions (.onDidDeactivatePackage atom/packages on-package-deactivated))
+  (.add atom/subscriptions (.onDidActivatePackage atom/packages on-package-activated)))
