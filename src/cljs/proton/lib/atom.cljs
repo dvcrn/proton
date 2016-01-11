@@ -35,6 +35,25 @@
 (defn get-apm-path []
   (.getApmPath packages))
 
+(defn get-config [selector]
+  (.get config selector))
+
+(defn set-config! [selector value]
+  (console! (str "Setting " selector " to " (clj->js value)))
+  (.set config selector (clj->js value)))
+
+(defn add-to-config! [selector value]
+  (let [previous-config (js->clj (.get config selector))]
+    (set-config! selector (conj previous-config value))))
+
+(defn remove-val-from-config! [selector value]
+  (let [config (js->clj (.get config selector))
+        new-config (filter #(not (= value %)) config)]
+      (set-config! selector new-config)))
+
+(defn unset-config! [selector]
+  (.unset config selector))
+
 (def steps (atom []))
 
 (defn reset-process-steps! [] (reset! steps []))
@@ -55,16 +74,34 @@
 (defn mark-last-step-as-completed! []
   (amend-last-step! (str (get (last @steps) 0)) "<span class='proton-status-ok'>[ok]</span>"))
 
+(defn input-provider-class []
+  (if-let [selected-provider (get-config "proton.core.vim-provider")]
+    (do
+      (case selected-provider
+        "vim-mode" ["vim-mode"]
+        "vim-mode-plus" ["vim-mode-plus"]))
+    [""]))
+
+(defn editor-toggle-classes [class-list remove?]
+  (let [editors (.getTextEditors workspace)]
+    (doseq [editor editors]
+      (let [editor-view (.getView views editor)
+            classList (.-classList editor-view)
+            class-list-fn (fn [class-name] (if remove? (.remove classList class-name) (.add classList class-name)))]
+        (doall (map class-list-fn class-list))))))
+
 (defn activate-proton-mode! []
   (console! "Chain activated!")
   (let [classList (.-classList workspace-view)]
     (.add classList "proton-mode")
+    (editor-toggle-classes (input-provider-class) true)
     (show-bottom-panel)))
 
 (defn deactivate-proton-mode! []
   (console! "Chain deactivated!")
   (let [classList (.-classList workspace-view)]
     (.remove classList "proton-mode")
+    (editor-toggle-classes (input-provider-class) false)
     (hide-bottom-panel)))
 
 (defn is-proton-mode-active? []
@@ -99,24 +136,6 @@
                 (swap! parsed-config conj (str config-prefix "." config-postfix))))))))
     @parsed-config))
 
-(defn get-config [selector]
-  (.get config selector))
-
-(defn set-config! [selector value]
-  (console! (str "Setting " selector " to " (clj->js value)))
-  (.set config selector (clj->js value)))
-
-(defn add-to-config! [selector value]
-  (let [previous-config (js->clj (.get config selector))]
-    (set-config! selector (conj previous-config value))))
-
-(defn remove-val-from-config! [selector value]
-  (let [config (js->clj (.get config selector))
-        new-config (filter #(not (= value %)) config)]
-      (set-config! selector new-config)))
-
-(defn unset-config! [selector]
-  (.unset config selector))
 
 (defn set-keymap!
   ([selector bindings]
