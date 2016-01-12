@@ -90,7 +90,8 @@
           editor-default editor-config/default
           proton-default proton-config/default]
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
-            all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))]
+            all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))
+            config-map (into (hash-map) all-configuration)]
 
         (atom-env/insert-process-step! "Initialising layers")
         (proton/init-layers! all-layers all-configuration)
@@ -143,6 +144,10 @@
           ;; set the user config
           (atom-env/insert-process-step! "Applying user configuration")
           (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
+          (let [core-themes (string/join " " (config-map "core.themes"))
+                theme-switch-profiles (config-map "theme-switch.profiles")]
+            (when (nil? (some #{core-themes} theme-switch-profiles))
+              (atom-env/set-config! "theme-switch.profiles" (concat [core-themes] theme-switch-profiles))))
           (atom-env/mark-last-step-as-completed!)
 
           ;; Make sure all collected packages are definitely enabled
@@ -155,8 +160,7 @@
           (mode-manager/activate-mode (atom-env/get-active-editor))
           (keymap-manager/set-proton-leader-keys all-keybindings)
           (proton/init-proton-leader-keys! all-configuration)
-          (let [config-map (into (hash-map) all-configuration)]
-            (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout"))))))))
+          (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout")))))))
 
 (defn on-space []
   (reset! current-chain [])
