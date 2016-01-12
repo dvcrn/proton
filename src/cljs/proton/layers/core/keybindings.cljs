@@ -110,8 +110,6 @@
              :g {:title "gutter"
                  :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
                  :action "editor:toggle-line-numbers"}
-             :f {:title "full screen"
-                 :action "window:toggle-full-screen"}
              :s {:title "status bar"
                  :action "status-bar:toggle"}
              :n {:title "relative numbers"
@@ -123,6 +121,10 @@
                         (do
                           (actions/toggle-relative-lines true)
                           (swap! state assoc-in [:relative-numbers] true))))}}
+          :T {:category "UI toggles/themes"
+              :F {:action "window:toggle-full-screen" :title "toggle full screen"}
+              :M {:fx actions/toggle-maximize :title "toggle maximize"}
+              :n {:action "theme-switch:next" :title "cycle themes"}}
           :m {:category "mode"}
           :_ {:category "meta"
               :d {:title "find-dotfile"

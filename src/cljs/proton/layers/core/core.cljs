@@ -45,6 +45,11 @@
 
    ["editor.softWrap" true]
    ["editor.fontFamily" "Hack"]
+   ["theme-switch.profiles" ["atom-material-ui" "atom-material-syntax"
+                             "atom-dark-ui atom-dark-syntax"
+                             "atom-light-ui atom-light-syntax"
+                             "one-dark-ui one-dark-syntax"
+                             "one-light-ui one-light-syntax"]]
 
    ["autoupdate-packages.handling" "Update automatically and silently"]])
 

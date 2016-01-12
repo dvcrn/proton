@@ -21,7 +21,7 @@ The core layer should get included by default. No installation needed.
 
 Key Binding        | Description
 -------------------|------------------------
-<kbd>SPC 0</kbd>   | focus tree view
+<kbd>SPC 0-9</kbd> | focus on N pane
 <kbd>SPC j</kbd>   | go to pane below
 <kbd>SPC k</kbd>   | go to pane above
 <kbd>SPC l</kbd>   | go to pane on the left
@@ -63,7 +63,7 @@ Key Binding          | Description
 ---------------------|--------------------------
 <kbd> SPC p p </kbd> | Switch project
 <kbd> SPC p s </kbd> | Save project
-<kbd> SPC p e </kbd> | Edit project 
+<kbd> SPC p e </kbd> | Edit project
 <kbd> SPC p b </kbd> | Find project buffer
 <kbd> SPC p t </kbd> | Toggle tree view
 <kbd> SPC p f </kbd> | Open project file
@@ -75,8 +75,16 @@ Key Binding          | Description
 ---------------------|-----------------------------
 <kbd> SPC t t </kbd> | Toggle tab bar
 <kbd> SPC t g </kbd> | Toggle line gutter
-<kbd> SPC t f </kbd> | Toggle fullscreen
 <kbd> SPC t n </kbd> | Toggle relative line numbers
+<kbd> SPC t s </kbd> | Toggle status bar
+
+#### UI toggles/themes
+
+Key Binding          | Description
+---------------------|-----------------------------
+<kbd> SPC T F </kbd> | Toggle full screen
+<kbd> SPC T M </kbd> | Toggle maximize
+<kbd> SPC T n </kbd> | Cycle themes
 
 
 #### Meta
@@ -86,3 +94,4 @@ Key Binding          | Description
 <kbd> SPC _ d </kbd> | Find proton dotfile
 <kbd> SPC _ R </kbd> | Reload atom
 <kbd> SPC _ c </kbd> | Toggle dev tools
+<kbd> SPC _ r </kbd> | Reload proton-mode package
