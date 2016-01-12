@@ -131,10 +131,6 @@
           ;; set the user config
           (atom-env/insert-process-step! "Applying user configuration")
           (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
-          (let [core-themes (string/join " " (config-map "core.themes"))
-                theme-switch-profiles (config-map "theme-switch.profiles")]
-            (when (nil? (some #{core-themes} theme-switch-profiles))
-              (atom-env/set-config! "theme-switch.profiles" (concat [core-themes] theme-switch-profiles))))
           (atom-env/mark-last-step-as-completed!)
 
           ;; Make sure all collected packages are definitely enabled
