@@ -19,7 +19,7 @@
     {:mode-keybindings
      {:T {:category "toggles"
           :p {:action "parinfer:toggleMode" :title "Toggle Parinfer Mode"}}}})
-  (mode/link-modes :clojure-lang-mode (mode/package-mode-name :Parinfer)))
+  (mode/link-modes :clojure-major-mode (mode/package-mode-name :Parinfer)))
 
 (defmethod init-package [:lang/clojure :proto-repl] []
   (helpers/console! "init proto-repl package" :lang/clojure)
@@ -46,14 +46,14 @@
            :a {:action "proto-repl:run-all-tests" :title "run all"}
            :t {:action "proto-repl:run-selected-test" :title "run selected"}
            :c {:action "proto-repl:run-tests-in-namespace" :title "run in ns"}}}})
-  (mode/link-modes :clojure-lang-mode (mode/package-mode-name :proto-repl)))
+  (mode/link-modes :clojure-major-mode (mode/package-mode-name :proto-repl)))
 
 (defmethod get-packages :lang/clojure []
   [:Parinfer
    :proto-repl])
 
 (defmethod describe-mode :lang/clojure []
-  {:mode-name :clojure-lang-mode
+  {:mode-name :clojure-major-mode
    :atom-grammars ["Clojure"]
    :file-extensions [#"proton$"]
    :init clojure-mode-init})

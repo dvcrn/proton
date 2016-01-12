@@ -119,12 +119,12 @@
 
 (defn on-package-deactivated [package]
   (let [package-name (.-name package)]
-    (helpers/console! (str "atom disabled package" package-name) :package_manager/on-package-deactivated)
+    (helpers/console! (str "atom disabled package " package-name) :package_manager/on-package-deactivated)
     (disable-package (keyword package-name))))
 
 (defn on-package-activated [package]
   (let [package-name (.-name package)]
-    (helpers/console! (str "atom activated package" package-name) :package_manager/on-package-activated)
+    (helpers/console! (str "atom activated package " package-name) :package_manager/on-package-activated)
     (enable-package (keyword package-name))))
 
 (defn init-subscriptions! []
