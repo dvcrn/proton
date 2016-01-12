@@ -87,6 +87,88 @@ your layer can depend on any number of packages. To specify what the layer needs
 
 Our method declares that it needs no arguments (`[]`) and returns a vector (`[]`).
 
+##### package init hook
+
+You can define __init__ function associated with specific __package__ which will
+be executed when package become enabled. You should use `defmethod init-package`
+dispatched by __vector__ `[:layer-name :package-name]`. Let see example from
+`:lang/javascript` layer.
+
+```clj
+(defmethod init-package [:lang/javascript :linter] []
+  (keymap/set-proton-keys-for-mode :javascript-major-mode
+    {:L {:category "linters"
+         :e {:fx (fn [] (toggle-linter :eslint)) :title "use eslint"}
+         :j {:fx (fn [] (toggle-linter :jshint)) :title "use jshint"}}}))
+
+(defmethod init-package [:lang/javascript :linter-jshint] []
+  (mode/define-package-mode :linter-jshint
+    {:mode-keybindings
+      {:L {:f {:action "FixMyJS" :title "fix jshint errors"}}}})
+  (mode/link-modes :javascript-major-mode (mode/package-mode-name :linter-jshint)))
+
+(defmethod init-package [:lang/javascript :linter-eslint] []
+  (mode/define-package-mode :linter-eslint
+    {:mode-keybindings
+      {:L {:f {:action "linter-eslint:fix-file" :target actions/get-active-editor :title "fix eslint errors"}}}})
+  (mode/link-modes :javascript-major-mode (mode/package-mode-name :linter-eslint)))
+```
+
+Here we define 3 init methods for __linter__, __linter-eslint__ and __linter-jshint__ packages.
+When __linter__ package enabled we define mode key binding <kbd>SPC m L e</kbd> and
+ <kbd>SPC m L j</kbd> to switch between __jshint__ and __eslint__ linters.
+
+```clj
+...
+
+(defmethod init-package [:lang/javascript :linter] []
+  (keymap/set-proton-keys-for-mode :javascript-major-mode
+    {:L {:category "linters"
+         :e {:fx (fn [] (toggle-linter :eslint)) :title "use eslint"}
+         :j {:fx (fn [] (toggle-linter :jshint)) :title "use jshint"}}}))
+...
+```
+
+By convention we define separate __package modes__ for __linter-jshint__ and __linter-eslint__
+packages since we want to use specific key bindings depends on active package.
+
+```clj
+....
+
+(mode/define-package-mode :linter-jshint
+  {:mode-keybindings
+    {:L {:f {:action "FixMyJS" :title "fix jshint errors"}}}})
+
+....
+
+(mode/define-package-mode :linter-eslint
+  {:mode-keybindings
+    {:L {:f {:action "linter-eslint:fix-file" :target actions/get-active-editor :title "fix eslint errors"}}}})
+```
+
+For __linter-jshint__ we define __package mode__ `:linter-jshint` using `proton.lib.mode/define-package-mode`
+method and appropriate `mode-keybinding` <kbd>SPC m L f</kbd> bind to __action__ `FixMyJS`.
+Also we say that we want to use __linter-jshint__ mode along with __javascript-major-mode__
+to use our key bindings when __javascript-major-mode__ is activated. We used
+`proton.lib.mode/link-modes` method:
+
+```clj
+(mode/link-modes :javascript-major-mode (mode/package-mode-name :linter-jshint)))
+; `proton.lib.mode/package-mode-name` used by convention since we auto generate
+; mode name for packages.
+```
+
+Proton handles package state and execute `init-package` hook on package activation and
+also when package disalbed will take care to remove associated __mode__ and __mode keybindings__.
+
+For our example, when we press <kbd>SPC m L j</kbd> __linter-jshint__ will be activated
+and __linter-eslint__ will be disabled. `init-package [:lang/javascript :linter-jshint]`
+will be executed and __linter-jshint__ mode activated. In the same time __linter-eslint__
+mode and associated key bindings will be removed.
+
+__NOTE:__ `(defmethod init-package [:layer-name :package-name])` is recommended
+to define settings and key bindings associated with __package__ inside your layer.
+
 #### keybindings
 
 for proton to "see" your keybindings, you'll have to implement the multimethod `get-keybindings`. In the case of the git layer, this could look like this:
