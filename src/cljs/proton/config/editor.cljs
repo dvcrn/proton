@@ -13,6 +13,7 @@
               ;; Packages that are part of atom core
               :core-packages
               [:tree-view
+               :atom-beautify
                :atom-dark-syntax
                :atom-dark-ui
                :atom-light-syntax

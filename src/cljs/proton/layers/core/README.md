@@ -32,6 +32,7 @@ Key Binding        | Description
 
 Key Binding            | Description
 -----------------------|----------------------
+<kbd> SPC f = </kbd>   | format file with atom-beautify
 <kbd> SPC f f </kbd>   | open / create file
 <kbd> SPC f e d </kbd> | open proton dotfile
 <kbd> SPC f e s </kbd> | open atom stylesheet

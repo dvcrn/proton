@@ -54,7 +54,8 @@
                    :p {:title "find-snippets"
                        :action "application:open-your-snippets"}}
                :f {:title "advanced-open-file"
-                   :action "advanced-open-file:toggle"}}
+                   :action "advanced-open-file:toggle"}
+               := {:action "atom-beautify:beautify-editor" :title "format file"}}
           :w {:category "window"
               :m {:title "close others"
                   :fx panes/close-other-panes}
