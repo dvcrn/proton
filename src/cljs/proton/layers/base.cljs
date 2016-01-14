@@ -11,6 +11,7 @@
 (defmulti get-keybindings dispatch)
 (defmulti get-keymaps dispatch)
 (defmulti describe-mode dispatch)
+(defmulti init-package identity)
 
 (defn register-layer-dependencies [key deps]
   (let [layer-deps @layer-dependencies]
@@ -44,3 +45,5 @@
 (defmethod describe-mode :default [key]
   (helpers/console! (gen-error "describe-mode") key)
   {})
+
+(defmethod init-package :default [] [] [])

@@ -1,4 +1,5 @@
 (ns proton.lib.mode
+
   (:require [cljs.nodejs :as nodejs]
             [proton.lib.keymap :as km :refer [set-proton-keys-for-mode]]
             [proton.lib.atom :as atom-env :refer [get-active-editor]]))
@@ -29,20 +30,33 @@
 
 (defn is-mode-activated? [editor] (get editor :active))
 
+(defn get-mode [mode-name]
+  (get @modes mode-name))
+
 (defn get-current-editor-mode []
   (if-let [active-editor (atom-env/get-active-editor)]
     (if-let [editor (find-editor-by-id (.-id active-editor))]
       (editor :mode))))
+
+(defn package-mode-name [package-name]
+  (keyword (str (name package-name) "-mode")))
 
 (defn define-mode [mode-name options]
   (if-let [mode-keybindings (options :mode-keybindings)]
     (km/set-proton-keys-for-mode mode-name mode-keybindings))
   (swap! modes assoc-in [mode-name] (dissoc options :mode-keybindings)))
 
+(defn define-package-mode [mode-name options]
+  (define-mode (package-mode-name mode-name) options))
+
 (defn define-keybindings [name keymap]
   (swap! modes assoc-in [name :mode-keybindings] keymap))
 
 (defn map-modes-with [key] (map #(vector (first %) (get-in (second %) [key])) (map identity @modes)))
+
+(defn link-modes [parent-mode child-mode]
+  (let [childs (get (get-mode parent-mode) :child)]
+    (swap! modes update-in [parent-mode :child] #(distinct (conj childs child-mode)))))
 
 (defn filter-modes-by-key-val [key val]
   (filter #(or (some #{val} (second %)) (= (second %) val)) (map-modes-with key)))
@@ -92,6 +106,13 @@
                                   (swap! editors dissoc (.-id editor))))
           (if-let [init-fn (get-in @modes [mode :init])]
              (init-fn)))))))
+
+(defn- unset-mode-atom-fn [modes mode-name]
+  (let [updated-childs (into {} (map (fn [[k v]] (update-in {k v} [k :child] (partial remove #{mode-name}))) modes))]
+    (dissoc updated-childs mode-name)))
+
+(defn unset-mode! [mode-name]
+  (swap! modes unset-mode-atom-fn mode-name))
 
 (defn cleanup! []
   (reset! modes {})

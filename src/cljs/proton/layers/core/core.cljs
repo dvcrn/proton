@@ -1,10 +1,12 @@
 (ns proton.layers.core.core
-  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode]])
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode init-package]])
   (:require [proton.lib.proton :as proton]
             [proton.lib.package_manager :as package]
+            [clojure.string :as string :refer [join]]
             [proton.layers.core.keybindings :refer [keybindings]]
             [proton.layers.core.actions :as actions :refer [state]]
             [proton.layers.core.packages :refer [packages]]
+            [proton.lib.atom :as atom-env :refer [get-config set-config!]]
             [cljs.nodejs :as node]))
 
 (def keymaps (atom
@@ -45,7 +47,7 @@
 
    ["editor.softWrap" true]
    ["editor.fontFamily" "Hack"]
-   ["theme-switch.profiles" ["atom-material-ui" "atom-material-syntax"
+   ["theme-switch.profiles" ["atom-material-ui atom-material-syntax"
                              "atom-dark-ui atom-dark-syntax"
                              "atom-light-ui atom-light-syntax"
                              "one-dark-ui one-dark-syntax"
@@ -82,6 +84,12 @@
         (swap! keybindings assoc-in [:b :b :action] "nuclide-open-filenames-provider:toggle-provider")
         (swap! keybindings assoc-in [:p :f :action] "nuclide-fuzzy-filename-provider:toggle-provider")
         (swap! keybindings assoc-in [:p :r :action] "nuclide-recent-files-provider:toggle-provider")))))
+
+(defmethod init-package [:core :theme-switch] []
+  (let [core-themes (string/join " " (atom-env/get-config "core.themes"))
+        theme-switch-profiles (array-seq (atom-env/get-config "theme-switch.profiles"))]
+    (when (nil? (some #{core-themes} theme-switch-profiles))
+      (atom-env/set-config! "theme-switch.profiles" (concat [core-themes] theme-switch-profiles)))))
 
 (defmethod get-keybindings :core [] @keybindings)
 (defmethod get-keymaps :core [] @keymaps)
