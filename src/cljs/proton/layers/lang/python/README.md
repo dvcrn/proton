@@ -12,6 +12,7 @@ Includes following atom packages:
 ### Install
 
 Add `:lang/python` to your layers.
+For django support include `:frameworks/django` to your layers.
 
 ### Requirements
 

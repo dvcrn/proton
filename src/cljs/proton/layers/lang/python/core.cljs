@@ -41,8 +41,7 @@
   [:autocomplete-python
    :python-tools
    :python-isort
-   :python-yapf
-   :atom-django])
+   :python-yapf])
 
 (defmethod describe-mode :lang/python []
   {:mode-name :python-major-mode
