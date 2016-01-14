@@ -37,18 +37,6 @@
           :9 {:fx (select-window-fn 9)
               :hidden true
               :title "window 9"}
-          :j {:action "window:focus-pane-below"
-              :target actions/get-active-pane
-              :title "focus below pane"}
-          :k {:action "window:focus-pane-above"
-              :target actions/get-active-pane
-              :title "focus above pane"}
-          :l {:action "window:focus-pane-on-right"
-              :target actions/get-active-pane
-              :title "focus right pane"}
-          :h {:action "window:focus-pane-on-left"
-              :target actions/get-active-pane
-              :title "focus left pane"}
           :tab {:action "tab-switcher:next"
                 :title "previous buffer"}
           :space {:action "easy-motion-redux:letter"
@@ -71,23 +59,39 @@
                    :action "advanced-open-file:toggle"}
                := {:action "atom-beautify:beautify-editor" :title "format file"}}
           :w {:category "window"
-              :m {:title "close others"
-                  :fx panes/close-other-panes}
+              :j {:action "window:focus-pane-below"
+                  :target actions/get-active-pane
+                  :title "focus below pane"}
+              :k {:action "window:focus-pane-above"
+                  :target actions/get-active-pane
+                  :title "focus above pane"}
+              :l {:action "window:focus-pane-on-right"
+                  :target actions/get-active-pane
+                  :title "focus right pane"}
+              :h {:action "window:focus-pane-on-left"
+                  :target actions/get-active-pane
+                  :title "focus left pane"}
               :d {:action "pane:close"
                   :target actions/get-active-pane
                   :title "destroy pane"}
               :v {:action "pane:split-right"
                   :target actions/get-active-pane
                   :title "split vertically"}
-              :h {:action "pane:split-down"
+              :s {:action "pane:split-down"
                   :target actions/get-active-pane
                   :title "split horizontally"}
               :V {:action "pane:split-left"
                   :target actions/get-active-pane
                   :title "split vertically and focus left"}
-              :H {:action "pane:split-up"
+              :S {:action "pane:split-up"
                   :target actions/get-active-pane
-                  :title "split horizontally and focus up"}}
+                  :title "split horizontally and focus up"}
+              :m {:action "maximize-panes:maximize"
+                  :title "maximize pane"}
+              :o {:title "close others"
+                  :fx panes/close-other-panes}
+              :c {:action "pane:close"
+                  :title "close pane"}}
          :b {:category "buffer"
               :b {:action "fuzzy-finder:toggle-buffer-finder"
                   :title "browse buffers"}

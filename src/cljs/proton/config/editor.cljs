@@ -66,7 +66,6 @@
                :styleguide
                :symbols-view
                :tabs
-               :theme-switch
                :timecop
                :update-package-dependencies
                :welcome
