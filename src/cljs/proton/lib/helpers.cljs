@@ -71,9 +71,13 @@
         keystroke (name (key keybinding))]
       (str "<li class='flex-item'><span class='proton-key'>[" keystroke "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
 
+(defn show-item? [[_ options]]
+  (nil? (options :hidden)))
+
 (defn tree->html [tree]
   (->>
     (sort (seq (dissoc tree :category)))
+    (filter show-item?)
     (map keybinding-row-html)
     (string/join " ")
     (conj [])
