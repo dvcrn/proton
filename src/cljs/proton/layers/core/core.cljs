@@ -56,7 +56,8 @@
    ["autoupdate-packages.handling" "Update automatically and silently"]
 
    ["zentabs.neverCloseUnsaved" true]
-   ["zentabs.maximumOpenedTabs" 10]])
+   ["zentabs.maximumOpenedTabs" 10]
+   ["easy-motion-redux.replaceCharacters" "abcdefghijklmnopqrstuvwxyz"]])
 
 (defmethod init-layer! :core
   [_ {:keys [config layers]}]

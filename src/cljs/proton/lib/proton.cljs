@@ -78,7 +78,7 @@
         letters (make-char-fn 97 123)
         numbers (map str (range 0 10))
         punctuation (flatten (map #(apply make-char-fn %) [[33 48] [58 65] [91 97] [123 127]]))
-        special-chars ["escape" "tab" "backspace" "delete"]
+        special-chars ["escape" "tab" "backspace" "delete" "space"]
         all-chars (into [] (concat [] letters (map string/upper-case letters) numbers special-chars punctuation))
         combo ["ctrl-" "ctrl-alt-" "ctrl-shift-" "ctrl-shift-alt-" "alt-" "alt-shift-" "cmd-" "cmd-shift-" "cmd-alt-" "cmd-alt-shift-" "cmd-ctrl-" "cmd-ctrl-shift-"]
         all-combos (for [x all-chars y combo] (str y x))

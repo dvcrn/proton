@@ -27,6 +27,7 @@ Key Binding        | Description
 <kbd>SPC l</kbd>   | go to pane on the left
 <kbd>SPC h</kbd>   | go to pane on the right
 <kbd>SPC tab</kbd> | visit last used buffer
+<kbd>SPC SPC</kbd> | easy motion by letter
 
 #### Files
 
