@@ -51,7 +51,10 @@
                              "one-dark-ui one-dark-syntax"
                              "one-light-ui one-light-syntax"]]
 
-   ["autoupdate-packages.handling" "Update automatically and silently"]])
+   ["autoupdate-packages.handling" "Update automatically and silently"]
+
+   ["zentabs.neverCloseUnsaved" true]
+   ["zentabs.maximumOpenedTabs" 10]])
 
 (defmethod init-layer! :core
   [_ {:keys [config layers]}]

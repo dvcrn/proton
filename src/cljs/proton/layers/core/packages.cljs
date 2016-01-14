@@ -8,6 +8,8 @@
      :ex-mode
      :relative-numbers
      :tab-switcher
+     :zentabs
+     
      :recent-files-fuzzy-finder
      :autoupdate-packages
 
