@@ -74,14 +74,19 @@
 (defn show-item? [[_ options]]
   (nil? (options :hidden)))
 
-(defn tree->html [tree]
+(defn- panel-footer [category current-chain]
+  (let [chain-keys (if (empty? current-chain) "SPC" (string/join " " (concat ["SPC"] (map name current-chain))))
+        category-name (or category "proton root")]
+    (str "<div class='proton-which-key-footer clearfix'><span class='pull-left proton-chain-key'>" chain-keys "</span><span class='pull-right proton-chain-category'>" category-name "</span></div>")))
+
+(defn tree->html [tree current-chain]
   (->>
     (sort (seq (dissoc tree :category)))
     (filter show-item?)
     (map keybinding-row-html)
     (string/join " ")
     (conj [])
-    (apply #(str "<p>Keybindings:</p><ul class='flex-container'>" % "</ul>"))))
+    (apply #(str "<ul class='flex-container'>" % "</ul>" (panel-footer (tree :category) current-chain)))))
 
 (defn process->html [steps]
   (let [steps-html (map #(str "<tr><td class='process-step'>" (get % 0) "</td><td class='process-status'>" (get % 1) "</td></tr>") steps)]
