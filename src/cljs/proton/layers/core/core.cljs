@@ -56,7 +56,60 @@
    ["autoupdate-packages.handling" "Update automatically and silently"]
 
    ["zentabs.neverCloseUnsaved" true]
-   ["zentabs.maximumOpenedTabs" 10]])
+   ["zentabs.maximumOpenedTabs" 10]
+
+   ;; Nuclide things we need
+   ["nuclide.use.nuclide-fuzzy-filename-provider" true]
+   ["nuclide.use.nuclide-quick-open" true]
+   ["nuclide.use.nuclide-open-filenames-provider" true]
+   ["nuclide.use.nuclide-recent-files-provider" true]
+   ["nuclide.use.nuclide-recent-files-service" true]
+
+   ;; Nuclide things we don't need nor want
+   ["nuclide.use.hyperclick" false]
+   ["nuclide.use.nuclide-arcanist" false]
+   ["nuclide.use.nuclide-blame" false]
+   ["nuclide.use.nuclide-blame-provider-hg" false]
+   ["nuclide.use.nuclide-blame-ui" false]
+   ["nuclide.use.nuclide-buck-files" false]
+   ["nuclide.use.nuclide-busy-signal" false]
+   ["nuclide.use.nuclide-clang-atom" false]
+   ["nuclide.use.nuclide-clipboard-path" false]
+   ["nuclide.use.nuclide-code-format" false]
+   ["nuclide.use.nuclide-code-highlight" false]
+   ["nuclide.use.nuclide-debugger-atom" false]
+   ["nuclide.use.nuclide-debugger-hhvm" false]
+   ["nuclide.use.nuclide-debugger-lldb" false]
+   ["nuclide.use.nuclide-debugger-lldb-client" false]
+   ["nuclide.use.nuclide-debugger-lldb-server" false]
+   ["nuclide.use.nuclide-debugger-node" false]
+   ["nuclide.use.nuclide-diagnostics-store" false]
+   ["nuclide.use.nuclide-diagnostics-ui" false]
+   ["nuclide.use.nuclide-diff-view" false]
+   ["nuclide.use.nuclide-file-tree" false]
+   ["nuclide.use.nuclide-file-watcher" false]
+   ["nuclide.use.nuclide-find-references" false]
+   ["nuclide.use.nuclide-flow" false]
+   ["nuclide.use.nuclide-format-js" false]
+   ["nuclide.use.nuclide-gadgets" false]
+   ["nuclide.use.nuclide-hack" false]
+   ["nuclide.use.nuclide-hack-symbol-provider" false]
+   ["nuclide.use.nuclide-health" false]
+   ["nuclide.use.nuclide-hg-repository" false]
+   ["nuclide.use.nuclide-home" false]
+   ["nuclide.use.nuclide-language-hack" false]
+   ["nuclide.use.nuclide-move-pane" false]
+   ["nuclide.use.nuclide-objc" false]
+   ["nuclide.use.nuclide-ocaml" false]
+   ["nuclide.use.nuclide-react-native-inspector" false]
+   ["nuclide.use.nuclide-related-files" false]
+   ["nuclide.use.nuclide-remote-ctags" false]
+   ["nuclide.use.nuclide-remote-projects" false]
+   ["nuclide.use.nuclide-service-monitor" false]
+   ["nuclide.use.nuclide-test-runner" false]
+   ["nuclide.use.nuclide-toolbar" false]
+   ["nuclide.use.nuclide-type-hint" false]
+   ["nuclide.use.nuclide-url-hyperclick" false]])
 
 (defmethod init-layer! :core
   [_ {:keys [config layers]}]
@@ -74,12 +127,12 @@
 
     (if (= (config-map "proton.core.quickOpenProvider") :nuclide)
       (do
-        (swap! packages #(into [] (concat %
-                                    [:nuclide-quick-open
-                                     :nuclide-fuzzy-filename-provider
-                                     :nuclide-open-filenames-provider
-                                     :nuclide-recent-files-provider
-                                     :nuclide-recent-files-service])))
+        ; (swap! packages #(into [] (concat %
+        ;                             [:nuclide-quick-open
+        ;                              :nuclide-fuzzy-filename-provider
+        ;                              :nuclide-open-filenames-provider
+        ;                              :nuclide-recent-files-provider
+        ;                              :nuclide-recent-files-service])))
         (swap! keybindings assoc-in [:p :b :action] "nuclide-open-filenames-provider:toggle-provider")
         (swap! keybindings assoc-in [:b :b :action] "nuclide-open-filenames-provider:toggle-provider")
         (swap! keybindings assoc-in [:p :f :action] "nuclide-fuzzy-filename-provider:toggle-provider")

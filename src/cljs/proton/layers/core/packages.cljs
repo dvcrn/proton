@@ -9,12 +9,9 @@
      :relative-numbers
      :tab-switcher
      :zentabs
-     
-     :recent-files-fuzzy-finder
-     :autoupdate-packages
+     :nuclide
 
-     :hyperclick
-     :nuclide-file-watcher
+     :autoupdate-packages
 
      ;; other
      :advanced-open-file
