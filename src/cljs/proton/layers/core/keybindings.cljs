@@ -122,12 +122,17 @@
                         (do
                           (actions/toggle-tabs true)
                           (swap! state assoc-in [:tabs] true))))}
-             :g {:title "gutter"
+             :n {:title "line numbers"
                  :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
                  :action "editor:toggle-line-numbers"}
+             :i {:action "editor:toggle-indent-guide"
+                 :target "atom-text-editor:not([mini])"
+                 :title "indent guide"}
+             :I {:action "window:toggle-auto-indent"
+                 :title "auto indent"}
              :s {:title "status bar"
                  :action "status-bar:toggle"}
-             :n {:title "relative numbers"
+             :r {:title "relative numbers"
                  :fx (fn []
                        (if (get @state :relative-numbers)
                         (do
@@ -135,12 +140,21 @@
                           (swap! state assoc-in [:relative-numbers] false))
                         (do
                           (actions/toggle-relative-lines true)
-                          (swap! state assoc-in [:relative-numbers] true))))}}
+                          (swap! state assoc-in [:relative-numbers] true))))}
+              :w {:title "whitespace"
+                  :fx (fn [] (atom-env/set-config! "editor.showInvisibles" (not (atom-env/get-config "editor.showInvisibles"))))}}
           :T {:category "UI toggles/themes"
               :F {:action "window:toggle-full-screen" :title "toggle full screen"}
               :M {:fx actions/toggle-maximize :title "toggle maximize"}
-              :n {:action "theme-switch:next" :title "cycle themes"}}
+              :n {:action "theme-switch:next" :title "cycle themes"}
+              :m {:action "window:toggle-menu-bar" :title "toggle menu bar"}}
           :m {:category "mode"}
+          (keyword ";") {:action "editor:toggle-line-comments"
+                         :target "atom-text-editor:not([mini])"
+                         :title "comment lines"}
+          :v {:action "expand-region:expand"
+              :target "atom-text-editor:not([mini])"
+              :title "expand region"}
           :_ {:category "meta"
               :d {:title "find-dotfile"
                   :fx (fn []
