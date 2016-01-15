@@ -31,6 +31,9 @@
             [proton.layers.lang.javascript.core]
             [proton.layers.lang.rust.core]
 
+            ;; frameworks
+            [proton.layers.frameworks.django.core]
+
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
 
