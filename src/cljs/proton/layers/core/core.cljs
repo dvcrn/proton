@@ -45,6 +45,7 @@
    ["atom-material-ui.treeView.compactTreeView" true]
    ["atom-material-ui.panels.panelContrast" true]
 
+   ["welcome.showOnStartup" false]
    ["editor.softWrap" true]
    ["editor.fontFamily" "Hack"]
    ["theme-switch.profiles" ["atom-material-ui atom-material-syntax"
