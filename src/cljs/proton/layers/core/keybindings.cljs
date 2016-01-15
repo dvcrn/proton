@@ -9,23 +9,33 @@
     (panes/focus-on-item n)))
 
 (def keybindings
-  (atom { :0 {:fx (select-window-fn 0)
+  (atom { :0-9 {:title "select window N"}
+          :0 {:fx (select-window-fn 0)
+              :hidden true
               :title "window 0"}
           :1 {:fx (select-window-fn 1)
+              :hidden true
               :title "window 1"}
           :2 {:fx (select-window-fn 2)
+              :hidden true
               :title "window 2"}
           :3 {:fx (select-window-fn 3)
+              :hidden true
               :title "window 3"}
           :5 {:fx (select-window-fn 4)
+              :hidden true
               :title "window 4"}
           :6 {:fx (select-window-fn 6)
+              :hidden true
               :title "window 6"}
           :7 {:fx (select-window-fn 7)
+              :hidden true
               :title "window 7"}
           :8 {:fx (select-window-fn 8)
+              :hidden true
               :title "window 8"}
           :9 {:fx (select-window-fn 9)
+              :hidden true
               :title "window 9"}
           :j {:action "window:focus-pane-below"
               :target actions/get-active-pane
