@@ -68,7 +68,7 @@
                   (atom-env/deactivate-proton-mode!)
                   (reset! current-chain [])
                   (keymap-manager/exec-binding keymaps))
-                (atom-env/update-bottom-panel (helpers/tree->html keymaps)))))))))
+                (atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain)))))))))
 
 (defn init []
   (go
@@ -150,7 +150,7 @@
 
 (defn on-space []
   (reset! current-chain [])
-  (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings [])))
+  (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings []) @current-chain))
   (atom-env/activate-proton-mode!))
 
 (defn on-mode-key []
@@ -158,7 +158,7 @@
   (if-let [mode-keymap (keymap-manager/get-mode-keybindings (keymap-manager/get-current-editor-mode))]
    (let [core-mode-key (first mode-keys)]
     (swap! current-chain conj core-mode-key)
-    (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain)))
+    (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain) @current-chain))
     (atom-env/activate-proton-mode!))))
 
 (defn toggle [e]
