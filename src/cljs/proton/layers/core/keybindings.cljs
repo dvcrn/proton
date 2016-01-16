@@ -132,6 +132,8 @@
                  :title "auto indent"}
              :s {:title "status bar"
                  :action "status-bar:toggle"}
+             :g {:title "golden ratio"
+                 :action "golden-ratio:toggle"}
              :r {:title "relative numbers"
                  :fx (fn []
                        (if (get @state :relative-numbers)
