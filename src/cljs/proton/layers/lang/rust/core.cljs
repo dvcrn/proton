@@ -19,8 +19,10 @@
   :mode-keybindings
     {:d {:action "racer:find-definition"
          :title "Find definition"}
-     :c {:category "cargo"}
-        :e {:action "build:trigger"
-            :title "Execute"}
-        :s {:action "build:select-active-target"
-            :title "Select target"}}})
+     :c {:category "cargo"
+         :e {:action "build:trigger"
+             :title "Execute"}
+         :v {:action "build:toggle-panel"
+             :title "View results"}
+         :s {:action "build:select-active-target"
+             :title "Select target"}}}})
