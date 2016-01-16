@@ -16,6 +16,7 @@
 
      :hyperclick
      :nuclide-file-watcher
+     :expand-region
 
      ;; other
      :advanced-open-file

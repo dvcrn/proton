@@ -28,6 +28,9 @@ Key Binding        | Description
 <kbd>SPC h</kbd>   | go to pane on the right
 <kbd>SPC tab</kbd> | visit last used buffer
 <kbd>SPC SPC</kbd> | easy motion by letter
+<kbd>SPC v</kbd>   | expand region
+<kbd>SPC ;</kbd>   | toggle line comments
+
 
 #### Files
 
@@ -76,9 +79,14 @@ Key Binding          | Description
 Key Binding          | Description
 ---------------------|-----------------------------
 <kbd> SPC t t </kbd> | Toggle tab bar
-<kbd> SPC t g </kbd> | Toggle line gutter
-<kbd> SPC t n </kbd> | Toggle relative line numbers
+<kbd> SPC t n </kbd> | Toggle line numbers
+<kbd> SPC t r </kbd> | Toggle relative line numbers
 <kbd> SPC t s </kbd> | Toggle status bar
+<kbd> SPC t w </kbd> | Toggle whitespace
+<kbd> SPC t i </kbd> | Toggle indent guide
+<kbd> SPC t I </kbd> | Toggle auto indent
+
+
 
 #### UI toggles/themes
 
@@ -87,7 +95,7 @@ Key Binding          | Description
 <kbd> SPC T F </kbd> | Toggle full screen
 <kbd> SPC T M </kbd> | Toggle maximize
 <kbd> SPC T n </kbd> | Cycle themes
-
+<kbd> SPC T m </kbd> | Toggle menu bar
 
 #### Meta
 
