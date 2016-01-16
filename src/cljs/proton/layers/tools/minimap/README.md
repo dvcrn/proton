@@ -1,4 +1,4 @@
-## Git configuration layer
+## Minimap layer
 
 This layer adds the minimap package and a keybinding to toggle it with `<spc> t m`
 
