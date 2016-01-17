@@ -21,6 +21,7 @@
      ;; other
      :advanced-open-file
      :project-manager
+     :golden-ratio
 
      ;; current default theme
      :atom-material-ui

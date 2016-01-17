@@ -85,6 +85,7 @@ Key Binding          | Description
 <kbd> SPC t w </kbd> | Toggle whitespace
 <kbd> SPC t i </kbd> | Toggle indent guide
 <kbd> SPC t I </kbd> | Toggle auto indent
+<kbd> SPC t g </kbd> | Toggle golden ratio
 
 
 
