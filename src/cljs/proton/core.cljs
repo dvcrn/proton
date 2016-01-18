@@ -115,7 +115,7 @@
           (let [to-install (pm/get-to-install all-packages)]
             (if (> (count to-install) 0)
               (do
-                (atom-env/insert-process-step! (str "Installing <span class='proton-status-package-count'>" (count to-install) "</span> new packages") "")
+                (atom-env/insert-process-step! (str "Installing <span class='proton-status-package-count'>" (count to-install) "</span> new package(s)") "")
                 (doseq [package to-install]
                   (atom-env/insert-process-step! (str "Installing <span class='proton-status-package'>" (name package) "</span>"))
                   (<! (pm/install-package (name package)))
@@ -125,7 +125,7 @@
           (let [to-remove (pm/get-to-remove all-packages)]
             (if (> (count to-remove) 0)
               (do
-                (atom-env/insert-process-step! (str "Removing <span class='proton-status-package-count'>" (count to-remove) "</span> orphaned packages") "")
+                (atom-env/insert-process-step! (str "Removing <span class='proton-status-package-count'>" (count to-remove) "</span> orphaned package(s)") "")
                 (doseq [package to-remove]
                   (atom-env/insert-process-step! (str "Removing <span class='proton-status-package'>" (name package) "</span>"))
                   (<! (pm/remove-package (name package)))
