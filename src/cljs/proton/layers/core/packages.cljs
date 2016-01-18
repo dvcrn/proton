@@ -9,6 +9,8 @@
      :relative-numbers
      :tab-switcher
      :zentabs
+     :theme-switch
+     :maximize-panes
 
      :recent-files-fuzzy-finder
      :autoupdate-packages

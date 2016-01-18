@@ -22,10 +22,6 @@ The core layer should get included by default. No installation needed.
 Key Binding        | Description
 -------------------|------------------------
 <kbd>SPC 0-9</kbd> | focus on N pane
-<kbd>SPC j</kbd>   | go to pane below
-<kbd>SPC k</kbd>   | go to pane above
-<kbd>SPC l</kbd>   | go to pane on the left
-<kbd>SPC h</kbd>   | go to pane on the right
 <kbd>SPC tab</kbd> | visit last used buffer
 <kbd>SPC SPC</kbd> | easy motion by letter
 <kbd>SPC v</kbd>   | expand region
@@ -46,13 +42,19 @@ Key Binding            | Description
 #### Window
 
 Key Binding          | Description
----------------------|--------------------------------
+---------------------|------------------------------------------------
 <kbd> SPC w d </kbd> | Destroy current window / pane
+<kbd> SPC w j </kbd> | Go to pane below
+<kbd> SPC w k </kbd> | Go to pane above
+<kbd> SPC w l </kbd> | Go to pane on the left
+<kbd> SPC w h </kbd> | Go to pane on the right
 <kbd> SPC w v </kbd> | Split vertically
-<kbd> SPC w h </kbd> | Split horizontally
+<kbd> SPC w s </kbd> | Split horizontally
 <kbd> SPC w V </kbd> | Split vertically and focus left
-<kbd> SPC w H </kbd> | Split horizontally and focus up
-<kbd> SPC w m </kbd> | Destroy all other panes (maximise current pane)
+<kbd> SPC w S </kbd> | Split horizontally and focus up
+<kbd> SPC w o </kbd> | Destroy all other panes (maximise current pane)
+<kbd> SPC w m </kbd> | Maximize active pane
+<kbd> SPC w c </kbd> | Close active pane
 
 #### Buffer
 
