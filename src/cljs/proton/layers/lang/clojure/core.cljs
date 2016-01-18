@@ -49,8 +49,8 @@
   (mode/link-modes :clojure-major-mode (mode/package-mode-name :proto-repl)))
 
 (defmethod get-packages :lang/clojure []
-  [:Parinfer
-   :proto-repl])
+  [:Parinfer])
+   ;; :proto-repl])
 
 (defmethod describe-mode :lang/clojure []
   {:mode-name :clojure-major-mode
