@@ -68,13 +68,14 @@ Key Binding          | Description
 
 Key Binding          | Description
 ---------------------|--------------------------
+<kbd> SPC p / </kbd> | Find in project files
+<kbd> SPC p f </kbd> | Find file in project
+<kbd> SPC p r </kbd> | Find recently opened file
+<kbd> SPC p b </kbd> | List open buffers
+<kbd> SPC p t </kbd> | Toggle tree view
 <kbd> SPC p p </kbd> | Switch project
 <kbd> SPC p s </kbd> | Save project
 <kbd> SPC p e </kbd> | Edit project
-<kbd> SPC p b </kbd> | Find project buffer
-<kbd> SPC p t </kbd> | Toggle tree view
-<kbd> SPC p f </kbd> | Open project file
-<kbd> SPC p r </kbd> | Open recently opened file
 
 #### Toggles
 
