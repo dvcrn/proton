@@ -16,22 +16,24 @@
        :A {:action "git-plus:add-all" :title "add all files"}
        :s {:action "atomatigit:toggle" :title "status" :target actions/get-active-editor}
        :S {:category "stash"
-           :s {:action "git-plus:stash-save-changes" :title "stash"}
-           :a {:action "git-plus:stash-apply" :title "apply"}
-           :p {:action "git-plus:stash-pop" :title "pop"}
-           :d {:action "git-plus:stash-delete" :title "drop"}}
-       :f {:action "git-plus:fetch"}
-       :r {:action "git-plus:rebase"}
-       :m {:action "git-plus:merge"}
-       :P {:action "git-plus:push" :title "push"}
-       :p {:action "git-plus:pull" :title "pull"}
+           :s {:action "git-plus:stash-save-changes" :title "stash" :target actions/get-active-editor}
+           :a {:action "git-plus:stash-apply" :title "apply" :target actions/get-active-editor}
+           :p {:action "git-plus:stash-pop" :title "pop" :target actions/get-active-editor}
+           :d {:action "git-plus:stash-delete" :title "drop" :target actions/get-active-editor}}
+       :f {:action "git-plus:fetch" :title "fetch" :target actions/get-active-editor}
+       :r {:action "git-plus:rebase" :title "rebase" :target actions/get-active-editor}
+       :m {:action "git-plus:merge" :title "merge" :target actions/get-active-editor}
+       :P {:action "git-plus:push" :title "push" :target actions/get-active-editor}
+       :p {:action "git-plus:pull" :title "pull" :target actions/get-active-editor}
        :c {:category "commit"
-           :c {:action "git-plus:commit" :title "commit"}
-           :C {:action "git-plus:commit-all" :title "commit all"}
-           :a {:action "git-plus:commit-amend" :title "amend commit"}}
+           :c {:action "git-plus:commit" :title "commit" :target actions/get-active-editor}
+           :C {:action "git-plus:commit-all" :title "commit all" :target actions/get-active-editor}
+           :a {:action "git-plus:commit-amend" :title "amend commit" :target actions/get-active-editor}}
        :b {:category "branch"
-           :c {:action "git-plus:checkout" :title "checkout branch"}
-           :C {:action "git-plus:new-branch" :title "create branch"}}
+           :c {:action "git-plus:checkout" :title "checkout branch" :target actions/get-active-editor}
+           :C {:action "git-plus:new-branch" :title "create branch" :target actions/get-active-editor}
+           :d {:action "git-plus:delete-local-branch" :title "delete local branch" :target actions/get-active-editor}
+           :D {:action "git-plus:delete-remote-branch" :title "delete remote branch" :target actions/get-active-editor}}
        :B {:action "blame:toggle" :title "blame" :target actions/get-active-editor}
        :L {:action "git-plus:log-current-file" :target actions/get-active-editor :title "log current file"}
        :l {:action "git-plus:log" :title "log project"}
