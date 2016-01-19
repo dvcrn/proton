@@ -24,6 +24,7 @@
      :advanced-open-file
      :project-manager
      :golden-ratio
+     :autocomplete-paths
 
      ;; current default theme
      :atom-material-ui
