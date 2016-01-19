@@ -58,6 +58,19 @@
                :f {:title "advanced-open-file"
                    :action "advanced-open-file:toggle"}
                := {:action "atom-beautify:beautify-editor" :title "format file"}}
+          :s {:category "selection"
+              :e {:action "find-and-replace:select-all"
+                  :target actions/get-active-editor
+                  :title "expand selection"}
+              :n {:action "find-and-replace:select-next"
+                  :target actions/get-active-editor
+                  :title "select next"}
+              :s {:action "find-and-replace:select-skip"
+                  :target actions/get-active-editor
+                  :title "skip next"}
+              :u {:action "find-and-replace:select-undo"
+                  :target actions/get-active-editor
+                  :title "undo last select"}}
           :w {:category "window"
               :j {:action "window:focus-pane-below"
                   :target actions/get-active-pane
