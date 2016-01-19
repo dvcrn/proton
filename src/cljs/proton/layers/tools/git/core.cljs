@@ -16,10 +16,13 @@
        :A {:action "git-plus:add-all" :title "add all files"}
        :s {:action "atomatigit:toggle" :title "status" :target actions/get-active-editor}
        :S {:category "stash"
-           :s {:action "git-plus:stash-save" :title "save"}
+           :s {:action "git-plus:stash-save-changes" :title "stash"}
+           :a {:action "git-plus:stash-apply" :title "apply"}
            :p {:action "git-plus:stash-pop" :title "pop"}
-           :k {:action "git-plus:stash-keep" :title "keep"}
-           :d {:action "git-plus:stash-drop" :title "drop"}}
+           :d {:action "git-plus:stash-delete" :title "drop"}}
+       :f {:action "git-plus:fetch"}
+       :r {:action "git-plus:rebase"}
+       :m {:action "git-plus:merge"}
        :P {:action "git-plus:push" :title "push"}
        :p {:action "git-plus:pull" :title "pull"}
        :c {:category "commit"
