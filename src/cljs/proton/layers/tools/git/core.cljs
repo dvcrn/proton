@@ -13,11 +13,23 @@
   []
   {:g {:category "git"
        :a {:action "git-plus:add" :title "add files"}
-       :S {:action "git-plus:status" :title "git-plus status"}
+       :A {:action "git-plus:add-all" :title "add all files"}
        :s {:action "atomatigit:toggle" :title "status" :target actions/get-active-editor}
+       :S {:category "stash"
+           :s {:action "git-plus:stash-save" :title "save"}
+           :p {:action "git-plus:stash-pop" :title "pop"}
+           :k {:action "git-plus:stash-keep" :title "keep"}
+           :d {:action "git-plus:stash-drop" :title "drop"}}
        :P {:action "git-plus:push" :title "push"}
-       :c {:action "git-plus:commit" :title "commit"}
-       :b {:action "blame:toggle" :title "blame" :target actions/get-active-editor}
+       :p {:action "git-plus:pull" :title "pull"}
+       :c {:category "commit"
+           :c {:action "git-plus:commit" :title "commit"}
+           :C {:action "git-plus:commit-all" :title "commit all"}
+           :a {:action "git-plus:commit-amend" :title "amend commit"}}
+       :b {:category "branch"
+           :c {:action "git-plus:checkout" :title "checkout branch"}
+           :C {:action "git-plus:new-branch" :title "create branch"}}
+       :B {:action "blame:toggle" :title "blame" :target actions/get-active-editor}
        :L {:action "git-plus:log-current-file" :target actions/get-active-editor :title "log current file"}
        :l {:action "git-plus:log" :title "log project"}
        :h {:action "git-history:show-file-history" :target actions/get-active-editor :title "file history"}
@@ -38,7 +50,8 @@
 (defmethod get-keymaps :tools/git []
   [{:selector ".atomatigit .file-list-view" :keymap [["s" "atomatigit:stage"]
                                                      ["d" "atomatigit:toggle-diff"]
-                                                     ["u" "atomatigit:unstage"]]}])
+                                                     ["u" "atomatigit:unstage"]
+                                                     ["q" "core:cancel"]]}])
 
 (defmethod get-initial-config :tools/git [] [])
 
