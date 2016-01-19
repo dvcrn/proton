@@ -40,7 +40,7 @@
           :tab {:action "tab-switcher:next"
                 :title "previous buffer"}
           :space {:action "easy-motion-redux:letter"
-                  :target "atom-text-editor:not([mini])"
+                  :target actions/get-active-editor
                   :title "easy motion"}
           (keyword ":") {:action "command-palette:toggle"
                          :title "run command"}
@@ -130,7 +130,7 @@
                  :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
                  :action "editor:toggle-line-numbers"}
              :i {:action "editor:toggle-indent-guide"
-                 :target "atom-text-editor:not([mini])"
+                 :target actions/get-active-editor
                  :title "indent guide"}
              :I {:action "window:toggle-auto-indent"
                  :title "auto indent"}
@@ -156,10 +156,10 @@
               :m {:action "window:toggle-menu-bar" :title "toggle menu bar"}}
           :m {:category "mode"}
           (keyword ";") {:action "editor:toggle-line-comments"
-                         :target "atom-text-editor:not([mini])"
+                         :target actions/get-active-editor
                          :title "comment lines"}
           :v {:action "expand-region:expand"
-              :target "atom-text-editor:not([mini])"
+              :target actions/get-active-editor
               :title "expand region"}
           :_ {:category "meta"
               :d {:title "find-dotfile"
