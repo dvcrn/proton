@@ -1,6 +1,7 @@
 (ns proton.layers.lang.python.core
   (:require [proton.lib.helpers :as helpers]
-            [proton.lib.mode :as mode])
+            [proton.lib.mode :as mode]
+            [proton.layers.core.actions :as actions])
   (:use [proton.layers.base :only [init-layer! get-initial-config get-keybindings get-packages get-keymaps describe-mode register-layer-dependencies init-package]]))
 
 (defmethod init-layer! :lang/python
@@ -12,21 +13,21 @@
   (mode/define-package-mode :autocomplete-python
     {:mode-keybindings
      {:g {:category "goto"
-          :g {:action "autocomplete-python:go-to-definition" :target "atom-text-editor[data-grammar~=python]:not(.mini)" :title "definition"}}}})
+          :g {:action "autocomplete-python:go-to-definition" :target actions/get-active-editor :title "definition"}}}})
   (mode/link-modes :python-major-mode (mode/package-mode-name :autocomplete-python)))
 
 (defmethod init-package [:lang/python :python-yapf] []
   (mode/define-package-mode :python-yapf
     {:mode-keybindings
-      {:= {:action "python-yapf:formatCode" :target "atom-text-editor:not([mini])" :title "yapf format file"}}})
+      {:= {:action "python-yapf:formatCode" :target actions/get-active-editor :title "yapf format file"}}})
   (mode/link-modes :python-major-mode (mode/package-mode-name :python-yapf)))
 
 (defmethod init-package [:lang/python :python-tools] []
   (mode/define-package-mode :python-tools
     {:mode-keybindings
       {:g {:category "goto"
-           :u {:action "python-tools:show-usages" :target "atom-text-editor:not([mini])" :title "show usages"}}
-       :S {:action "python-tools:select-all-string" :target "atom-text-editor:not([mini])"}}})
+           :u {:action "python-tools:show-usages" :target actions/get-active-editor :title "show usages"}}
+       :S {:action "python-tools:select-all-string" :target actions/get-active-editor}}})
   (mode/link-modes :python-major-mode (mode/package-mode-name :python-tools)))
 
 (defmethod init-package [:lang/python :python-isort] []
@@ -34,7 +35,7 @@
     {:mode-keybindings
       {:r {:category "refactor"
            :i {:category "imports"
-               :s {:action "python-isort:sortImports" :target "atom-text-editor:not([mini])" :title "sort imports"}}}}})
+               :s {:action "python-isort:sortImports" :target actions/get-active-editor :title "sort imports"}}}}})
   (mode/link-modes :python-major-mode (mode/package-mode-name :python-isort)))
 
 (defmethod get-packages :lang/python []
