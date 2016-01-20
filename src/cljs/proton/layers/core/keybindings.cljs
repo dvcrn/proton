@@ -115,7 +115,9 @@
              :e {:action "project-manager:edit-projects"
                  :title "edit projects"}
              :r {:action "recent-files-fuzzy-finder:toggle-finder"
-                 :title "recent files"}}
+                 :title "recent files"}
+             (keyword "/") {:action "project-find:show"
+                            :title "search in files"}}
          :t {:category "toggles"
              :t {:title "tab-bar"
                  :fx (fn []

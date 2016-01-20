@@ -1,5 +1,5 @@
 (ns proton.lib.helpers
-  (:require [clojure.string :as string :refer [split upper-case lower-case]]
+  (:require [clojure.string :as string :refer [split upper-case lower-case join]]
             [cljs.nodejs :as node]
             [clojure.set :as cljset]
             [proton.config.proton :as config]))
@@ -9,6 +9,7 @@
 
 ;; seperate map with overrides. 189 (underscore) kept getting resolved as '½' which we don't want.
 (def char-code-override {189 "_"
+                         192 "/"
                          9 "tab"})
 
 (defn normalize-keystroke
@@ -68,7 +69,7 @@
         is-category? ((comp not nil?) category)
         class-name (if is-category? "proton-key-category" "proton-key-action")
         value (if is-category? (str "+" category) (or title action))
-        keystroke (name (key keybinding))]
+        keystroke (-> keybinding first str rest join)]
       (str "<li class='flex-item'><span class='proton-key'>[" keystroke "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
 
 (defn show-item? [[_ options]]
