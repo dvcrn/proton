@@ -30,7 +30,7 @@
      (if (not (= key :category))
        (if (nil? (get val :category))
          ;; if no :category key is present, the row is a normal keybinding and doesn't need further processing
-         [(str "<kbd>" (clojure.string/trim (str prefix " " (name key))) "</kbd> | " (get val :title))]
+         [(str "<kbd> SPC " (clojure.string/trim (str prefix " " (name key))) "</kbd> | " (get val :title))]
 
          ;; if however a :category key is present, we need to recurse deeper and pull all of the sub cats out
          (let [cat (clojure.string/trim (str category " " (get val :category)))
