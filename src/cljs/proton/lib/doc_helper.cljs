@@ -58,7 +58,7 @@
   (let [kb-tree (layers/get-keybindings layer-name)]
     (reset! keybinding-atom {})
     (doall (map keybinding-doc-row (seq kb-tree)))
-    (let [kbds @keybinding-atom]
+    (let [kbds (reverse @keybinding-atom)]
       (map #(str (get % 0) "\n"
                  "Key Binding | Description \n"
                  "------------|------------ \n"
