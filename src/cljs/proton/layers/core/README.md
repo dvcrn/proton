@@ -64,6 +64,15 @@ Key Binding          | Description
 <kbd> SPC b K </kbd> | Kill other buffers
 <kbd> SPC b d </kbd> | Delete / destroy current buffer
 
+#### Search
+
+Key Binding          | Description
+---------------------|-------------------------------------------------------------
+<kbd> SPC s e </kbd> | Expand selection (multi-select all matching words in buffer)
+<kbd> SPC s n </kbd> | Multi-select next word
+<kbd> SPC s s </kbd> | Skip next word for multi-select
+<kbd> SPC s u </kbd> | Undo last select
+
 #### Project
 
 Key Binding          | Description
