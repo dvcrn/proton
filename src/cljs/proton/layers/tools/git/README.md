@@ -17,20 +17,57 @@ Add `:tools/git` to your layers.
 
 ### Key Bindings
 
-Key Binding | Description
-------------|----------------------------------
-`SPC g a`   | Git Add Files
-`SPC g S`   | Git Status
-`SPC g s`   | Atomatigit Git Status
-`SPC g P`   | Git Push
-`SPC g c`   | Git Commit
-`SPC g b`   | Toggle Git Blame
-`SPC g L`   | Git Log
-`SPC g l`   | Git Log for Current File
-`SPC g h`   | Git History for Current File
-`SPC g d n` | Git Diff Next Hunk
-`SPC g d N` | Git Diff Previous Hunk
-`SPC g d l` | Toggle Diff List for Current File
+#### git
+
+Key Binding         | Description
+--------------------|-----------------
+<kbd> SPC g L</kbd> | log current file
+<kbd> SPC g r</kbd> | rebase
+<kbd> SPC g A</kbd> | add all files
+<kbd> SPC g m</kbd> | merge
+<kbd> SPC g P</kbd> | push
+<kbd> SPC g B</kbd> | blame
+<kbd> SPC g s</kbd> | status
+<kbd> SPC g l</kbd> | log project
+<kbd> SPC g h</kbd> | file history
+<kbd> SPC g f</kbd> | fetch
+<kbd> SPC g p</kbd> | pull
+<kbd> SPC g a</kbd> | add files
+
+#### git stash
+
+Key Binding           | Description
+----------------------|------------
+<kbd> SPC g S s</kbd> | stash
+<kbd> SPC g S a</kbd> | apply
+<kbd> SPC g S p</kbd> | pop
+<kbd> SPC g S d</kbd> | drop
+
+#### git diff
+
+Key Binding           | Description
+----------------------|--------------
+<kbd> SPC g d n</kbd> | next diff
+<kbd> SPC g d N</kbd> | previous diff
+<kbd> SPC g d l</kbd> | list diffs
+
+#### git branch
+
+Key Binding           | Description
+----------------------|-----------------------
+<kbd> SPC g b c</kbd> | checkout branch
+<kbd> SPC g b C</kbd> | create branch
+<kbd> SPC g b r</kbd> | checkout remote branch
+<kbd> SPC g b d</kbd> | delete local branch
+<kbd> SPC g b D</kbd> | delete remote branch
+
+#### git commit
+
+Key Binding           | Description
+----------------------|-------------
+<kbd> SPC g c c</kbd> | commit
+<kbd> SPC g c C</kbd> | commit all
+<kbd> SPC g c a</kbd> | amend commit
 
 ### Configuration
 
