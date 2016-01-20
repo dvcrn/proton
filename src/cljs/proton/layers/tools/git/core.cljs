@@ -32,6 +32,7 @@
        :b {:category "branch"
            :c {:action "git-plus:checkout" :title "checkout branch" :target actions/get-active-editor}
            :C {:action "git-plus:new-branch" :title "create branch" :target actions/get-active-editor}
+           :r {:action "git-plus:checkout-remote" :title "checkout remote branch" :target actions/get-active-editor}
            :d {:action "git-plus:delete-local-branch" :title "delete local branch" :target actions/get-active-editor}
            :D {:action "git-plus:delete-remote-branch" :title "delete remote branch" :target actions/get-active-editor}}
        :B {:action "blame:toggle" :title "blame" :target actions/get-active-editor}
