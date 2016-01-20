@@ -64,7 +64,7 @@ Key Binding          | Description
 <kbd> SPC b K </kbd> | Kill other buffers
 <kbd> SPC b d </kbd> | Delete / destroy current buffer
 
-#### Selection
+#### Search
 
 Key Binding          | Description
 ---------------------|-------------------------------------------------------------

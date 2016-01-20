@@ -58,7 +58,7 @@
                :f {:title "advanced-open-file"
                    :action "advanced-open-file:toggle"}
                := {:action "atom-beautify:beautify-editor" :title "format file"}}
-          :s {:category "selection"
+          :s {:category "search"
               :e {:action "find-and-replace:select-all"
                   :target actions/get-active-editor
                   :title "expand selection"}
