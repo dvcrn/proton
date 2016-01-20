@@ -30,6 +30,7 @@
             [proton.layers.lang.elixir.core]
             [proton.layers.lang.javascript.core]
             [proton.layers.lang.rust.core]
+            [proton.layers.lang.html.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]
