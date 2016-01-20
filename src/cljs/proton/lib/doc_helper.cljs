@@ -61,5 +61,6 @@
     (let [kbds @keybinding-atom]
       (map #(str (get % 0) "\n"
                  "Key Binding | Description \n"
+                 "------------|------------ \n"
                  (clojure.string/join "\n" (get % 1)))
            kbds))))
