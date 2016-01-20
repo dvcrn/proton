@@ -17,20 +17,57 @@ Add `:tools/git` to your layers.
 
 ### Key Bindings
 
-Key Binding | Description
-------------|----------------------------------
-`SPC g a`   | Git Add Files
-`SPC g S`   | Git Status
-`SPC g s`   | Atomatigit Git Status
-`SPC g P`   | Git Push
-`SPC g c`   | Git Commit
-`SPC g b`   | Toggle Git Blame
-`SPC g L`   | Git Log
-`SPC g l`   | Git Log for Current File
-`SPC g h`   | Git History for Current File
-`SPC g d n` | Git Diff Next Hunk
-`SPC g d N` | Git Diff Previous Hunk
-`SPC g d l` | Toggle Diff List for Current File
+#### git
+
+Key Binding    | Description
+---------------|-----------------
+<kbd>g L</kbd> | log current file
+<kbd>g r</kbd> | rebase
+<kbd>g A</kbd> | add all files
+<kbd>g m</kbd> | merge
+<kbd>g P</kbd> | push
+<kbd>g B</kbd> | blame
+<kbd>g s</kbd> | status
+<kbd>g l</kbd> | log project
+<kbd>g h</kbd> | file history
+<kbd>g f</kbd> | fetch
+<kbd>g p</kbd> | pull
+<kbd>g a</kbd> | add files
+
+#### git commit
+
+Key Binding      | Description
+-----------------|-------------
+<kbd>g c c</kbd> | commit
+<kbd>g c C</kbd> | commit all
+<kbd>g c a</kbd> | amend commit
+
+#### git branch
+
+Key Binding      | Description
+-----------------|-----------------------
+<kbd>g b c</kbd> | checkout branch
+<kbd>g b C</kbd> | create branch
+<kbd>g b r</kbd> | checkout remote branch
+<kbd>g b d</kbd> | delete local branch
+<kbd>g b D</kbd> | delete remote branch
+
+#### git git diff
+
+Key Binding      | Description
+-----------------|--------------
+<kbd>g d n</kbd> | next diff
+<kbd>g d N</kbd> | previous diff
+<kbd>g d l</kbd> | list diffs
+
+#### git stash
+
+Key Binding      | Description
+-----------------|------------
+<kbd>g S s</kbd> | stash
+<kbd>g S a</kbd> | apply
+<kbd>g S p</kbd> | pop
+<kbd>g S d</kbd> | drop
 
 ### Configuration
 
