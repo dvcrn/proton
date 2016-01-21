@@ -15,6 +15,7 @@
      :recent-files-fuzzy-finder
      :autoupdate-packages
      :easy-motion-redux
+     :environment
 
      :hyperclick
      :nuclide-file-watcher
