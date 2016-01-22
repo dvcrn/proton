@@ -12,12 +12,11 @@ Includes following packages:
 - [autoclose-html](https://atom.io/packages/autoclose-html)
 - [autocomplete-html-entities](https://atom.io/packages/autocomplete-html-entities)
 - [emmet](https://atom.io/packages/emmet)
-- [linter-sass-lint](https://atom.io/packages/linter-sass-lint)
 - [linter-stylint](https://atom.io/packages/linter-stylint)
 - [linter-less](https://atom.io/packages/linter-less)
 - [linter-bootlint](https://atom.io/packages/linter-bootlint)
 - [linter-haml](https://atom.io/packages/linter-haml)
-- [linter-slim](https://atom.io/packages/linter-slim)
+- [linter-slim](https://atom.io/packages/linterp-slim)
 - [linter-xmllint](https://atom.io/packages/linter-xmllint)
 
 ### Install

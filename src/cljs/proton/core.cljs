@@ -34,6 +34,7 @@
             [proton.layers.lang.go.core]
             [proton.layers.lang.json.core]
             [proton.layers.lang.css.core]
+            [proton.layers.lang.sass.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]

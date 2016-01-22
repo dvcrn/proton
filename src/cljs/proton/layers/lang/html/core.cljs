@@ -21,8 +21,6 @@
 
 (def style-modes-list
  {:less-major-mode {:atom-scope "source.css.less" :atom-grammars "Less"}
-  :sass-major-mode {:atom-scope "source.sass" :atom-grammars "Sass"}
-  :scss-major-mode {:atom-scope "source.css.scss" :atom-grammars "SCSS"}
   :stylus-major-mode {:atom-scope "source.stylus" :atom-grammars "Stylus"}})
 
 (def html-like-modes
@@ -31,13 +29,12 @@
    :mustache-major-mode {:atom-scope "text.html.mustache"}})
 
 (defmethod init-layer! :lang/html []
-  (console! "init" :lang/web)
+  (console! "init" :lang/html)
   ; define style modess
   (doall (map #(mode/define-mode (key %) (val %)) (merge style-modes-list html-like-modes)))
 
   (register-layer-dependencies :tools/linter
-    [:linter-sass-lint
-     :linter-stylint
+    [:linter-stylint
      :linter-less
 
      :linter-bootlint
@@ -48,20 +45,6 @@
 (defmethod init-package [:lang/html :autoclose-html] []
   (let [additionalGrammars (array-seq (atom-env/get-config "autoclose-html.additionalGrammars"))]
     (atom-env/set-config! "autoclose-html.additionalGrammars" (distinct (concat additionalGrammars ["XSL" "XML"])))))
-
-(defmethod init-package [:lang/html :atom-css-comb] []
-  (mode/define-package-mode :atom-css-comb
-    {:mode-keybindings
-      {:f {:category "format"
-           :c {:action "css-comb:comb" :target "atom-text-editor:not([mini])" :title "css comb"}}}})
-  (doall (map #(mode/link-modes (key %) (mode/package-mode-name :atom-css-comb)) (dissoc style-modes-list :stylus-major-mode))))
-
-(defmethod init-package [:lang/html :autoprefixer] []
-  (mode/define-package-mode :autoprefixer
-    {:mode-keybindings
-      {:f {:category "format"
-           :a {:action "autoprefixer"}}}})
-  (mode/link-modes :css-major-mode (mode/package-mode-name :autoprefixer)))
 
 (defmethod init-package [:lang/html :emmet] []
   (mode/define-package-mode :emmet
