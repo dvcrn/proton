@@ -8,13 +8,7 @@
 (defmethod get-packages :lang/html []
   [:language-sass
    :language-less
-   :language-css
    :Stylus
-   :pigments
-   :autoprefixer
-   :css-snippets
-   :atom-css-comb
-   :autocomplete-css
 
    ; templates
    :language-html
@@ -26,8 +20,7 @@
    :emmet])
 
 (def style-modes-list
- {:css-major-mode {:atom-scope "source.css" :atom-grammars "CSS"}
-  :less-major-mode {:atom-scope "source.css.less" :atom-grammars "Less"}
+ {:less-major-mode {:atom-scope "source.css.less" :atom-grammars "Less"}
   :sass-major-mode {:atom-scope "source.sass" :atom-grammars "Sass"}
   :scss-major-mode {:atom-scope "source.css.scss" :atom-grammars "SCSS"}
   :stylus-major-mode {:atom-scope "source.stylus" :atom-grammars "Stylus"}})
@@ -43,8 +36,7 @@
   (doall (map #(mode/define-mode (key %) (val %)) (merge style-modes-list html-like-modes)))
 
   (register-layer-dependencies :tools/linter
-    [:linter-csslint
-     :linter-sass-lint
+    [:linter-sass-lint
      :linter-stylint
      :linter-less
 

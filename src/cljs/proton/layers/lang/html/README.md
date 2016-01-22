@@ -1,14 +1,10 @@
 ## HTML configuration layer
 
-Adds support for template and style related languages __html__, __handlebars__, __mustache__, __jade__, __haml__, __slim__, __css__, __scss__, __sass__, __less__, __stylus__.
+Adds support for HTML language.
 
 Includes following packages:
 
 - [Stylus](https://atom.io/packages/stylus)
-- [pigments](https://atom.io/packages/pigments)
-- [autoprefixer](https://atom.io/packages/autoprefixer)
-- [css-snippets](https://atom.io/packages/css-snippets)
-- [atom-css-comb](https://atom.io/packages/atom-css-comb)
 - [templates](https://atom.io/packages/templates)
 - [language-slim](https://atom.io/packages/language-slim)
 - [language-haml](https://atom.io/packages/language-haml)
@@ -16,7 +12,6 @@ Includes following packages:
 - [autoclose-html](https://atom.io/packages/autoclose-html)
 - [autocomplete-html-entities](https://atom.io/packages/autocomplete-html-entities)
 - [emmet](https://atom.io/packages/emmet)
-- [linter-csslint](https://atom.io/packages/linter-csslint)
 - [linter-sass-lint](https://atom.io/packages/linter-sass-lint)
 - [linter-stylint](https://atom.io/packages/linter-stylint)
 - [linter-less](https://atom.io/packages/linter-less)
@@ -46,14 +41,6 @@ Key Binding            | Description
 <kbd> SPC m SPC </kbd> | Emmet interactive expand abbreviation
 <kbd> SPC m i s </kbd> | Emmet update image size
 <kbd> SPC m i e </kbd> | Emmet encode decode image
-
-
-### Mode Key Binding (CSS)
-
-Key Binding            | Description
------------------------|--------------------------------------
-<kbd> SPC m f a </kbd>   | Format file/selection with autoprefixer
-<kbd> SPC m f c </kbd>   | Format file/selection with css-comb
 
 
 ### Mode Key Binding (Less, Sass, Scss)
