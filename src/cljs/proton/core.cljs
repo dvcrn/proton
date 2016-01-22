@@ -35,6 +35,7 @@
             [proton.layers.lang.json.core]
             [proton.layers.lang.css.core]
             [proton.layers.lang.sass.core]
+            [proton.layers.lang.stylus.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]

@@ -6,10 +6,7 @@
   (:use [proton.layers.base :only [init-layer! get-packages register-layer-dependencies init-package]]))
 
 (defmethod get-packages :lang/html []
-  [:language-sass
-   :language-less
-   :Stylus
-
+  [:language-less
    ; templates
    :language-html
    :language-slim
@@ -20,8 +17,7 @@
    :emmet])
 
 (def style-modes-list
- {:less-major-mode {:atom-scope "source.css.less" :atom-grammars "Less"}
-  :stylus-major-mode {:atom-scope "source.stylus" :atom-grammars "Stylus"}})
+ {:less-major-mode {:atom-scope "source.css.less" :atom-grammars "Less"}})
 
 (def html-like-modes
   {:html-major-mode {:atom-scope "text.html.basic"}
@@ -34,8 +30,7 @@
   (doall (map #(mode/define-mode (key %) (val %)) (merge style-modes-list html-like-modes)))
 
   (register-layer-dependencies :tools/linter
-    [:linter-stylint
-     :linter-less
+    [:linter-less
 
      :linter-bootlint
      :linter-haml
