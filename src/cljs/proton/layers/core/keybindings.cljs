@@ -44,6 +44,18 @@
           :space {:action "easy-motion-redux:letter"
                   :target actions/get-active-editor
                   :title "easy motion"}
+          :j {:action "window:focus-pane-below"
+              :target actions/get-active-pane
+              :title "focus below pane"}
+          :k {:action "window:focus-pane-above"
+              :target actions/get-active-pane
+              :title "focus above pane"}
+          :l {:action "window:focus-pane-on-right"
+              :target actions/get-active-pane
+              :title "focus right pane"}
+          :h {:action "window:focus-pane-on-left"
+              :target actions/get-active-pane
+              :title "focus left pane"}
           (keyword ":") {:action "command-palette:toggle"
                          :title "run command"}
           :f {:category "files"
