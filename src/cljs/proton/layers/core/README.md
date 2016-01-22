@@ -21,14 +21,15 @@ The core layer should get included by default. No installation needed.
 
 #### Root
 
-Key Binding        | Description
--------------------|------------------------
-<kbd>SPC 0-9</kbd> | focus on N pane
-<kbd>SPC tab</kbd> | visit last used buffer
-<kbd>SPC SPC</kbd> | easy motion by letter
-<kbd>SPC v</kbd>   | expand region
-<kbd>SPC ;</kbd>   | toggle line comments
-<kbd>SPC .</kbd>   | repeat last proton command
+Key Binding            | Description
+-----------------------|---------------------------
+<kbd>SPC 0-9</kbd>     | focus on N pane
+<kbd>SPC tab</kbd>     | visit last used buffer
+<kbd>SPC SPC</kbd>     | easy motion by letter
+<kbd>SPC v</kbd>       | expand region
+<kbd>SPC ;</kbd>       | toggle line comments
+<kbd>SPC .</kbd>       | repeat last proton command
+<kbd>SPC j/k/l/h</kbd> | Go to pane in direction
 
 
 #### Files
