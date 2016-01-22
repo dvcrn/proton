@@ -40,6 +40,7 @@
             [proton.layers.lang.haml.core]
             [proton.layers.lang.slim.core]
             [proton.layers.lang.jade.core]
+            [proton.layers.lang.handlebars.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]

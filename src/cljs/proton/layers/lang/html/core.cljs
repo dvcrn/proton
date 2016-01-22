@@ -7,14 +7,12 @@
 
 (defmethod get-packages :lang/html []
   [:language-html
-   :atom-handlebars
    :autoclose-html
    :autocomplete-html-entities
    :emmet])
 
 (def html-like-modes
   {:html-major-mode {:atom-scope "text.html.basic"}
-   :handlebars-major-mode {:atom-scope "text.html.handlebars"}
    :mustache-major-mode {:atom-scope "text.html.mustache"}})
 
 (defmethod init-layer! :lang/html []
