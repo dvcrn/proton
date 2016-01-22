@@ -33,6 +33,9 @@
             [proton.layers.lang.html.core]
             [proton.layers.lang.go.core]
 
+            ;; config-files
+            [proton.layers.config-files.docker.core]
+
             ;; frameworks
             [proton.layers.frameworks.django.core]
 
