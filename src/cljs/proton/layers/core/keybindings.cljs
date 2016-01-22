@@ -9,7 +9,9 @@
     (panes/focus-on-item n)))
 
 (def keybindings
-  (atom { :0-9 {:title "select window N"}
+  (atom { :. {:fx #(atom-env/eval-last-action!)
+              :title "repeat last command"}
+          :0-9 {:title "select window N"}
           :0 {:fx (select-window-fn 0)
               :hidden true
               :title "window 0"}
