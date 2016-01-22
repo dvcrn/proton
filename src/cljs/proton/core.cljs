@@ -37,6 +37,7 @@
             [proton.layers.lang.sass.core]
             [proton.layers.lang.stylus.core]
             [proton.layers.lang.less.core]
+            [proton.layers.lang.haml.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]

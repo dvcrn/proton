@@ -8,14 +8,10 @@
 (defmethod get-packages :lang/html []
   [:language-html
    :language-slim
-   :language-haml
    :atom-handlebars
    :autoclose-html
    :autocomplete-html-entities
    :emmet])
-
-(def style-modes-list
- {:less-major-mode {:atom-scope "source.css.less" :atom-grammars "Less"}})
 
 (def html-like-modes
   {:html-major-mode {:atom-scope "text.html.basic"}
@@ -25,11 +21,10 @@
 (defmethod init-layer! :lang/html []
   (console! "init" :lang/html)
   ; define style modess
-  (doall (map #(mode/define-mode (key %) (val %)) (merge style-modes-list html-like-modes)))
+  (doall (map #(mode/define-mode (key %) (val %)) html-like-modes))
 
   (register-layer-dependencies :tools/linter
     [:linter-bootlint
-     :linter-haml
      :linter-slim
      :linter-xmllint]))
 
