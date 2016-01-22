@@ -22,6 +22,7 @@ Includes following packages:
 ### Install
 
 Add `:lang/html` to your layers.
+
 For linters support add `:tools/linters`.
 
 ### Mode Key Binding (HTML based syntax)

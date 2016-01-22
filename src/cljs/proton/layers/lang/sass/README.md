@@ -13,6 +13,7 @@ Includes following packages:
 ### Install
 
 Add `:lang/sass` to your `~/.proton`.
+
 For linter support add `:tools/linter` to your `~/.proton`.
 
 ### Key Bindings

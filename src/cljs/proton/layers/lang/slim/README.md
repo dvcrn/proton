@@ -10,4 +10,5 @@ Includes following packages:
 ### Install
 
 Add `:lang/slim` to your `~/.proton`.
+
 For linter support add `:tools/linter` to your `~/.proton`

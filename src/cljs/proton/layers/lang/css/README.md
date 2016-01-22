@@ -14,6 +14,7 @@ Includes following packages:
 ### Install
 
 Add `:lang/css` to your `~/.proton`.
+
 For linter support add `:tools/linter` to your `~/.proton`
 
 

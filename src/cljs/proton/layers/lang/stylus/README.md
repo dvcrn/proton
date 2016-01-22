@@ -11,4 +11,5 @@ Includes following packages:
 ### Install
 
 Add `:lang/stylus` to your `~/.proton`.
+
 For linter support add `:tools/linter` to your `~/.proton`.

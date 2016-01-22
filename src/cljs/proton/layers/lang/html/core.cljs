@@ -3,7 +3,7 @@
             [proton.lib.helpers :as helpers :refer [console!]]
             [proton.lib.atom :as atom-env]
             [proton.layers.core.actions :as actions])
-  (:use [proton.layers.base :only [init-layer! get-packages register-layer-dependencies init-package]]))
+  (:use [proton.layers.base :only [init-layer! get-packages register-layer-dependencies describe-mode init-package]]))
 
 (defmethod get-packages :lang/html []
   [:language-html
@@ -11,14 +11,8 @@
    :autocomplete-html-entities
    :emmet])
 
-(def html-like-modes
-  {:html-major-mode {:atom-scope "text.html.basic"}
-   :mustache-major-mode {:atom-scope "text.html.mustache"}})
-
 (defmethod init-layer! :lang/html []
   (console! "init" :lang/html)
-  (doall (map #(mode/define-mode (key %) (val %)) html-like-modes))
-
   (register-layer-dependencies :tools/linter
     [:linter-bootlint
      :linter-xmllint]))
@@ -44,4 +38,8 @@
        :c {:action "emmet:update-tag" :target actions/get-active-editor :title "change tag"}
        :v {:action "emmet:balance-outward" :target actions/get-active-editor :title "balance outward"}
        :V {:action "emmet:balance-inward" :target actions/get-active-editor :title "balance inward"}}})
-  (doall (map #(mode/link-modes (key %) (mode/package-mode-name :emmet)) html-like-modes)))
+  (mode/link-modes :html-major-mode (mode/package-mode-name :emmet)))
+
+(defmethod describe-mode :lang/html []
+  {:mode-name :html-major-mode
+   :atom-scope "text.html.basic"})

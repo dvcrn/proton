@@ -14,4 +14,5 @@
 (defmethod describe-mode :lang/handlebars []
   {:mode-name :handlebars-major-mode
    :atom-scope "text.html.handlebars"
-   :atom-grammars "HTML (Handlebars)"})
+   :atom-grammars "HTML (Handlebars)"
+   :child [:html-major-mode]})

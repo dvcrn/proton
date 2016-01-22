@@ -41,6 +41,7 @@
             [proton.layers.lang.slim.core]
             [proton.layers.lang.jade.core]
             [proton.layers.lang.handlebars.core]
+            [proton.layers.lang.mustache.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]
