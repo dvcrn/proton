@@ -7,7 +7,6 @@
 
 (defmethod get-packages :lang/html []
   [:language-html
-   :language-slim
    :atom-handlebars
    :autoclose-html
    :autocomplete-html-entities
@@ -20,12 +19,10 @@
 
 (defmethod init-layer! :lang/html []
   (console! "init" :lang/html)
-  ; define style modess
   (doall (map #(mode/define-mode (key %) (val %)) html-like-modes))
 
   (register-layer-dependencies :tools/linter
     [:linter-bootlint
-     :linter-slim
      :linter-xmllint]))
 
 (defmethod init-package [:lang/html :autoclose-html] []

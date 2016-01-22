@@ -38,6 +38,7 @@
             [proton.layers.lang.stylus.core]
             [proton.layers.lang.less.core]
             [proton.layers.lang.haml.core]
+            [proton.layers.lang.slim.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]
