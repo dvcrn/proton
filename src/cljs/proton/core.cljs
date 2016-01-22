@@ -36,6 +36,7 @@
             [proton.layers.lang.css.core]
             [proton.layers.lang.sass.core]
             [proton.layers.lang.stylus.core]
+            [proton.layers.lang.less.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]

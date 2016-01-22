@@ -11,6 +11,7 @@
 (defmethod get-packages :lang/sass []
   [:language-sass
    :atom-css-comb
+   :css-snippets
    :pigments
    :autocomplete-sass])
 

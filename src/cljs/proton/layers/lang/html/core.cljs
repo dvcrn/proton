@@ -6,9 +6,7 @@
   (:use [proton.layers.base :only [init-layer! get-packages register-layer-dependencies init-package]]))
 
 (defmethod get-packages :lang/html []
-  [:language-less
-   ; templates
-   :language-html
+  [:language-html
    :language-slim
    :language-haml
    :atom-handlebars
@@ -30,9 +28,7 @@
   (doall (map #(mode/define-mode (key %) (val %)) (merge style-modes-list html-like-modes)))
 
   (register-layer-dependencies :tools/linter
-    [:linter-less
-
-     :linter-bootlint
+    [:linter-bootlint
      :linter-haml
      :linter-slim
      :linter-xmllint]))
