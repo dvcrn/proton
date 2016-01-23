@@ -32,6 +32,7 @@
             [proton.layers.lang.rust.core]
             [proton.layers.lang.html.core]
             [proton.layers.lang.go.core]
+            [proton.layers.lang.json.core]
 
             ;; frameworks
             [proton.layers.frameworks.django.core]
