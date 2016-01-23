@@ -92,18 +92,22 @@
         (let [layer-packages (into [] (distinct (concat (proton/packages-for-layers all-layers) additional-packages)))
               all-packages (into [] (distinct (concat layer-packages (:core-packages editor-default))))
               all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
-              all-keybindings (helpers/deep-merge (proton/keybindings-for-layers all-layers) keybindings)]
+              all-keybindings (helpers/deep-merge (proton/keybindings-for-layers all-layers) keybindings)
+              wipe-configs? (true? (config-map "proton.core.wipeUserConfigs"))]
 
           ;; wipe existing config
-          (atom-env/insert-process-step! "Wiping existing configuration")
-          (doall (map atom-env/unset-config! (filter #(not (or (= "core.themes" %)
-                                                               (= "core.disabledPackages" %)))
-                                                      (atom-env/get-all-settings))))
+
+          (when wipe-configs?
+            (do
+              (atom-env/insert-process-step! "Wiping existing configuration")
+              (doall (map atom-env/unset-config! (filter #(not (or (= "core.themes" %)
+                                                                   (= "core.disabledPackages" %)))
+                                                          (atom-env/get-all-settings))))
+              (atom-env/mark-last-step-as-completed!)))
           (atom-env/set-config! "proton.core.selectedLayers" (clj->js (map #(subs (str %) 1) all-layers)))
           (pm/register-packages all-packages)
           ; avoid duplicates
           (atom-env/set-config! "core.disabledPackages" (distinct (array-seq (atom-env/get-config "core.disabledPackages"))))
-          (atom-env/mark-last-step-as-completed!)
 
           ;; save commands into command tree
           (atom-env/insert-process-step! "Initialising keybinding tree")

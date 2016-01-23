@@ -14,6 +14,8 @@ The core layer should get included by default. No installation needed.
 | `proton.core.relativeLineNumbers` | false          | __boolean__ | whether to use relative line numbers instead of absolute ones                              |
 | `proton.core.quickOpenProvider`   | :normal        | __keyword__ | which quickOpen to use. Possible options are `:normal` and `:nuclide`                      |
 | `proton.core.vim-provider`        | :vim-mode-plus | __keyword__ | which vim emulation provider to use. Possible options are `:vim-mode-plus` and `:vim-mode` |
+| `proton.core.wipeUserConfigs`     | true           | __boolean__ | always reset atom configuration before applying conifgs from layers and `~/.proton`        |
+
 
 ### Key Bindings
 

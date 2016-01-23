@@ -27,6 +27,7 @@
    ["proton.core.quickOpenProvider" :normal]
    ["proton.core.post-init-timeout" 3000]
    ["proton.core.vim-provider" :vim-mode-plus]
+   ["proton.core.wipeUserConfigs" true]
 
    ;; vim-mode
    ["vim-mode-plus.useSmartcaseForSearch" true]
