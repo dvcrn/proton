@@ -33,6 +33,15 @@
             [proton.layers.lang.html.core]
             [proton.layers.lang.go.core]
             [proton.layers.lang.json.core]
+            [proton.layers.lang.css.core]
+            [proton.layers.lang.sass.core]
+            [proton.layers.lang.stylus.core]
+            [proton.layers.lang.less.core]
+            [proton.layers.lang.haml.core]
+            [proton.layers.lang.slim.core]
+            [proton.layers.lang.jade.core]
+            [proton.layers.lang.handlebars.core]
+            [proton.layers.lang.mustache.core]
 
             ;; config-files
             [proton.layers.config-files.docker.core]
