@@ -28,6 +28,7 @@ Key Binding        | Description
 <kbd>SPC SPC</kbd> | easy motion by letter
 <kbd>SPC v</kbd>   | expand region
 <kbd>SPC ;</kbd>   | toggle line comments
+<kbd>SPC .</kbd>   | repeat last proton command
 
 
 #### Files

@@ -26,6 +26,7 @@
                                        (clj->js {:visible false
                                                   :item @element}))))
 
+(def last-action (atom {}))
 (def modal-element (atom (generate-div "test" "proton-modal-panel")))
 (def modal-panel (atom (.addModalPanel workspace (clj->js {:visible false
                                                            :item @modal-element}))))
@@ -117,7 +118,7 @@
   (let [classList (array-seq (.-classList workspace-view))]
     (not (nil? (some #{"proton-mode"} classList)))))
 
-(defn eval-action! [{:keys [action target fx]}]
+(defn eval-action! [{:keys [action target fx] :as command-map}]
   (let [selector (when (string? target) (js/document.querySelector target))
         dom-target (if (nil? target) (.getView views workspace) (or selector (target js/atom)))]
 
@@ -126,8 +127,12 @@
       (fx)
       (do
         (console! (str "Dispatching: " action))
+        (reset! last-action command-map)
         (.dispatch commands dom-target action)))
     (deactivate-proton-mode!)))
+
+(defn eval-last-action! []
+  (eval-action! @last-action))
 
 (defn get-all-settings []
   (let [config-obj (.getAll config)
