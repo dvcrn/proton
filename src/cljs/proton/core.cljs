@@ -23,6 +23,7 @@
 
             ;; langs
             [proton.layers.lang.clojure.core]
+            [proton.layers.lang.csharp.core]
             [proton.layers.lang.python.core]
             [proton.layers.lang.julia.core]
             [proton.layers.lang.latex.core]
