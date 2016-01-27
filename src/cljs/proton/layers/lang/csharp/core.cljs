@@ -13,8 +13,7 @@
   (helpers/console! "init" :lang/csharp))
 
 (defmethod get-packages :lang/csharp []
-  [:advanced-open-file
-   :atom-yeoman
+  [:atom-yeoman
    :json-schema
    :omnisharp-atom])
 
