@@ -7,12 +7,10 @@
 
 (defmethod get-initial-config :lang/csharp []
   [["omnisharp-atom.enableAdvancedFileNew" false]
-   ["omnisharp-atom.useIcons" false]
-   ["omnisharp-atom.hideLinterInterface" false]])
+   ["omnisharp-atom.useIcons" false]])
 
 (defmethod init-layer! :lang/csharp []
   (helpers/console! "init" :lang/csharp))
-  ; (register-layer-dependencies :tools/linter))
 
 (defmethod get-packages :lang/csharp []
   [:advanced-open-file
