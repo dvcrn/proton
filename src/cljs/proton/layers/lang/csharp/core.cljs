@@ -38,20 +38,24 @@
                :target actions/get-active-editor}
            :r {:title "rename"
                :action "omnisharp-atom:rename"
-               :target actions/get-active-editor}}
-       :t {:category "tests"
-           :a {:title "run all"
-               :action "omnisharp-atom:run-all-tests"
-               :target actions/get-active-editor}
-           :t {:title "run selected"
-               :action "omnisharp-atom:run-single-test"
-               :target actions/get-active-editor}
-           :p {:title "run previous"
-               :action "omnisharp-atom:run-last-test"
-               :target actions/get-active-editor}
-           :f {:title "run fixture"
-               :action "omnisharp-atom:run-fixture-tests"
                :target actions/get-active-editor}}}})
+      ;;
+      ;; Couldn't get OmniSharp's test runner to work
+      ;; will add this back once I get it working
+      ;;
+      ;  :t {:category "tests"
+      ;      :a {:title "run all"
+      ;          :action "omnisharp-atom:run-all-tests"
+      ;          :target actions/get-active-editor}
+      ;      :t {:title "run selected"
+      ;          :action "omnisharp-atom:run-single-test"
+      ;          :target actions/get-active-editor}
+      ;      :p {:title "run previous"
+      ;          :action "omnisharp-atom:run-last-test"
+      ;          :target actions/get-active-editor}
+      ;      :f {:title "run fixture"
+      ;          :action "omnisharp-atom:run-fixture-tests"
+      ;          :target actions/get-active-editor}}}})
   (mode/link-modes :csharp-major-mode (mode/package-mode-name :omnisharp-atom)))
 
 (defmethod describe-mode :lang/csharp []
