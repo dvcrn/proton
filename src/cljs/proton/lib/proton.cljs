@@ -10,6 +10,7 @@
             [proton.config.proton :as config]))
 
 (def path (node/require "path"))
+(def fs (node/require "fs"))
 (def config-path (config/default :config-path))
 
 (defn get-config-template-path []
@@ -19,9 +20,9 @@
   (helpers/is-file? config-path))
 
 (defn create-default-config! []
-  (let [child-process (node/require "child_process")
-        template-path (get-config-template-path)]
-    (.execSync child-process (str "cp " template-path " " config-path))))
+  (let [template-read-stream (.createReadStream fs (get-config-template-path))]
+    (helpers/console! (str "Copying template from " (get-config-template-path) " to " config-path))
+    (.pipe template-read-stream (.createWriteStream fs config-path))))
 
 (defn load-config []
   (if (not (has-config?))
