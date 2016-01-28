@@ -17,23 +17,29 @@ Add `:lang/csharp` to your layers.
 
 - [ASP.NET 5](https://github.com/aspnet/Home)
 
-For installation of ASP.NET 5, you can view the guides on [docs.asp.net](docs.asp.net)
+For installation of ASP.NET 5, you can view the guides on [docs.asp.net](https://docs.asp.net)
 
 * [Guide: Installing ASP.NET 5 on Linux](http://docs.asp.net/en/latest/getting-started/installing-on-mac.html)
 * [Guide: Installing ASP.NET 5 on Mac OS X](http://docs.asp.net/en/latest/getting-started/installing-on-linux.html)
 * [Guide: Installing ASP.NET 5 on Windows](http://docs.asp.net/en/latest/getting-started/installing-on-windows.html)
 
 ### Configuration
-- `linter-pep8.ignoreErrorCodes`: a array of pep8 error codes to ignore
-- `linter-pep8.pep8ExecutablePath`: which pep8 executable to use
-- `linter-pep8.maxLineLength`: your max line length
+Name                                   | Default | Type          | Description
+---------------------------------------|---------|---------------|------------------------------------------------
+`omnisharp-atom.codeFormat`            | true      | __boolean__ | auto-format code
+`omnisharp-atom.enhancedHighlighting`  | false     | __boolean__ | use OmniSharp's advanced C# syntax highlighting
+`omnisharp-atom.featureButtons`        | true      | __boolean__ | display features in OmniSharp menu
+`omnisharp-atom.intellisense`          | true      | __boolean__ | use OmniSharp's improved auto-complete
+`omnisharp-atom.topMenu`               | true      | __boolean__ | display OmniSharp menu in menu bar
+`omnisharp-atom.useIcons`              | true      | __boolean__ | use Visual Studio style auto-complete icons
+
 
 ### Mode Key Binding
 
 | Key Binding            | Description       |
 |------------------------|-------------------|
-| <kbd>SPC m =</kbd>     | format using yapf |
-| <kbd>SPC m S</kbd>     | select string     |
 | <kbd>SPC m g g</kbd>   | go to definition  |
 | <kbd>SPC m g u</kbd>   | show usages       |
-| <kbd>SPC m r i s</kbd> | sort imports      |
+| <kbd>SPC m g t </kbd>  | type lookup       |
+| <kbd>SPC m r u </kbd>  | fix usings        |
+| <kbd>SPC m r r </kbd>  | rename            |
