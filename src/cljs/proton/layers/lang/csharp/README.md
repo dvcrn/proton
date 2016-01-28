@@ -19,8 +19,8 @@ Add `:lang/csharp` to your layers.
 
 For installation of ASP.NET 5, you can view the guides on [docs.asp.net](https://docs.asp.net)
 
-* [Guide: Installing ASP.NET 5 on Linux](http://docs.asp.net/en/latest/getting-started/installing-on-mac.html)
-* [Guide: Installing ASP.NET 5 on Mac OS X](http://docs.asp.net/en/latest/getting-started/installing-on-linux.html)
+* [Guide: Installing ASP.NET 5 on Linux](http://docs.asp.net/en/latest/getting-started/installing-on-linux.html)
+* [Guide: Installing ASP.NET 5 on Mac OS X](http://docs.asp.net/en/latest/getting-started/installing-on-mac.html)
 * [Guide: Installing ASP.NET 5 on Windows](http://docs.asp.net/en/latest/getting-started/installing-on-windows.html)
 
 ### Configuration
@@ -31,7 +31,7 @@ Name                                   | Default | Type          | Description
 `omnisharp-atom.featureButtons`        | true      | __boolean__ | display features in OmniSharp menu
 `omnisharp-atom.intellisense`          | true      | __boolean__ | use OmniSharp's improved auto-complete
 `omnisharp-atom.topMenu`               | true      | __boolean__ | display OmniSharp menu in menu bar
-`omnisharp-atom.useIcons`              | true      | __boolean__ | use Visual Studio style auto-complete icons
+`omnisharp-atom.useIcons`              | false      | __boolean__ | use Visual Studio style auto-complete icons
 
 
 ### Mode Key Binding
