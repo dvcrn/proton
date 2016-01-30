@@ -1,4 +1,4 @@
-## Bookmarks layer
+## Bookmarks configuration layer
 
 This layer introduces a bookmark category under <kbd>SPC b</kbd>.
 
