@@ -17,6 +17,7 @@
             [proton.layers.tools.git.core]
             [proton.layers.tools.linter.core]
             [proton.layers.tools.build.core]
+            [proton.layers.tools.bookmarks.core]
 
             ;; etc
             [proton.layers.fun.power_mode.core]

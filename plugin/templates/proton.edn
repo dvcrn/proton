@@ -20,6 +20,7 @@
     ;; -----------------------------------
     :tools/git
     :tools/linter
+    ;; tools/bookmarks
     ;; :tools/build
     ;; :tools/minimap
 
@@ -29,6 +30,7 @@
     ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/lang
     ;; -----------------------------------
     :lang/clojure
+    ;; lang/csharp
     ;; :lang/python
     ;; :lang/julia
     ;; :lang/latex
