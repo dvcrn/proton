@@ -2,7 +2,9 @@
 
 This layer introduces a bookmark category under <kbd>SPC b</kbd>.
 
-This uses the [bookmarks](https://github.com/atom/bookmarks) package.
+Includes the following atom packages:
+
+* [bookmarks](https://github.com/atom/bookmarks) (core atom package)
 
 ### Install
 
