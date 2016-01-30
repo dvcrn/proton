@@ -196,6 +196,7 @@
     (.abortKeyBinding e)))
 
 (defn activate [state]
+  (helpers/sync-env-path!)
   (.setTimeout js/window #(init) 2000)
   (pm/init-subscriptions!)
   (swap! disposables conj (proton/panel-item-subscription))

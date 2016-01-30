@@ -132,3 +132,8 @@
         (and required-editor-class-ok? ignored-attrs-ok? ignored-editor-class-ok?)
         true)
       false)))
+
+(defn sync-env-path! []
+  (let [shell-path (node/require "shell-path")]
+    (when-not (= js/process.platform "win32")
+      (set! js/process.env.PATH (.sync shell-path)))))

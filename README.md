@@ -62,6 +62,7 @@ lein run -m build/dev-repl
 will compile the clojurescript code into javascript. Once that's done, go into the `plugin/` folder and run
 
 ```
+apm install
 apm link
 ```
 
