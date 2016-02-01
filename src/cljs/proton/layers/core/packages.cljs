@@ -18,7 +18,6 @@
      :environment
 
      :hyperclick
-     :nuclide-file-watcher
      :expand-region
 
      ;; other
