@@ -12,7 +12,5 @@
   "scripts": {
     "prepare-release": "rm -rf .git/ && git init . && git remote add origin git@github.com:dvcrn/proton-bin.git && git fetch origin && git add ."
   },
-  "dependencies": {
-    "shell-path": "^1.0.8"
-  }
+  "dependencies": {}
 }
