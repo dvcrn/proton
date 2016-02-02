@@ -73,20 +73,7 @@
 
     (case (config-map "proton.core.vim-provider")
       :vim-mode (swap! packages #(into [] (concat % [:vim-mode])))
-      :vim-mode-plus (swap! packages #(into [] (concat % [:vim-mode-plus]))))
-
-    (if (= (config-map "proton.core.quickOpenProvider") :nuclide)
-      (do
-        (swap! packages #(into [] (concat %
-                                    [:nuclide-quick-open
-                                     :nuclide-fuzzy-filename-provider
-                                     :nuclide-open-filenames-provider
-                                     :nuclide-recent-files-provider
-                                     :nuclide-recent-files-service])))
-        (swap! keybindings assoc-in [:p :b :action] "nuclide-open-filenames-provider:toggle-provider")
-        (swap! keybindings assoc-in [:b :b :action] "nuclide-open-filenames-provider:toggle-provider")
-        (swap! keybindings assoc-in [:p :f :action] "nuclide-fuzzy-filename-provider:toggle-provider")
-        (swap! keybindings assoc-in [:p :r :action] "nuclide-recent-files-provider:toggle-provider")))))
+      :vim-mode-plus (swap! packages #(into [] (concat % [:vim-mode-plus]))))))
 
 (defmethod init-package [:core :theme-switch] []
   (let [core-themes (string/join " " (atom-env/get-config "core.themes"))

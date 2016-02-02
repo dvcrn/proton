@@ -17,8 +17,6 @@
      :easy-motion-redux
      :environment
 
-     :hyperclick
-     :nuclide-file-watcher
      :expand-region
 
      ;; other

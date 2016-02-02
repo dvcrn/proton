@@ -77,10 +77,6 @@
 
     ;; prefer classic vim mode over vim-mode-plus? Change this to :vim-mode
     ["proton.core.vim-provider" :vim-mode-plus]
-
-    ;; prefer facebooks nuclide quick open instead of the normal atom one?
-    ;; Change the following to :nuclide
-    ["proton.core.quickOpenProvider" :normal]
   ]
 
   ;; Don't like a keybinding or want to add something yourself? Do it here
