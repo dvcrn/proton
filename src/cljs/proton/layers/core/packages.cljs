@@ -17,7 +17,6 @@
      :easy-motion-redux
      :environment
 
-     :hyperclick
      :expand-region
 
      ;; other
