@@ -78,7 +78,7 @@
 (defmethod describe-mode :lang/javascript
   []
   {:mode-name :javascript-major-mode
-   :atom-scope ["source.js"]
+   :atom-scope ["source.js" "source.js.jsx"]
    :mode-keybindings
    {:s {:category "symbols/show"
         :l {:action "symbols-view:toggle-file-symbols" :target actions/get-active-editor :title "file symbols"}}}})
