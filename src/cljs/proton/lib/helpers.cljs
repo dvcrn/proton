@@ -1,11 +1,14 @@
 (ns proton.lib.helpers
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [clojure.string :as string :refer [split upper-case lower-case join]]
             [cljs.nodejs :as node]
             [clojure.set :as cljset]
+            [cljs.core.async :as async :refer [close! chan >! <!]]
             [proton.config.proton :as config]))
 
 (def fs (node/require "fs"))
 (def path (node/require "path"))
+(def child-process (node/require "child_process"))
 
 ;; seperate map with overrides. 189 (underscore) kept getting resolved as '½' which we don't want.
 (def char-code-override {189 "_"
@@ -133,7 +136,29 @@
         true)
       false)))
 
+(defn- parse-env [env]
+  (into (hash-map) (map #(string/split % #"=") (string/split env #"\n"))))
+
 (defn sync-env-path! []
-  (let [shell-path (node/require "shell-path")]
-    (when-not (= js/process.platform "win32")
-      (set! js/process.env.PATH (.sync shell-path)))))
+  (when-not (= js/process.platform "win32")
+    (let [path-chan (chan)
+          shell-path (or (.-SHELL js/process.env ) "/bin/sh")]
+      (go
+        (.execFile child-process shell-path (js/Array "-ic", "env; exit") (js/Object :encoding "UTF-8")
+          (fn [err stdout stderr]
+            (if (nil? err)
+              (do
+                (go (>! path-chan stdout)))
+              (go (>! path-chan false))))))
+      ;; on out
+      (go
+        (if-let [out-val (<! path-chan)]
+          (do
+            (let [env-hash (parse-env out-val)]
+              (if-let [path-val (env-hash "PATH")]
+                (do
+                  (console! (str "Old $PATH: " js/process.env.PATH) :helpers/sync-env-path)
+                  (set! js/process.env.PATH path-val)
+                  (console! (str "New $PATH: " js/process.env.PATH) :helpers/sync-env-path))))
+            (close! path-chan))
+          (close! path-chan))))))
