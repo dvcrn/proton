@@ -34,6 +34,7 @@ Name                                   | Default | Type       | Description
 | Key Binding               | Description                        |
 |---------------------------|------------------------------------|
 | <kbd>SPC m s i</kbd>      | toggle repl                        |
+| <kbd>SPC m s I</kbd>      | start remote connection            |
 | <kbd>SPC m e r</kbd>      | eval selected text                 |
 | <kbd>SPC m e b</kbd>      | eval block                         |
 | <kbd>SPC m e B</kbd>      | eval top block                     |

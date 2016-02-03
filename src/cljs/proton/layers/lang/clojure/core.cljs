@@ -37,6 +37,7 @@
            :b {:action "proto-repl:load-current-file" :title "load current file"}
            :c {:action "proto-repl:clear-repl" :title "clear"}
            :i {:action "proto-repl:toggle" :title "start"}
+           :I {:action "proto-repl:remote-nrepl-connection" :title "start remote"}
            :ctrl-c {:action "proto-repl:interrupt" :title "interrupt"}
            :p {:action "proto-repl:pretty-print" :title "pretty print"}
            :q {:action "proto-repl:exit-repl" :title "quit"}
