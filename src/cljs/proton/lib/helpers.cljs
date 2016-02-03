@@ -137,7 +137,7 @@
       false)))
 
 (defn- parse-env [env]
-  (into (hash-map) (map #(string/split % #"=") (string/split env #"\n"))))
+  (into (hash-map) (filter #(> (count %) 1) (map #(string/split % #"=") (string/split env #"\n")))))
 
 (defn sync-env-path! []
   (when-not (= js/process.platform "win32")
