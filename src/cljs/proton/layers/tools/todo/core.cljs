@@ -8,12 +8,12 @@
 
 (defmethod get-keybindings :tools/todo
   []
-  {:a {:category "apps"
-       :t {:category "todo"
-           :p {:action "todo-show:find-in-project"
-               :title "find in project"}
-           :b {:action "todo-show:find-in-open-files"
-               :title "find in buffers"}}}})
+  {:p {:category "project"
+       :T {:action "todo-show:find-in-project"
+           :title "find project TODOs"}}
+   :b {:category "buffer"
+       :T {:action "todo-show:find-in-open-files"
+           :title "find buffer TODOs"}}})
 
 (defmethod get-packages :tools/todo
   []
