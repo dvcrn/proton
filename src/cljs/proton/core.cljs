@@ -19,6 +19,7 @@
             [proton.layers.tools.build.core]
             [proton.layers.tools.bookmarks.core]
             [proton.layers.tools.todo.core]
+            [proton.layers.tools.remote.core]
 
             ;; etc
             [proton.layers.fun.power_mode.core]
