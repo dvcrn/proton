@@ -4,8 +4,12 @@ This layer introduces tools for working with remote interfaces.
 
 Includes the following atom packages:
 
+* [http-post](https://github.com/mverhaagen/http-post)
+* [api-workbench](https://github.com/mulesoft/api-workbench)
+* [atomic-rest](https://github.com/lzrski/atomic-rest)
 * [rest-client](https://github.com/ddavison/rest-client)
 * [elasticsearch-client](https://github.com/KunihikoKido/atom-elasticsearch-client)
+* [sftp-deployment](https://github.com/amoussard/sftp-deployment)
 
 ## Setup
 
@@ -23,7 +27,7 @@ Add `:tools/remote` to your layers.
 |-----------------------------|--------------------------------------|
 | <kbd> SPC a r </kbd>        | open rest-client application         |
 
-#### Common to all clients
+#### Common commands
 
 | Key Binding                 | Description                          |
 |-----------------------------|--------------------------------------|
