@@ -165,6 +165,8 @@
                  :title "auto indent"}
              :s {:title "status bar"
                  :action "status-bar:toggle"}
+             :S {:title "spell checking"
+                 :action "spell-check:toggle"}
              :g {:title "golden ratio"
                  :action "golden-ratio:toggle"}
              :r {:title "relative numbers"
