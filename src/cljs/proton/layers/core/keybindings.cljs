@@ -71,6 +71,10 @@
                        :action "application:open-your-snippets"}}
                :f {:title "advanced-open-file"
                    :action "advanced-open-file:toggle"}
+               :s {:title "save file"
+                   :action "core:save"}
+               :S {:title "save all files"
+                   :action "core:save-all"}
                := {:action "atom-beautify:beautify-editor" :title "format file"}}
           :s {:category "search"
               :e {:action "find-and-replace:select-all"
