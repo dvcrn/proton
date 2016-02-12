@@ -162,6 +162,9 @@
              :n {:title "line numbers"
                  :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
                  :action "editor:toggle-line-numbers"}
+             :h {:category "highlight"
+                 :l {:title "highlight current line"
+                     :action "highlight-line:toggle-background"}}
              :i {:action "editor:toggle-indent-guide"
                  :target actions/get-active-editor
                  :title "indent guide"}
