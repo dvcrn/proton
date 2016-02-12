@@ -1,11 +1,14 @@
 (ns proton.layers.lang.ruby.core
   (:require [proton.lib.helpers :as helpers])
-  (:use [proton.layers.base :only [init-layer! get-packages describe-mode register-layer-dependencies]]))
+  (:use [proton.layers.base :only [init-layer! get-initial-config get-packages describe-mode register-layer-dependencies]]))
 
 (defmethod init-layer! :lang/ruby
   [_ {:keys [config layers]}]
   (helpers/console! "init" :lang/ruby)
   (register-layer-dependencies :tools/linter [:linter-ruby]))
+
+(defmethod get-initial-config :lang/ruby []
+  [["ruby-linter.rubyExecutablePath" "/usr/bin/ruby"]])
 
 (defmethod get-packages :lang/ruby []
     [:ruby-test

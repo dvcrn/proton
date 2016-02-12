@@ -16,6 +16,10 @@ Add `:lang/ruby` to your layers.
 
 Check out [atom-ruby-test](https://github.com/moxley/atom-ruby-test) for configurations for test runners
 
+| Name                              | Default        | Type        | Description                                                                                |
+|-----------------------------------|----------------|-------------|--------------------------------------------------------------------------------------------|
+| `ruby-linter.rubyExecutablePath`          | "/usr/bin/ruby"          | __string | which ruby to use for linting
+
 ### Ruby bindings
 
 can be executed with <kbd>SPC m</kbd> or <kbd>,</kbd>
