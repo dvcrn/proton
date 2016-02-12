@@ -1,6 +1,11 @@
 ## Ruby configuration layer
 
-Adds support for basic ruby and rails programming by utilizing [ruby-test](https://atom.io/packages/ruby-test), [ruby-block](https://atom.io/packages/ruby-block) and [blockconverter](https://atom.io/packages/ruby-block-converter).
+Adds support for basic ruby and rails programming by utilizing:
+ - [ruby-test](https://atom.io/packages/ruby-test)
+ - [ruby-block](https://atom.io/packages/ruby-block)
+ - [blockconverter](https://atom.io/packages/ruby-block-converter)
+ - [linter-ruby](https://atom.io/packages/linter-ruby)
+ - [linter-rubocop](https://atom.io/packages/linter-rubocop)
 
 If you are a ruby dude, please feel free to improve this layer.
 
@@ -11,14 +16,16 @@ Add `:lang/ruby` to your layers.
 ### Requirements
 
 - [rsense](https://github.com/rsense/rsense)
+- [rubocop](https://github.com/bbatsov/rubocop)
 
 ### Configuration
 
 Check out [atom-ruby-test](https://github.com/moxley/atom-ruby-test) for configurations for test runners
 
-| Name                              | Default        | Type        | Description                                                                                |
-|-----------------------------------|----------------|-------------|--------------------------------------------------------------------------------------------|
-| `ruby-linter.rubyExecutablePath`          | "/usr/bin/ruby"          | __string | which ruby to use for linting
+| Name                             | Default         | Type     | Description                   |
+|----------------------------------|-----------------|----------|-------------------------------|
+| `ruby-linter.rubyExecutablePath` | "/usr/bin/ruby" | __string__ | which ruby to use for linting |
+| `ruby-rubocop.executablePath`    | null            | __string__ | path to rubocop gem |
 
 ### Ruby bindings
 

@@ -5,10 +5,11 @@
 (defmethod init-layer! :lang/ruby
   [_ {:keys [config layers]}]
   (helpers/console! "init" :lang/ruby)
-  (register-layer-dependencies :tools/linter [:linter-ruby]))
+  (register-layer-dependencies :tools/linter [:linter-ruby :linter-rubocop]))
 
 (defmethod get-initial-config :lang/ruby []
-  [["ruby-linter.rubyExecutablePath" "/usr/bin/ruby"]])
+  [["ruby-linter.rubyExecutablePath" "/usr/bin/ruby"]
+   ["ruby-rubocop.executablePath" nil]])
 
 (defmethod get-packages :lang/ruby []
     [:ruby-test
