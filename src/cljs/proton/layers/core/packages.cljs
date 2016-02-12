@@ -29,4 +29,5 @@
      :atom-material-ui
      :atom-material-syntax
 
-     :file-icons]))
+     :file-icons
+     :highlight-selected]))
