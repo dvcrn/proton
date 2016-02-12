@@ -18,19 +18,13 @@
 (defmethod get-packages :lang/elixir []
   [:language-elixir
    :autocomplete-elixir
-   :elixir-docs
    :iex])
 
 (defmethod describe-mode :lang/elixir []
   {:mode-name :elixir
    :atom-grammars ["Elixir"]
    :mode-keybindings
-   {:d {:category "docs"
-        :t {:action "elixir-docs:toggle"
-            :title "Toggle docs"}
-        :f {:action "elixir-docs:finddoc"
-            :title "Find in docs"}}
-    :i {:category "iex"
+   {:i {:category "iex"
         :l {:action "iex:open-split-right"
             :title "create right"}
         :h {:action "iex:open-split-left"
