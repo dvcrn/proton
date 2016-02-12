@@ -122,7 +122,9 @@
               :o {:title "close others"
                   :fx panes/close-other-panes}
               :c {:action "pane:close"
-                  :title "close pane"}}
+                  :title "close pane"}
+              :u {:action "open last-closed window"
+                  :title "pane:reopen-closed-item"}}
          :b {:category "buffer"
               :b {:action "fuzzy-finder:toggle-buffer-finder"
                   :title "browse buffers"}
