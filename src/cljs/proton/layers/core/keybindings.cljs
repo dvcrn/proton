@@ -56,6 +56,14 @@
           :h {:action "window:focus-pane-on-left"
               :target actions/get-active-pane
               :title "focus left pane"}
+          :H {:action "move-panes:move-left"
+              :title "move pane left"}
+          :J {:action "move-panes:move-down"
+              :title "move pane down"}
+          :K {:action "move-panes:move-up"
+              :title "move pane up"}
+          :L {:action "move-panes:move-right"
+              :title "move pane right"}
           :colon {:action "command-palette:toggle"
                          :title "run command"}
           :f {:category "files"
@@ -103,6 +111,34 @@
                       :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
                       :title "uniquify lines"}}}
           :w {:category "window"
+              :- {:action "pane:split-down"
+                  :target actions/get-active-pane
+                  :title "split horizontally"}
+              :slash {:action "pane:split-right"
+                      :target actions/get-active-pane
+                      :title "split vertically"}
+              :H {:action "move-panes:move-left"
+                  :title "move pane left"}
+              :J {:action "move-panes:move-down"
+                  :title "move pane down"}
+              :K {:action "move-panes:move-up"
+                  :title "move pane up"}
+              :L {:action "move-panes:move-right"
+                  :title "move pane right"}
+              :V {:action "pane:split-left"
+                  :target actions/get-active-pane
+                  :title "split vertically and focus left"}
+              :S {:action "pane:split-up"
+                  :target actions/get-active-pane
+                  :title "split horizontally and focus up"}
+              :c {:action "pane:close"
+                  :title "close pane"}
+              :d {:action "pane:close"
+                  :target actions/get-active-pane
+                  :title "destroy pane"}
+              :h {:action "window:focus-pane-on-left"
+                  :target actions/get-active-pane
+                  :title "focus left pane"}
               :j {:action "window:focus-pane-below"
                   :target actions/get-active-pane
                   :title "focus below pane"}
@@ -112,33 +148,19 @@
               :l {:action "window:focus-pane-on-right"
                   :target actions/get-active-pane
                   :title "focus right pane"}
-              :h {:action "window:focus-pane-on-left"
-                  :target actions/get-active-pane
-                  :title "focus left pane"}
-              :d {:action "pane:close"
-                  :target actions/get-active-pane
-                  :title "destroy pane"}
-              :v {:action "pane:split-right"
-                  :target actions/get-active-pane
-                  :title "split vertically"}
-              :s {:action "pane:split-down"
-                  :target actions/get-active-pane
-                  :title "split horizontally"}
-              :V {:action "pane:split-left"
-                  :target actions/get-active-pane
-                  :title "split vertically and focus left"}
-              :S {:action "pane:split-up"
-                  :target actions/get-active-pane
-                  :title "split horizontally and focus up"}
               :m {:action "maximize-panes:maximize"
                   :title "maximize pane"}
               :o {:title "close others"
                   :fx panes/close-other-panes}
-              :c {:action "pane:close"
-                  :title "close pane"}
               :u {:action "open last-closed window"
-                  :title "pane:reopen-closed-item"}}
-         :b {:category "buffer"
+                  :title "pane:reopen-closed-item"}
+              :s {:action "pane:split-down"
+                  :target actions/get-active-pane
+                  :title "split horizontally"}
+              :v {:action "pane:split-right"
+                  :target actions/get-active-pane
+                  :title "split vertically"}}
+          :b {:category "buffer"
               :b {:action "fuzzy-finder:toggle-buffer-finder"
                   :title "browse buffers"}
               :K {:action "tabs:close-other-tabs"
