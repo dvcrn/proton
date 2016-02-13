@@ -31,4 +31,5 @@
 
      :file-icons
      :highlight-line
+     :lines
      :highlight-selected]))

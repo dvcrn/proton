@@ -125,6 +125,20 @@
                   :title "close pane"}
               :u {:action "open last-closed window"
                   :title "pane:reopen-closed-item"}}
+          :x {:category "text"
+              :s {:category "selection"
+                  :h {:action "lines:shuffle"
+                      :target actions/get-active-pane
+                      :title "shuffle lines"}
+                  :r {:action "lines:reverse"
+                      :target actions/get-active-pane
+                      :title "reverse lines"}
+                  :s {:action "lines:sort"
+                      :target actions/get-active-pane
+                      :title "sort lines"}
+                  :u {:action "lines:unique"
+                      :target actions/get-active-pane
+                      :title "uniquify lines"}}}
          :b {:category "buffer"
               :b {:action "fuzzy-finder:toggle-buffer-finder"
                   :title "browse buffers"}
