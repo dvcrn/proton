@@ -15,7 +15,8 @@
     [:ruby-test
      :ruby-block
      :ruby-block-converter
-     :autocomplete-ruby])
+     :autocomplete-ruby
+     :rubocop-auto-correct])
 
 (defmethod describe-mode :lang/ruby
  []
@@ -40,6 +41,9 @@
          :B {:action "ruby-block-converter:to-do-end-without-join"
              :title "{} -> do..end (no-join)"
              :target "atom-text-editor:not([mini])"}}
+     (keyword "=") {:title "fix formatting"
+                     :action "rubocop-auto-correct:current-file"
+                     :target "atom-text-editor:not([mini])"}
      :t {:category "test"
          :t {:action "ruby-test:toggle"
              :title "toggle panel"}

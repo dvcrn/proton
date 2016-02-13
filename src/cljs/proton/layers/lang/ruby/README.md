@@ -6,6 +6,7 @@ Adds support for basic ruby and rails programming by utilizing:
  - [blockconverter](https://atom.io/packages/ruby-block-converter)
  - [linter-ruby](https://atom.io/packages/linter-ruby)
  - [linter-rubocop](https://atom.io/packages/linter-rubocop)
+ - [rubocop-auto-correct](https://atom.io/packages/rubocop-auto-correct)
 
 If you are a ruby dude, please feel free to improve this layer.
 
@@ -43,3 +44,4 @@ can be executed with <kbd>SPC m</kbd> or <kbd>,</kbd>
 | <kbd>SPC m t l</kbd> | Run current file at line                             |
 | <kbd>SPC m t .</kbd> | Repeat last test                                     |
 | <kbd>SPC m t c</kbd> | Cancel all tests                                     |
+| <kbd>SPC =</kbd>     | Rubocop auto format                                  |
