@@ -20,7 +20,12 @@
 (defmethod describe-mode :lang/ruby
  []
  {:mode-name :ruby
-  :atom-scope ["source.ruby" "source.ruby.rails.rjs" "source.ruby.rails" "source.erb"]
+  :atom-scope ["source.ruby"
+               "source.ruby.rails.rjs"
+               "source.ruby.rails"
+               "source.erb"
+               "source.ruby.rspec"
+               "source.ruby.chef"]
   :mode-keybindings
     {:c {:category "convert block"
          :d {:action "ruby-block-converter:to-curly-brackets"
