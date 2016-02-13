@@ -70,7 +70,7 @@ proton should now be installed inside Atom under `proton-mode`.
 
 ### Help
 
-Join uns on the [clojurians slack](http://clojurians.net), channel #proton.
+Join us on the [clojurians slack](http://clojurians.net), channel #proton.
 
 ### License
 
