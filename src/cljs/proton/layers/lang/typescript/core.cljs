@@ -6,12 +6,12 @@
 
 (defmethod init-layer! :lang/typescript
   [_ {:keys [config layers]}]
-  (console! "init" :lang/typescript))
+  (console! "init" :lang/typescript)
+  (register-layer-dependencies :tools/linter [:linter-tslint]))
 
 (defmethod get-packages :lang/typescript
   []
-  [:atom-typescript
-   :linter-tslint])
+  [:atom-typescript])
 
 (defmethod describe-mode :lang/typescript
   []
