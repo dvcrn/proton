@@ -30,4 +30,5 @@
      :atom-material-syntax
 
      :file-icons
+     :highlight-line
      :highlight-selected]))
