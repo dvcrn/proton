@@ -25,4 +25,5 @@
 
 (defmethod describe-mode :tools/linter [] {})
 (defmethod get-keymaps :tools/linter [] [])
-(defmethod get-initial-config :tools/linter [] [])
+(defmethod get-initial-config :tools/linter []
+  [["linter.statusIconScope" "File"]])
