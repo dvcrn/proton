@@ -51,6 +51,7 @@
 
 (defmethod get-packages :lang/clojure []
   [:Parinfer
+   :ink
    :proto-repl])
 
 (defmethod describe-mode :lang/clojure []
