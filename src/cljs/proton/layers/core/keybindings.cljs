@@ -76,7 +76,7 @@
                :S {:title "save all files"
                    :action "core:save-all"}
                := {:action "atom-beautify:beautify-editor" :title "format file"}}
-          :s {:category "search"
+          :s {:category "selection"
               :e {:action "find-and-replace:select-all"
                   :target actions/get-active-editor
                   :title "expand selection"}
@@ -88,7 +88,20 @@
                   :title "skip next"}
               :u {:action "find-and-replace:select-undo"
                   :target actions/get-active-editor
-                  :title "undo last select"}}
+                  :title "undo last select"}
+              :l {:category "lines"
+                  :h {:action "lines:shuffle"
+                      :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
+                      :title "shuffle lines"}
+                  :r {:action "lines:reverse"
+                      :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
+                      :title "reverse lines"}
+                  :s {:action "lines:sort"
+                      :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
+                      :title "sort lines"}
+                  :u {:action "lines:unique"
+                      :target (fn [atom] (.getView (.-views atom) (.getActiveTextEditor (.-workspace atom))))
+                      :title "uniquify lines"}}}
           :w {:category "window"
               :j {:action "window:focus-pane-below"
                   :target actions/get-active-pane
@@ -125,20 +138,6 @@
                   :title "close pane"}
               :u {:action "open last-closed window"
                   :title "pane:reopen-closed-item"}}
-          :x {:category "text"
-              :s {:category "selection"
-                  :h {:action "lines:shuffle"
-                      :target actions/get-active-pane
-                      :title "shuffle lines"}
-                  :r {:action "lines:reverse"
-                      :target actions/get-active-pane
-                      :title "reverse lines"}
-                  :s {:action "lines:sort"
-                      :target actions/get-active-pane
-                      :title "sort lines"}
-                  :u {:action "lines:unique"
-                      :target actions/get-active-pane
-                      :title "uniquify lines"}}}
          :b {:category "buffer"
               :b {:action "fuzzy-finder:toggle-buffer-finder"
                   :title "browse buffers"}
