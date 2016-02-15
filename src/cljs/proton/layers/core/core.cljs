@@ -6,7 +6,7 @@
             [proton.layers.core.keybindings :refer [keybindings]]
             [proton.layers.core.actions :as actions :refer [state]]
             [proton.layers.core.packages :refer [packages]]
-            [proton.lib.atom :as atom-env :refer [get-config set-config!]]
+            [proton.lib.atom :as atom-env :refer [get-config set-config! set-keymap!]]
             [cljs.nodejs :as node]))
 
 (def keymaps (atom
@@ -72,7 +72,7 @@
     (swap! state assoc-in [:tabs] (config-map "proton.core.showTabBar"))
 
     (case (config-map "proton.core.vim-provider")
-      :vim-mode (swap! packages #(into [] (concat % [:vim-mode])))
+      :vim-mode (swap! packages #(into [] (concat % [:vim-mode :vim-surround])))
       :vim-mode-plus (swap! packages #(into [] (concat % [:vim-mode-plus]))))))
 
 (defmethod init-package [:core :theme-switch] []
@@ -80,6 +80,14 @@
         theme-switch-profiles (array-seq (atom-env/get-config "theme-switch.profiles"))]
     (when (nil? (some #{core-themes} theme-switch-profiles))
       (atom-env/set-config! "theme-switch.profiles" (concat [core-themes] theme-switch-profiles)))))
+
+(defmethod init-package [:core :vim-mode-plus] []
+  (atom-env/set-keymap! "atom-text-editor.vim-mode-plus.normal-mode"
+    {"y s" "vim-mode-plus:surround"
+     "d s" "vim-mode-plus:delete-surround"
+     "c s" "vim-mode-plus:change-surround"})
+  (atom-env/set-keymap! "atom-workspace atom-text-editor.vim-mode-plus.visual-mode"
+    {"s" "vim-mode-plus:surround"}))
 
 (defmethod get-keybindings :core [] @keybindings)
 (defmethod get-keymaps :core [] @keymaps)
