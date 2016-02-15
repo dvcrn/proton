@@ -35,6 +35,7 @@
             [proton.layers.lang.rust.core]
             [proton.layers.lang.html.core]
             [proton.layers.lang.go.core]
+            [proton.layers.lang.ruby.core]
             [proton.layers.lang.json.core]
             [proton.layers.lang.css.core]
             [proton.layers.lang.sass.core]
