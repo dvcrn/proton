@@ -74,7 +74,7 @@
                :s {:title "save file"
                    :action "core:save"}
                :S {:title "save all files"
-                   :action "core:save-all"}
+                   :action "window:save-all"}
                := {:action "atom-beautify:beautify-editor" :title "format file"}}
           :s {:category "selection"
               :e {:action "find-and-replace:select-all"
