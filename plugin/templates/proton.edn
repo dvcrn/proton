@@ -68,8 +68,11 @@
     ;; appearance
     ["editor.fontFamily" "Hack"]
 
-    ;; to use atoms default theme, change to ["core.themes" ["one-dark-ui" "one-dark-syntax"]]
-    ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
+    ;; the current default theme
+    ["core.themes" ["nucleus-dark-ui" "atom-dark-fusion-syntax"]]
+    ;; here are some more popular theme ideas for you to pick from:
+    ;; ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
+    ;; ["core.themes" ["one-dark-ui" "one-dark-syntax"]]
 
     ;; proton configuration
     ["proton.core.showTabBar" true]
