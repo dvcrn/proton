@@ -37,5 +37,7 @@
             :title "new iex"}}}
    :init elixir-mode-init})
 
-(defmethod get-keymaps :lang/elixir [] [])
+(defmethod get-keymaps :lang/elixir []
+  [{:selector "body atom-workspace .iex .terminal" :keymap [["space" "native!"]]}])
+
 (defmethod get-keybindings :lang/elixir [] {})
