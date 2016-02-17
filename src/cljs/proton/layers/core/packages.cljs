@@ -29,6 +29,9 @@
      :atom-material-ui
      :atom-material-syntax
 
+     :atom-dark-fusion-syntax
+     :nucleus-dark-ui
+
      :file-icons
      :highlight-line
      :lines
