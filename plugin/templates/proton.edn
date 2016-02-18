@@ -60,6 +60,15 @@
     ;; :pigments
   ]
 
+  ;; Packages that you want to disable.
+  ;; Note that packages will be removed except bundled packages.
+  ;; Bundled packages will be disabled instead.
+  ;; Use this configuration instead of atom's `core.disabledPackages`
+  :disabled-packages [
+    ;; :autoupdate-packages
+    ;; :about
+    ;; :welcome
+  ]
   ;; Proton takes over your atom configuration. All settings that are not listed here will get wiped
   ;; Configurations are denoted as 2 element vector consisting of k/v
   ;; sub-vectors inside v will get treated like javascript arrays

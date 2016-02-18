@@ -1,13 +1,16 @@
 (ns proton.lib.atom
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [proton.lib.helpers :refer [generate-div process->html deep-merge console!]]
             [cljs.nodejs :as node]
-            [clojure.string :as string :refer [lower-case upper-case]]))
+            [clojure.string :as string :refer [lower-case upper-case]]
+            [cljs.core.async :as async :refer [chan >!]]))
 
 ;; reference to atom shell API
 (def ashell (node/require "atom"))
 
 ;; get atom.CompositeDisposable so we can work with it
 (def composite-disposable (.-CompositeDisposable ashell))
+(def buffered-process (.-BufferedProcess ashell))
 
 ;; Initialise new composite-disposable so we can add stuff to it later
 (def subscriptions (new composite-disposable))
@@ -194,6 +197,9 @@
     (let [pkgs (get-all-packages)]
       (not (= -1 (.indexOf pkgs package-name))))))
 
+(defn is-package-bundled? [package-name]
+  (.isBundledPackage packages (name package-name)))
+
 (defn enable-package [package-name]
   (console! (str "enabling package " (name package-name)))
   (.enablePackage packages package-name))
@@ -221,3 +227,13 @@
 (defn force-reload-package [package-name]
   (disable-package package-name true)
   (enable-package package-name))
+
+(defn buffered-process-> [command args]
+  (let [out-chan (chan)]
+    (new buffered-process
+      (clj->js
+        { :command command
+          :args args
+          :stdout #(go (>! out-chan {:stdout %}))
+          :stderr #(when-not (nil? %) (go (>! out-chan {:stderr %})))}))
+    out-chan))
