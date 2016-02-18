@@ -144,7 +144,7 @@
               :K {:action "pane:close-other-items"
                   :target actions/get-active-pane
                   :title "kill other buffers"}
-              :d {:action "pane:close"
+              :d {:action "core:close"
                   :target actions/get-active-pane
                   :title "destroy current buffer"}}
          :p {:category "project"
