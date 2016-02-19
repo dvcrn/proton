@@ -141,7 +141,7 @@
          :b {:category "buffer"
               :b {:action "fuzzy-finder:toggle-buffer-finder"
                   :title "browse buffers"}
-              :K {:action "pane:close-other-items"
+              :K {:action "tabs:close-other-tabs"
                   :target actions/get-active-pane
                   :title "kill other buffers"}
               :d {:action "core:close"
