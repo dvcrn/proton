@@ -22,6 +22,10 @@
     {:atom-disabled (atom/is-package-disabled? p-name)
      :bundled (atom/is-package-bundled? p-name)}))
 
+(defn update-in-package [package & props]
+  {:pre [(even? (count props))]}
+  (update-in package [(first (keys package))] merge (apply hash-map props)))
+
 (defn make-package
   ([package-name]
    (make-package package-name {}))
@@ -50,7 +54,9 @@
   (register-init-state package-name :installed))
 
 (defn register-removable [package-name]
-  (register-init-state package-name :removed))
+  (-> package-name
+      (register-init-state :removed)
+      (update-in-package :proton-disabled true)))
 
 (defn- update-bundled-removable [package]
   (if (is-bundled? package)
