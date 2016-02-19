@@ -78,7 +78,7 @@
         (atom-env/deactivate-proton-mode!)
         (do
           ;; append new key to chain
-          (swap! current-chain conj (keyword (helpers/normalize-keystroke keystroke)))
+          (swap! current-chain conj (keyword (helpers/keystroke->keybinding keystroke)))
           ;; check if the current character sequence is a action
           (let [keymaps (keymap-manager/find-keybindings @current-chain)]
             (if (or (nil? keymaps) (empty? keymaps))
