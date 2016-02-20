@@ -56,7 +56,7 @@
           :h {:action "window:focus-pane-on-left"
               :target actions/get-active-pane
               :title "focus left pane"}
-          (keyword ":") {:action "command-palette:toggle"
+          :colon {:action "command-palette:toggle"
                          :title "run command"}
           :f {:category "files"
                :e {:category "editor(atom)"
@@ -162,8 +162,8 @@
                  :title "edit projects"}
              :r {:action "recent-files-fuzzy-finder:toggle-finder"
                  :title "recent files"}
-             (keyword "/") {:action "project-find:show"
-                            :title "search in files"}}
+             :slash {:action "project-find:show"
+                     :title "search in files"}}
          :t {:category "toggles"
              :t {:title "tab-bar"
                  :fx (fn []
@@ -208,9 +208,9 @@
               :n {:action "theme-switch:next" :title "cycle themes"}
               :m {:action "window:toggle-menu-bar" :title "toggle menu bar"}}
           :m {:category "mode"}
-          (keyword ";") {:action "editor:toggle-line-comments"
-                         :target actions/get-active-editor
-                         :title "comment lines"}
+          :semicolon {:action "editor:toggle-line-comments"
+                      :target actions/get-active-editor
+                      :title "comment lines"}
           :v {:action "expand-region:expand"
               :target actions/get-active-editor
               :title "expand region"}

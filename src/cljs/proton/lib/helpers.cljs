@@ -15,13 +15,26 @@
                          192 "/"
                          9 "tab"})
 
-(defn normalize-keystroke
+(def keystroke->keybinding-map
+   {"/" :slash
+    ":" :colon
+    ";" :semicolon})
+
+(defn keystroke->keybinding
   "Remove 'shift-' prefix from keystroke. For uppercase letter atom keystroke will be
   'shift-<capital_letter>' e.g. :S equal to 'shift-S'."
   [keystroke]
   (if (zero? (.indexOf keystroke "shift-"))
     (last keystroke)
-    keystroke))
+    (if-let [keybinding (get keystroke->keybinding-map keystroke)]
+      keybinding
+      keystroke)))
+
+(defn keybinding->keystroke [keybinding]
+  (let [keystroke (filter (comp #{(keyword keybinding)} keystroke->keybinding-map) (keys keystroke->keybinding-map))]
+    (if-not (empty? keystroke)
+      (first keystroke)
+      keybinding)))
 
 (defn generate-div [text class-name]
   (let [d (.createElement js/document "div")]
@@ -72,7 +85,7 @@
         is-category? ((comp not nil?) category)
         class-name (if is-category? "proton-key-category" "proton-key-action")
         value (if is-category? (str "+" category) (or title action))
-        keystroke (-> keybinding first str rest join)]
+        keystroke (-> keybinding first str rest join keybinding->keystroke)]
       (str "<li class='flex-item'><span class='proton-key'>[" keystroke "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
 
 (defn show-item? [[_ options]]
