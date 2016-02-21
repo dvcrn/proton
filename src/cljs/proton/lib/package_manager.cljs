@@ -1,6 +1,7 @@
 (ns proton.lib.package_manager
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [cljs.nodejs :as node]
+            [clojure.set :as cljset]
             [cljs.core.async :as async :refer [close! chan put! pub sub unsub >! <!]]
             [proton.lib.mode :as mode]
             [proton.lib.keymap :as keymap]
@@ -16,9 +17,59 @@
 (defn cleanup! []
   (reset! packages {}))
 
-(defn register-packages [package-names]
-  (let [packages-map (reduce #(assoc-in %1 [%2] {:atom-disabled (atom/is-package-disabled? (name %2))}) {} package-names)]
-    (swap! packages #(helpers/deep-merge packages-map %))))
+(defn atom-state-info [package-name]
+  (let [p-name (name package-name)]
+    {:atom-disabled (atom/is-package-disabled? p-name)
+     :bundled (atom/is-package-bundled? p-name)}))
+
+(defn update-in-package [package & props]
+  {:pre [(even? (count props))]}
+  (update-in package [(first (keys package))] merge (apply hash-map props)))
+
+(defn make-package
+  ([package-name]
+   (make-package package-name {}))
+  ([package-name opts]
+   (assoc {} (keyword package-name) opts)))
+
+(defn- package-init-state? [package state]
+  (-> package (val) (get :init-state) (= state)))
+
+(defn is-installable? [package]
+  (package-init-state? package :installed))
+
+(defn is-removable? [package]
+  (package-init-state? package :removed))
+
+(defn is-bundled? [package]
+  (true? (get (val package) :bundled)))
+
+(defn register-init-state [package-name state]
+  (-> package-name
+      (atom-state-info)
+      (merge {:init-state state})
+      (->> (make-package package-name))))
+
+(defn register-installable [package-name]
+  (register-init-state package-name :installed))
+
+(defn register-removable [package-name]
+  (-> package-name
+      (register-init-state :removed)
+      (update-in-package :proton-disabled true)))
+
+(defn- update-bundled-removable [package]
+  (if (is-bundled? package)
+    (if (is-removable? package)
+      (update-in (hash-map package) [(key package)] assoc :init-state :installed :proton-disabled true)
+      package)
+    package))
+
+(defn register-packages [packages-map]
+  (let [all-available (into (hash-map) (map (comp register-installable keyword) (array-seq (atom/get-all-packages))))
+        pkgs (into (hash-map) (map update-bundled-removable (merge all-available packages-map)))]
+    (swap! packages helpers/deep-merge pkgs)
+    @packages))
 
 (defn set-installed! [package-name]
   (swap! packages assoc-in [(keyword package-name) :atom-disabled] false))
@@ -41,12 +92,14 @@
   (swap! packages update-in [(keyword package-name)] assoc :atom-disabled true :proton-disabled true))
 
 (defn get-to-remove [all-packages]
-  (let [pkgs (set all-packages)]
-    (filter #(if (not (contains? pkgs %)) %) (into [] (map keyword (atom/get-all-packages))))))
+  (let [installed-pkgs (set (map keyword (atom/get-all-packages)))
+        removable (set (keys (filter is-removable? all-packages)))]
+    (cljset/intersection removable installed-pkgs)))
 
 (defn get-to-install [all-packages]
-  (let [pkgs (set (into [] (map keyword (atom/get-all-packages))))]
-    (filter #(if (not (contains? pkgs %)) %) all-packages)))
+  (let [installed-pkgs (set (map keyword (atom/get-all-packages)))
+        installable (set (keys (filter is-installable? all-packages)))]
+    (cljset/difference installable installed-pkgs)))
 
 (defn activate-packages! []
   (let [enabled-packages (filter #(not ((val %) :proton-disabled)) @packages)
