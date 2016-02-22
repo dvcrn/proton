@@ -13,7 +13,8 @@
 
 (defmethod init-layer! :lang/markdown
   [_ {:keys [config layers]}]
-  (helpers/console! "init" :lang/markdown))
+  (helpers/console! "init" :lang/markdown)
+  (register-layer-dependencies :tools/linter [:linter-markdown]))
 
 (defmethod get-keybindings :lang/markdown
   []

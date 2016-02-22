@@ -7,10 +7,13 @@ Includes following atom packages:
 - [md-writer](https://atom.io/packages/markdown-writer)
 - [markdown-preview](https://atom.io/packages/markdown-preview)
 - [markdown-scroll-sync](https://atom.io/packages/markdown-scroll-sync)
+- [linter-markdown](https://atom.io/packages/linter-markdown)
 
 ### Install
 
 Add `:lang/markdown` to your layers.
+
+For linter support add `:tools/linter` to your layers.
 
 ### Key Bindings
 
