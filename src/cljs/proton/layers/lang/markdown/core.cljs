@@ -76,4 +76,4 @@
 (defmethod describe-mode :lang/markdown
   []
   {:mode-name :markdown-major-mode
-   :atom-scope ["source.gfm"]})
+   :atom-scope ["source.gfm" "source.litcoffee" "text.md"]})
