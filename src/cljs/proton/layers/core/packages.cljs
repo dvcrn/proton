@@ -34,5 +34,6 @@
 
      :file-icons
      :highlight-line
+     :highlight-selected
      :lines
-     :highlight-selected]))
+     :move-panes]))
