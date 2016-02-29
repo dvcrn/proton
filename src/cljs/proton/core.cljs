@@ -99,7 +99,7 @@
           editor-default editor-config/default
           proton-default proton-config/default]
       (let [all-layers (into [] (distinct (concat (:layers proton-default) layers)))
-            all-configuration (into [] (into (hash-map) (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration))))
+            all-configuration (reduce helpers/config-reducer [] (distinct (concat (:settings editor-default) (proton/configs-for-layers all-layers) configuration)))
             config-map (into (hash-map) all-configuration)]
 
         (atom-env/insert-process-step! "Initialising layers")
@@ -155,7 +155,7 @@
 
           ;; set the user config
           (atom-env/insert-process-step! "Applying user configuration")
-          (doall (map #(atom-env/set-config! (get % 0) (get % 1)) all-configuration))
+          (doall (map #(apply atom-env/set-config! %) all-configuration))
           (atom-env/mark-last-step-as-completed!)
 
           ;; Make sure all collected packages are definitely enabled

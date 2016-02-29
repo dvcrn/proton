@@ -51,9 +51,12 @@
 (defn get-config [selector]
   (.get config selector))
 
-(defn set-config! [selector value]
-  (console! (str "Setting " selector " to " (clj->js value)))
-  (.set config selector (clj->js value)))
+(defn set-config!
+  ([selector value]
+   (set-config! selector value {}))
+  ([selector value opts]
+   (console! (str "Setting " selector " to " (clj->js value) " options: " (clj->js opts)))
+   (.set config selector (clj->js value) (clj->js opts))))
 
 (defn add-to-config! [selector value]
   (let [previous-config (js->clj (.get config selector))]

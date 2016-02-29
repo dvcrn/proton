@@ -175,3 +175,18 @@
                   (console! (str "New $PATH: " js/process.env.PATH) :helpers/sync-env-path))))
             (close! path-chan))
           (close! path-chan))))))
+
+(defn config-reducer
+   "Push config to collection if no exists or it has options value.
+    Options is 3-rd element in vector. e.g. ['editor.tabLength' 2 {:scopeSelector ['.source.ruby']}]
+    Update config value when no options passed."
+   [coll config]
+  (let [config-name (first config)
+        matched (filter #(= (key %) config-name) coll)
+        matched-no-opts (first (filter #(= 2 (count %)) matched))]
+    (if (empty? matched)
+      (conj coll config)
+      ;; check for options
+      (if (nth config 2 false)
+        (conj coll config)
+        (conj (remove #{matched-no-opts} coll) config)))))
