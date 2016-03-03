@@ -137,8 +137,14 @@
         (.dispatch commands dom-target action)))
     (deactivate-proton-mode!)))
 
+(defn eval-actions! [action-vector]
+  (doall (map eval-action! action-vector))
+  (reset! last-action action-vector))
+
 (defn eval-last-action! []
-  (eval-action! @last-action))
+  (if (vector? @last-action)
+    (eval-actions! @last-action)
+    (eval-action! @last-action)))
 
 (defn get-all-settings []
   (let [config-obj (.getAll config)

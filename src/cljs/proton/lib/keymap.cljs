@@ -1,7 +1,7 @@
 (ns proton.lib.keymap
   #_(:require [proton.core]
               [proton.lib.mode])
-  (:require [proton.lib.atom :as atom-env :refer [workspace commands views eval-action!]]
+  (:require [proton.lib.atom :as atom-env :refer [workspace commands views eval-action! eval-actions!]]
             [proton.lib.helpers :as helpers :refer [deep-merge]]))
 
 (defonce atom-keymap (atom {}))
@@ -47,7 +47,10 @@
       (get-in keymap ks)))
 
 (defn exec-binding [keymap-item]
-  (atom-env/eval-action! keymap-item))
+  ;; if it is a vector, it means we are dealing with a multi keybinding
+  (if (vector? keymap-item)
+    (eval-actions! keymap-item)
+    (eval-action! keymap-item)))
 
 (defn is-action? [{:keys [fx action]}]
   (not (nil? (or fx action))))
