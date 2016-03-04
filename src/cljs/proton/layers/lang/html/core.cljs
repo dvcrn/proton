@@ -17,10 +17,6 @@
     [:linter-bootlint
      :linter-xmllint]))
 
-(defmethod init-package [:lang/html :autoclose-html] []
-  (let [additionalGrammars (array-seq (atom-env/get-config "autoclose-html.additionalGrammars"))]
-    (atom-env/set-config! "autoclose-html.additionalGrammars" (distinct (concat additionalGrammars ["XSL" "XML"])))))
-
 (defmethod init-package [:lang/html :emmet] []
   (mode/define-package-mode :emmet
     {:mode-keybindings
