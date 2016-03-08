@@ -47,6 +47,7 @@
             [proton.layers.lang.handlebars.core]
             [proton.layers.lang.mustache.core]
             [proton.layers.lang.typescript.core]
+            [proton.layers.lang.haskell.core]
 
             ;; config-files
             [proton.layers.config-files.docker.core]
