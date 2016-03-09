@@ -47,9 +47,13 @@ For the commit type, use the matching type from this list:
 - test
 - chore
 
+### Summary
+
+Please use __present tense__ inside your commit message at all time. Keywords like `add` `fix` and friends should be in __lower case__ to keep things consistent.
+
 ### Linking to github
 
-Make sure that you use the __present tense__ for `Closes` and `Fixes` and add `References #XX` before referencing a github issue if you are not closing it. 
+Here as well, please make sure that you use the __present tense__ for `Closes` and `Fixes` and add `References #XX` before referencing a github issue if you are not closing it. Please write these keywords in __uppercase__. 
 
 ## Pull requests
 Pull requests are currently submitted to `master`. This might change in the future so please keep an eye on this.
