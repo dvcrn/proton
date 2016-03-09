@@ -56,16 +56,8 @@
           :h {:action "window:focus-pane-on-left"
               :target actions/get-active-pane
               :title "focus left pane"}
-          :H {:action "move-panes:move-left"
-              :title "move pane left"}
-          :J {:action "move-panes:move-down"
-              :title "move pane down"}
-          :K {:action "move-panes:move-up"
-              :title "move pane up"}
-          :L {:action "move-panes:move-right"
-              :title "move pane right"}
           :colon {:action "command-palette:toggle"
-                         :title "run command"}
+                  :title "run command"}
           :f {:category "files"
                :e {:category "editor(atom)"
                    :d {:title "find-dotfile"
