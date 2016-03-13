@@ -145,7 +145,7 @@
                   (atom-env/mark-last-step-as-completed!)))))
 
           ;; Remove deleted packages
-          (let [to-remove (pm/get-to-remove all-packages)]
+          (let [to-remove (pm/get-to-remove (filter (comp not pm/is-bundled?) all-packages))]
             (if (> (count to-remove) 0)
               (do
                 (atom-env/insert-process-step! (str "Removing <span class='proton-status-package-count'>" (count to-remove) "</span> orphaned package(s)") "")

@@ -42,7 +42,9 @@
   (package-init-state? package :removed))
 
 (defn is-bundled? [package]
-  (true? (get (val package) :bundled)))
+  (if (map? package)
+    (true? (get-in package [(first (keys package))] :bundled))
+    (true? (get (val package) :bundled))))
 
 (defn register-init-state [package-name state]
   (-> package-name
@@ -50,15 +52,27 @@
       (merge {:init-state state})
       (->> (make-package package-name))))
 
-(defn register-installable [package-name]
+(defn register-installable
+  "Takes package-name (string) and register package as installable.
+  Installable packages determined by :init-state :installed."
+  [package-name]
   (register-init-state package-name :installed))
 
-(defn register-removable [package-name]
+(defn register-removable
+  "Takes package-name (string) and register package as removable.
+  Removable packages determined by :init-state :removed.
+  Packages bundled with atom should not be removed, so they
+  marked as installable and disabled."
+  [package-name]
   (-> package-name
       (register-init-state :removed)
-      (update-in-package :proton-disabled true)))
+      (update-in-package :proton-disabled true)
+      (update-bundled-removable)))
 
-(defn- update-bundled-removable [package]
+(defn- update-bundled-removable
+  "Takes package (hash-map) and update :init-state to :installed and
+  :proton-disabled to true if package is bundled with atom"
+  [package]
   (if (is-bundled? package)
     (if (is-removable? package)
       (update-in (hash-map package) [(key package)] assoc :init-state :installed :proton-disabled true)
@@ -66,8 +80,12 @@
     package))
 
 (defn register-packages [packages-map]
-  (let [all-available (into (hash-map) (map (comp register-installable keyword) (array-seq (atom/get-all-packages))))
-        pkgs (into (hash-map) (map update-bundled-removable (merge all-available packages-map)))]
+  (let [all-pkgs (array-seq (atom/get-all-packages))
+        ;; register all bundled packages as installable
+        all-bundled-packages (into (hash-map) (map (comp register-installable keyword) (filter atom/is-package-bundled? all-pkgs)))
+        ;; register all external packages as removable since packages-map contains info regarding selected and disabled packages
+        all-external-packages (into (hash-map) (map (comp register-removable keyword) (filter (comp not atom/is-package-bundled?) all-pkgs)))
+        pkgs (merge all-bundled-packages all-external-packages packages-map)]
     (swap! packages helpers/deep-merge pkgs)
     @packages))
 
