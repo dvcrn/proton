@@ -17,8 +17,8 @@
 
 (defmethod get-packages :lang/elixir []
   [:language-elixir
-   :autocomplete-elixir
-   :iex])
+   :iex
+   :atom-elixir])
 
 (defmethod describe-mode :lang/elixir []
   {:mode-name :elixir
@@ -34,7 +34,22 @@
         :j {:action "iex:open-split-down"
             :title "create below"}
         :n {:action "iex:open"
-            :title "new iex"}}}
+            :title "new iex"}}
+    :d {:action "atom-elixir:show-elixir-docs"
+        :title "show docs"
+        :target (fn [atom] (.getActiveTextEditor (.-workspace atom)))}
+    :g {:action "atom-elixir:goto-definition"
+        :title "goto definition"
+        :target (fn [atom] (.getActiveTextEditor (.-workspace atom)))}
+    :r {:action "atom-elixir:return-from-definition"
+        :title "return from definition"
+        :target (fn [atom] (.getActiveTextEditor (.-workspace atom)))}
+    :q {:action "atom-elixir:quote-selected-text"
+        :title "quote text"
+        :target (fn [atom] (.getActiveTextEditor (.-workspace atom)))}
+    :e {:action "atom-elixir:expand-selected-text"
+        :title "expand text"
+        :target (fn [atom] (.getActiveTextEditor (.-workspace atom)))}}
    :init elixir-mode-init})
 
 (defmethod get-keymaps :lang/elixir []
