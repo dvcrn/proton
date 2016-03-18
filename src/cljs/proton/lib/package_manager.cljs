@@ -46,6 +46,16 @@
     (true? (get-in package [(first (keys package))] :bundled))
     (true? (get (val package) :bundled))))
 
+(defn- update-bundled-removable
+  "Takes package (hash-map) and update :init-state to :installed and
+  :proton-disabled to true if package is bundled with atom"
+  [package]
+  (if (is-bundled? package)
+    (if (is-removable? package)
+      (update-in (hash-map package) [(key package)] assoc :init-state :installed :proton-disabled true)
+      package)
+    package))
+
 (defn register-init-state [package-name state]
   (-> package-name
       (atom-state-info)
@@ -68,16 +78,6 @@
       (register-init-state :removed)
       (update-in-package :proton-disabled true)
       (update-bundled-removable)))
-
-(defn- update-bundled-removable
-  "Takes package (hash-map) and update :init-state to :installed and
-  :proton-disabled to true if package is bundled with atom"
-  [package]
-  (if (is-bundled? package)
-    (if (is-removable? package)
-      (update-in (hash-map package) [(key package)] assoc :init-state :installed :proton-disabled true)
-      package)
-    package))
 
 (defn register-packages [packages-map]
   (let [all-pkgs (array-seq (atom/get-all-packages))
