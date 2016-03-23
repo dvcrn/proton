@@ -1,4 +1,4 @@
-## Terminal ayer
+## Terminal layer
 
 This layer adds the terminal-plus package and a keybinding to toggle it with `<spc> t c`
 
