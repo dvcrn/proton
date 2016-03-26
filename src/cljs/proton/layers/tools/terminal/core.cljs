@@ -8,9 +8,8 @@
 
 (defmethod get-keybindings :tools/terminal
   []
-  {:t {:category "toggles"
-       :c {:action "terminal-plus:toggle"
-           :title "terminal"}}})
+  {:' {:action "terminal-plus:toggle"
+        :title "terminal"}})
 
 (defmethod get-packages :tools/terminal
   []
