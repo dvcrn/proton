@@ -60,7 +60,7 @@
             [proton.config.proton :as proton-config]
 
             [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]
-            [clojure.string]))
+            ))
 
 ;; Atom for holding all disposables objects
 (def disposables (atom []))
