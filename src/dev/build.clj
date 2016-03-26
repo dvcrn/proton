@@ -6,6 +6,8 @@
 
 (defn- plugin-setup []
   (-> (cljs/init-state)
+      (cljs/set-build-options
+        {:node-global-prefix "global.PROTON"})
       (cljs/find-resources-in-classpath)
       (umd/create-module
         {:activate 'proton.core/activate
@@ -44,6 +46,7 @@
         {:before-load 'proton.core/stop
          :after-load 'proton.core/start
          :reload-with-state true
+         :console-support true
          :node-eval true}
         (fn [state modified]
           (-> state
