@@ -23,6 +23,7 @@
 
             ;; etc
             [proton.layers.fun.power_mode.core]
+            [proton.layers.fun.spotify.core]
 
             ;; langs
             [proton.layers.lang.clojure.core]
@@ -60,8 +61,8 @@
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
 
-            [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]
-            ))
+            [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]))
+
 
 ;; Atom for holding all disposables objects
 (def disposables (atom []))
