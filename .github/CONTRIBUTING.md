@@ -29,7 +29,7 @@ Closes #8454
         commit type       /                /      
                 \        |                |
                  feat(ngInclude): add template url parameter to events
-            
+
         body ->  The 'src` (i.e. the url of the template to load) is now provided to the
                  `$includeContentRequested`, `$includeContentLoaded` and `$includeContentError`
                  events.
@@ -39,13 +39,16 @@ Closes #8454
 ```
 
 For the commit type, use the matching type from this list:
-- feat
-- fix
-- docs
-- style
-- refactor
-- test
-- chore
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation only changes
+- **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing
+  semi-colons, etc)
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **perf**: A code change that improves performance
+- **test**: Adding missing tests
+- **chore**: Changes to the build process or auxiliary tools and libraries such as documentation
+  generation
 
 ### Summary
 
@@ -53,7 +56,7 @@ Please use __present tense__ inside your commit message at all time. Keywords li
 
 ### Linking to github
 
-Here as well, please make sure that you use the __present tense__ for `Closes` and `Fixes` and add `References #XX` before referencing a github issue if you are not closing it. Please write these keywords in __uppercase__. 
+Here as well, please make sure that you use the __present tense__ for `Closes` and `Fixes` and add `References #XX` before referencing a github issue if you are not closing it. Please write these keywords in __uppercase__.
 
 ## Pull requests
 Pull requests are currently submitted to `master`. This might change in the future so please keep an eye on this.
