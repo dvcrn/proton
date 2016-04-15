@@ -1,12 +1,12 @@
 ## Python configuration layer
 
-Adds better python autocomplete and formatting to Atom powered by [jedi](https://github.com/davidhalter/jedi). Linting is done through pep8.
+Adds better python autocomplete and formatting to Atom powered by [jedi](https://github.com/davidhalter/jedi). Linting is done through flake8.
 
 Includes following atom packages:
 
 - [autocomplete-python](https://atom.io/packages/autocomplete-python)
 - [python-tools](https://atom.io/packages/python-tools)
-- [linter-pep8](https://atom.io/packages/linter-pep8)
+- [linter-flake8](https://atom.io/packages/linter-flake8)
 - [python-isort](https://atom.io/packages/python-isort)
 
 ### Install
@@ -18,13 +18,13 @@ For django support include `:frameworks/django` to your layers.
 
 - [yapf](https://github.com/google/yapf)
 - [jedi](https://github.com/davidhalter/jedi)
-- [pep8](http://pep8.readthedocs.org/en/latest/intro.html)
+- [flake8](http://flake8.readthedocs.org/en/latest/intro.html)
 - [isort](https://github.com/timothycrosley/isort)
 
 ### Configuration
-- `linter-pep8.ignoreErrorCodes`: a array of pep8 error codes to ignore
-- `linter-pep8.pep8ExecutablePath`: which pep8 executable to use
-- `linter-pep8.maxLineLength`: your max line length
+- `linter-flake8.ignoreErrorCodes`: a array of flake8 error codes to ignore
+- `linter-flake8.executablePath`: which flake8 executable to use
+- `linter-flake8.maxLineLength`: your max line length
 
 ### Mode Key Binding
 

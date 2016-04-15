@@ -7,7 +7,7 @@
 (defmethod init-layer! :lang/python
   [_ {:keys [config layers]}]
   (helpers/console! "init" :lang/python)
-  (register-layer-dependencies :tools/linter [:linter-pep8]))
+  (register-layer-dependencies :tools/linter [:linter-flake8]))
 
 (defmethod init-package [:lang/python :autocomplete-python] []
   (mode/define-package-mode :autocomplete-python
