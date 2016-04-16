@@ -86,7 +86,7 @@
         class-name (if is-category? "proton-key-category" "proton-key-action")
         value (if is-category? (str "+" category) (or title action))
         keystroke (-> keybinding first str rest join keybinding->keystroke)]
-      (str "<li class='flex-item'><span class='proton-key'>[" keystroke "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
+      (str "<li class='proton-which-key-item'><span class='proton-key'>[" keystroke "]</span> ➜ <span class='" class-name "'>" value "</span></li>")))
 
 (defn show-item? [[_ options]]
   (nil? (options :hidden)))
@@ -103,7 +103,7 @@
     (map keybinding-row-html)
     (string/join " ")
     (conj [])
-    (apply #(str "<ul class='flex-container'>" % "</ul>" (panel-footer (tree :category) current-chain)))))
+    (apply #(str "<ul class='proton-which-key-container'>" % "</ul>" (panel-footer (tree :category) current-chain)))))
 
 (defn process->html [steps]
   (let [steps-html (map #(str "<tr><td class='process-step'>" (get % 0) "</td><td class='process-status'>" (get % 1) "</td></tr>") steps)]
