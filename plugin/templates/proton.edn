@@ -29,7 +29,7 @@
     ;; Languages
     ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/lang
     ;; -----------------------------------
-    :lang/clojure
+    ;; :lang/clojure
     ;; :lang/csharp
     ;; :lang/python
     ;; :lang/julia
