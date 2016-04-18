@@ -68,7 +68,7 @@
 
     (case (config-map "proton.core.vim-provider")
       :vim-mode (swap! packages #(into [] (concat % [:vim-mode :vim-surround])))
-      :vim-mode-plus (swap! packages #(into [] (concat % [:vim-mode-plus]))))))
+      :vim-mode-plus (swap! packages #(into [] (concat % [:vim-mode-plus :vim-mode-plus-ex-mode]))))))
 
 (defmethod init-package [:core :theme-switch] []
   (let [core-themes (string/join " " (atom-env/get-config "core.themes"))
@@ -80,7 +80,9 @@
   (atom-env/set-keymap! "atom-text-editor.vim-mode-plus.normal-mode"
     {"y s" "vim-mode-plus:surround"
      "d s" "vim-mode-plus:delete-surround"
-     "c s" "vim-mode-plus:change-surround"})
+     "c s" "vim-mode-plus:change-surround"
+     ":" "vim-mode-plus-ex-mode:open"
+     "!" "vim-mode-plus-ex-mode:toggle-setting"})
   (atom-env/set-keymap! "atom-workspace atom-text-editor.vim-mode-plus.visual-mode"
     {"s" "vim-mode-plus:surround"}))
 
