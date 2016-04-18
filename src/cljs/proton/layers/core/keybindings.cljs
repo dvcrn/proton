@@ -168,12 +168,14 @@
                  :title "tree-view"}
              :f {:action "fuzzy-finder:toggle-file-finder"
                  :title "find in project"}
-             :p {:action "project-manager:list-projects"
+             :p {:action "project-plus:toggle-project-finder"
                  :title "switch projects"}
-             :s {:action "project-manager:save-project"
+             :s {:action "project-plus:save"
                  :title "save project"}
-             :e {:action "project-manager:edit-projects"
-                 :title "edit projects"}
+             :c {:action "project-plus:close"
+                 :title "close project"}
+             :l {:action "project-plus:open"
+                 :title "open folder as project"}
              :r {:action "recent-files-fuzzy-finder:toggle-finder"
                  :title "recent files"}
              :slash {:action "project-find:show"

@@ -21,7 +21,7 @@
 
      ;; other
      :advanced-open-file
-     :project-manager
+     :project-plus
      :golden-ratio
      :autocomplete-paths
 
