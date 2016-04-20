@@ -24,13 +24,22 @@
   []
   [:markdown-writer
    :markdown-preview
-   :markdown-scroll-sync])
+   :markdown-scroll-sync
+   :atom-mdtoc])
 
 (defmethod get-keymaps :lang/markdown
   []
   [{:selector "atom-workspace atom-text-editor.autocomplete-active:not([mini])[data-grammar~='gfm']"
     :keymap [["enter" "autocomplete-plus:confirm"]
              ["tab" "autocomplete-plus:confirm"]]}])
+
+(defmethod init-package [:lang/markdown :atom-mdtoc] []
+  (mode/define-package-mode :atom-mdtoc
+    {:mode-keybindings
+      {:T {:category "TOC"
+           :i {:action "atom-mdtoc:insert" :title "Insert TOC"}
+           :d {:action "atom-mdtoc:delete" :title "Delete TOC"}}}})
+  (mode/link-modes :markdown-major-mode (mode/package-mode-name :atom-mdtoc)))
 
 (defmethod init-package [:lang/markdown :markdown-writer] []
   (helpers/console! "init markdown-writer package" :lang/markdown)
@@ -76,4 +85,4 @@
 (defmethod describe-mode :lang/markdown
   []
   {:mode-name :markdown-major-mode
-   :atom-scope ["source.gfm" "source.litcoffee" "text.md"]})
+   :atom-scope ["source.gfm" "source.litcoffee" "text.md" "source.markdown"]})
