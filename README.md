@@ -78,5 +78,5 @@ GPLv3
 
 [1]: https://github.com/syl20bnr/spacemacs/
 [2]: https://github.com/dvcrn/sublimious
-[3]: https://raw.githubusercontent.com/dvcrn/proton/master/plugin/resources/showcase.gif
+[3]: http://i.imgur.com/UmxjocD.gif
 [4]: https://github.com/dvcrn/proton/tree/master/src/cljs/proton/layers
