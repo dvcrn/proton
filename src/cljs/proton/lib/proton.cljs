@@ -72,6 +72,9 @@
                    "body atom-workspace.proton-mode atom-panel-container.right atom-panel.right.tool-panel"
                    "body atom-workspace.proton-mode atom-panel-container.left"
                    "body atom-workspace.proton-mode atom-panel-container.left atom-panel.left.tool-panel"
+                   "body atom-workspace.proton-mode .atomatigit .file-list-view"
+                   "body atom-workspace.proton-mode .atomatigit .branch-list-view"
+                   "body atom-workspace.proton-mode .atomatigit .atomatigit .commit-list-view"
                    "body atom-workspace.proton-mode"]
         selector (string/join ", " selectors)
         command "proton:chain"
