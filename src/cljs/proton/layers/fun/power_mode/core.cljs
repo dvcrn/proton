@@ -11,7 +11,10 @@
   [:activate-power-mode])
 
 (defmethod get-keymaps :fun/power_mode [] [])
-(defmethod get-initial-config :fun/power_mode [] [])
+
+(defmethod get-initial-config :fun/power_mode []
+  [["activate-power-mode.autoToggle" false]])
+
 (defmethod get-keybindings :fun/power_mode []
   {:t {:category "toggles"
        :p {:action "activate-power-mode:toggle"
