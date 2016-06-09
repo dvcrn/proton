@@ -46,7 +46,8 @@
 
 (defn update-bottom-panel [html]
   (show-bottom-panel)
-  (aset @element "innerHTML" html))
+  (aset @element "innerHTML" html)
+  (.add (.-classList workspace-view) "proton-which-key-active"))
 
 (defn bottom-panel-visible? []
   (.isVisible @bottom-panel))
@@ -122,6 +123,7 @@
   (console! "Chain deactivated!")
   (let [classList (.-classList workspace-view)]
     (.remove classList "proton-mode")
+    (.remove classList "proton-which-key-active")
     (editor-toggle-classes (input-provider-class) false)
     (hide-bottom-panel)))
 
