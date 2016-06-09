@@ -29,6 +29,7 @@
    ["proton.core.vim-provider" :vim-mode-plus]
    ["proton.core.wipeUserConfigs" true]
    ["proton.core.whichKeyDelay" 0.4]
+   ["proton.core.whichKeyDelayOnInit" false]
 
    ;; vim-mode
    ["vim-mode-plus.useSmartcaseForSearch" true]

@@ -48,6 +48,9 @@
   (show-bottom-panel)
   (aset @element "innerHTML" html))
 
+(defn bottom-panel-visible? []
+  (.isVisible @bottom-panel))
+
 (defn get-apm-path []
   (.getApmPath packages))
 

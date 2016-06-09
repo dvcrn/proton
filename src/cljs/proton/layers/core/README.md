@@ -15,6 +15,7 @@ The core layer should get included by default. No installation needed.
 | `proton.core.vim-provider`        | :vim-mode-plus | __keyword__ | which vim emulation provider to use. Possible options are `:vim-mode-plus` and `:vim-mode` |
 | `proton.core.wipeUserConfigs`     | true           | __boolean__ | always reset atom configuration before applying conifgs from layers and `~/.proton`        |
 | `proton.core.whichKeyDelay`       | 0.4            | __number__  | which-key modal delay in seconds                                                           |
+| `proton.core.whichKeyDelayOnInit` | false          | __boolean__ | which-key modal delay for first show up and no delay when shown                            |
 
 
 ### Key Bindings

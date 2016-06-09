@@ -99,7 +99,9 @@
                   (atom-env/deactivate-proton-mode!)
                   (reset! current-chain [])
                   (keymap-manager/exec-binding keymaps))
-                (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain))))))))))
+                (if (and (atom-env/get-config "proton.core.whichKeyDelayOnInit") (atom-env/bottom-panel-visible?))
+                  (atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain))
+                  (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain)))))))))))
 
 (defn init []
   (go
