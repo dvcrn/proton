@@ -60,8 +60,8 @@
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
 
-            [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]
-            ))
+            [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]))
+
 
 ;; Atom for holding all disposables objects
 (def disposables (atom []))
@@ -69,14 +69,22 @@
 (swap! disposables conj atom-env/subscriptions)
 
 (defonce current-chain (atom []))
+;; Atom that holds chain timeout id
+(def chain-timer (atom nil))
 
 (def mode-keys [:m (keyword ",")])
 (defn is-mode-key? [chain-key]
   (not (nil? (some #{(first chain-key)} mode-keys))))
 
+(defn- chain-delay [f]
+  (reset! chain-timer
+    (js/setTimeout f (* 1000 (atom-env/get-config "proton.core.whichKeyDelay")))))
+
 (defn chain [e]
   (let [keystroke (helpers/extract-keystroke-from-event e)]
       ;; check for ESC key
+      (when-not (nil? @chain-timer)
+        (js/clearTimeout @chain-timer))
       (if (= keystroke "escape")
         (atom-env/deactivate-proton-mode!)
         (do
@@ -91,7 +99,7 @@
                   (atom-env/deactivate-proton-mode!)
                   (reset! current-chain [])
                   (keymap-manager/exec-binding keymaps))
-                (atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain)))))))))
+                (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain))))))))))
 
 (defn init []
   (go
@@ -175,16 +183,16 @@
 
 (defn on-space []
   (reset! current-chain [])
-  (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings []) @current-chain))
-  (atom-env/activate-proton-mode!))
+  (atom-env/activate-proton-mode!)
+  (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings []) @current-chain))))
 
 (defn on-mode-key []
   (reset! current-chain [])
   (if-let [mode-keymap (keymap-manager/get-mode-keybindings (keymap-manager/get-current-editor-mode))]
    (let [core-mode-key (first mode-keys)]
     (swap! current-chain conj core-mode-key)
-    (atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain) @current-chain))
-    (atom-env/activate-proton-mode!))))
+    (atom-env/activate-proton-mode!)
+    (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain) @current-chain))))))
 
 (defn toggle [e]
   (if (helpers/is-proton-target? e)

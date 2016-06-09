@@ -28,6 +28,7 @@
    ["proton.core.post-init-timeout" 3000]
    ["proton.core.vim-provider" :vim-mode-plus]
    ["proton.core.wipeUserConfigs" true]
+   ["proton.core.whichKeyDelay" 0.4]
 
    ;; vim-mode
    ["vim-mode-plus.useSmartcaseForSearch" true]

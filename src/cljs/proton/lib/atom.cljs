@@ -34,7 +34,6 @@
 (def modal-panel (atom (.addModalPanel workspace (clj->js {:visible false
                                                            :item @modal-element}))))
 
-(defn update-bottom-panel [html] (aset @element "innerHTML" html))
 (defn update-modal-panel [html]
   (let [element @modal-element]
     (aset element "innerHTML" html)
@@ -44,6 +43,10 @@
 (defn hide-modal-panel [] (.hide @modal-panel))
 (defn show-bottom-panel [] (.show @bottom-panel))
 (defn hide-bottom-panel [] (.hide @bottom-panel))
+
+(defn update-bottom-panel [html]
+  (show-bottom-panel)
+  (aset @element "innerHTML" html))
 
 (defn get-apm-path []
   (.getApmPath packages))
@@ -110,8 +113,7 @@
   (console! "Chain activated!")
   (let [classList (.-classList workspace-view)]
     (.add classList "proton-mode")
-    (editor-toggle-classes (input-provider-class) true)
-    (show-bottom-panel)))
+    (editor-toggle-classes (input-provider-class) true)))
 
 (defn deactivate-proton-mode! []
   (console! "Chain deactivated!")
