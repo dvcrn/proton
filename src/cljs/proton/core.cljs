@@ -99,9 +99,10 @@
                   (atom-env/deactivate-proton-mode!)
                   (reset! current-chain [])
                   (keymap-manager/exec-binding keymaps))
-                (if (and (atom-env/get-config "proton.core.whichKeyDelayOnInit") (atom-env/bottom-panel-visible?))
-                  (atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain))
-                  (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain)))))))))))
+                (when-not (atom-env/get-config "proton.core.whichKeyDisabled")
+                  (if (and (atom-env/get-config "proton.core.whichKeyDelayOnInit") (atom-env/bottom-panel-visible?))
+                    (atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain))
+                    (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain))))))))))))
 
 (defn init []
   (go
@@ -186,7 +187,8 @@
 (defn on-space []
   (reset! current-chain [])
   (atom-env/activate-proton-mode!)
-  (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings []) @current-chain))))
+  (when-not (atom-env/get-config "proton.core.whichKeyDisabled")
+    (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings []) @current-chain)))))
 
 (defn on-mode-key []
   (reset! current-chain [])
@@ -194,7 +196,8 @@
    (let [core-mode-key (first mode-keys)]
     (swap! current-chain conj core-mode-key)
     (atom-env/activate-proton-mode!)
-    (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain) @current-chain))))))
+    (when-not (atom-env/get-config "proton.core.whichKeyDisabled")
+      (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html (keymap-manager/find-keybindings @current-chain) @current-chain)))))))
 
 (defn toggle [e]
   (if (helpers/is-proton-target? e)
