@@ -131,12 +131,14 @@ atom-panel.modal.tab-switcher {
 }
 
 .proton-mode {
-  atom-pane-container {
-    opacity: 0.5;
-  }
-  atom-panel-container {
-    &.right, &.left {
+  &.proton-which-key-active {
+    atom-pane-container {
       opacity: 0.5;
+    }
+    atom-panel-container {
+      &.right, &.left {
+        opacity: 0.5;
+      }
     }
   }
 }
