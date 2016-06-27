@@ -14,3 +14,4 @@ pom.xml
 node_modules/
 out/
 plugin/lib/
+npm-debug.log
