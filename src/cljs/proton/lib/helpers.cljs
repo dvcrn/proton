@@ -18,7 +18,8 @@
 (def keystroke->keybinding-map
    {"/" :slash
     ":" :colon
-    ";" :semicolon})
+    ";" :semicolon
+    "'" :quote})
 
 (defn keystroke->keybinding
   "Remove 'shift-' prefix from keystroke. For uppercase letter atom keystroke will be
