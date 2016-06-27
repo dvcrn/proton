@@ -67,12 +67,14 @@
   (mode/define-package-mode :atom-ternjs
     {:mode-keybindings
       {:g {:category "go to"
-           :g {:action "tern:definition" :target actions/get-active-editor :title "defintion"}
-           :q {:action "tern:markerCheckpointBack" :target actions/get-active-editor :title "back from definition"}
-           :r {:action "tern:references" :target actions/get-active-editor :title "references"}}
+           :g {:action "atom-ternjs:definition" :target actions/get-active-editor :title "defintion"}
+           :q {:action "atom-ternjs:markerCheckpointBack" :target actions/get-active-editor :title "back from definition"}
+           :r {:action "atom-ternjs:references" :target actions/get-active-editor :title "references"}}
        :r {:category "refactor"
            :r {:category "rename"
-               :v {:action "tern:rename" :target actions/get-active-editor :title "tern rename variable"}}}}})
+               :v {:action "atom-ternjs:rename" :target actions/get-active-editor :title "tern rename variable"}}}
+       :h {:category "help"
+           :h {:action "atom-ternjs:documentation" :target actions/get-active-editor :title "doc at point"}}}})
   (mode/link-modes :javascript-major-mode (mode/package-mode-name :atom-ternjs)))
 
 (defmethod describe-mode :lang/javascript

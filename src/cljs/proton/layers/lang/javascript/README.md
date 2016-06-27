@@ -67,6 +67,7 @@ Name                                        | Default | Type        | Title     
 |------------------------|--------------------------------|
 | <kbd>SPC m g g</kbd>   | Tern jump to definition        |
 | <kbd>SPC m g q</kbd>   | Tern jump back from definition |
+| <kbd>SPC m g h</kbd>   | Tern show documentation        |
 | <kbd>SPC m g r</kbd>   | Tern list references           |
 | <kbd>SPC m s l</kbd>   | Show file symbols              |
 | <kbd>SPC m r r v</kbd> | Tern rename variable           |
