@@ -80,6 +80,7 @@
                :language-git
                :language-go
                :language-html
+               :busy
                :language-hyperlink
                :language-java
                :language-javascript
