@@ -45,7 +45,7 @@
            :X {:action "proto-repl:super-refresh-namespaces" :title "super refresh"}}
        :t {:category "tests"
            :a {:action "proto-repl:run-all-tests" :title "run all"}
-           :t {:action "proto-repl:run-selected-test" :title "run selected"}
+           :t {:action "proto-repl:run-test-under-cursor" :title "run selected"}
            :c {:action "proto-repl:run-tests-in-namespace" :title "run in ns"}}}})
   (mode/link-modes :clojure-major-mode (mode/package-mode-name :proto-repl)))
 
