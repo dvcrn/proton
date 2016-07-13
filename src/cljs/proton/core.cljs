@@ -1,66 +1,66 @@
 (ns proton.core
-  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
-  (:require [proton.lib.helpers :as helpers]
-            [proton.lib.atom :as atom-env]
-            [proton.lib.package_manager :as pm]
-            [proton.lib.proton :as proton]
-            [proton.lib.mode :as mode-manager]
-            [proton.lib.keymap :as keymap-manager]
-            [cljs.nodejs :as node]
-            [clojure.string :as string :refer [join lower-case upper-case]]
+ (:require-macros [cljs.core.async.macros :refer [go go-loop]])
+ (:require [proton.lib.helpers :as helpers]
+           [proton.lib.atom :as atom-env]
+           [proton.lib.package_manager :as pm]
+           [proton.lib.proton :as proton]
+           [proton.lib.mode :as mode-manager]
+           [proton.lib.keymap :as keymap-manager]
+           [cljs.nodejs :as node]
+           [clojure.string :as string :refer [join lower-case upper-case]]
 
-            [proton.layers.base :as layerbase]
-            [proton.layers.core.core :as core-layer]
+           [proton.layers.base :as layerbase]
+           [proton.layers.core.core :as core-layer]
 
             ;; tools
-            [proton.layers.tools.minimap.core]
-            [proton.layers.tools.git.core]
-            [proton.layers.tools.linter.core]
-            [proton.layers.tools.build.core]
-            [proton.layers.tools.bookmarks.core]
-            [proton.layers.tools.todo.core]
-            [proton.layers.tools.terminal.core]
+           [proton.layers.tools.minimap.core]
+           [proton.layers.tools.git.core]
+           [proton.layers.tools.linter.core]
+           [proton.layers.tools.build.core]
+           [proton.layers.tools.bookmarks.core]
+           [proton.layers.tools.todo.core]
+           [proton.layers.tools.terminal.core]
 
             ;; etc
-            [proton.layers.fun.power_mode.core]
+           [proton.layers.fun.power_mode.core]
 
             ;; langs
-            [proton.layers.lang.clojure.core]
-            [proton.layers.lang.swift.core]
-            [proton.layers.lang.csharp.core]
-            [proton.layers.lang.python.core]
-            [proton.layers.lang.julia.core]
-            [proton.layers.lang.latex.core]
-            [proton.layers.lang.markdown.core]
-            [proton.layers.lang.elixir.core]
-            [proton.layers.lang.javascript.core]
-            [proton.layers.lang.rust.core]
-            [proton.layers.lang.html.core]
-            [proton.layers.lang.go.core]
-            [proton.layers.lang.ruby.core]
-            [proton.layers.lang.json.core]
-            [proton.layers.lang.css.core]
-            [proton.layers.lang.sass.core]
-            [proton.layers.lang.stylus.core]
-            [proton.layers.lang.less.core]
-            [proton.layers.lang.haml.core]
-            [proton.layers.lang.slim.core]
-            [proton.layers.lang.jade.core]
-            [proton.layers.lang.handlebars.core]
-            [proton.layers.lang.mustache.core]
-            [proton.layers.lang.typescript.core]
-            [proton.layers.lang.haskell.core]
+           [proton.layers.lang.clojure.core]
+           [proton.layers.lang.swift.core]
+           [proton.layers.lang.csharp.core]
+           [proton.layers.lang.python.core]
+           [proton.layers.lang.julia.core]
+           [proton.layers.lang.latex.core]
+           [proton.layers.lang.markdown.core]
+           [proton.layers.lang.elixir.core]
+           [proton.layers.lang.javascript.core]
+           [proton.layers.lang.rust.core]
+           [proton.layers.lang.html.core]
+           [proton.layers.lang.go.core]
+           [proton.layers.lang.ruby.core]
+           [proton.layers.lang.json.core]
+           [proton.layers.lang.css.core]
+           [proton.layers.lang.sass.core]
+           [proton.layers.lang.stylus.core]
+           [proton.layers.lang.less.core]
+           [proton.layers.lang.haml.core]
+           [proton.layers.lang.slim.core]
+           [proton.layers.lang.jade.core]
+           [proton.layers.lang.handlebars.core]
+           [proton.layers.lang.mustache.core]
+           [proton.layers.lang.typescript.core]
+           [proton.layers.lang.haskell.core]
 
             ;; config-files
-            [proton.layers.config-files.docker.core]
+           [proton.layers.config-files.docker.core]
 
             ;; frameworks
-            [proton.layers.frameworks.django.core]
+           [proton.layers.frameworks.django.core]
 
-            [proton.config.editor :as editor-config]
-            [proton.config.proton :as proton-config]
+           [proton.config.editor :as editor-config]
+           [proton.config.proton :as proton-config]
 
-            [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]))
+           [cljs.core.async :as async :refer [chan put! pub sub unsub >! <!]]))
 
 
 ;; Atom for holding all disposables objects
@@ -100,7 +100,7 @@
                   (reset! current-chain [])
                   (keymap-manager/exec-binding keymaps))
                 (when-not (atom-env/get-config "proton.core.whichKeyDisabled")
-                  (if (and (atom-env/get-config "proton.core.whichKeyDelayOnInit") (atom-env/bottom-panel-visible?))
+                  (if (atom-env/bottom-panel-visible?)
                     (atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain))
                     (chain-delay #(atom-env/update-bottom-panel (helpers/tree->html keymaps @current-chain))))))))))))
 
