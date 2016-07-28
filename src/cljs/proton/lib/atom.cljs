@@ -53,7 +53,8 @@
   (.isVisible @bottom-panel))
 
 (defn get-apm-path []
-  (.getApmPath packages))
+  (-> (.getApmPath packages)
+      (clojure.string/replace " " "\\ ")))
 
 (defn get-config [selector]
   (.get config selector))
