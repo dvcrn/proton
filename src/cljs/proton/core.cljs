@@ -57,6 +57,9 @@
             ;; frameworks
             [proton.layers.frameworks.django.core]
 
+            ;; apps
+            [proton.layers.apps.notes.core]
+
             [proton.config.editor :as editor-config]
             [proton.config.proton :as proton-config]
 
