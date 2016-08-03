@@ -143,7 +143,8 @@
         ignored-editor-classes #{"insert-mode" "mini"}
         ignored-editor-class-ok? (empty? (cljset/intersection class-list ignored-editor-classes))
         required-editor-classes #{"vim-mode" "vim-mode-plus"}
-        required-editor-class-ok? (not (empty? (cljset/intersection class-list required-editor-classes)))]
+        vim-mode? (some #{(js/atom.config.get "proton.core.inputProvider")} ["vim-mode" "vim-mode-plus"])
+        required-editor-class-ok? (or (not (empty? (cljset/intersection class-list required-editor-classes))) (not vim-mode?))]
     (if tag-ok?
       (if (= tag-name "atom-text-editor")
         (and required-editor-class-ok? ignored-attrs-ok? ignored-editor-class-ok?)

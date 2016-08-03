@@ -2,7 +2,7 @@
   #_(:require [proton.core])
   (:require [cljs.reader :as reader]
             [cljs.nodejs :as node]
-            [clojure.string :as string :refer [upper-case join]]
+            [clojure.string :as string :refer [upper-case join starts-with?]]
             [proton.lib.mode :as mode-manager]
             [proton.lib.helpers :as helpers]
             [proton.lib.atom :as atom-env]
@@ -90,17 +90,51 @@
         ret-map (reduce #(assoc %1 %2 command) {} (map identity ret))]
       (atom-env/set-keymap! selector ret-map 100)))
 
+(defn- vim-input? [provider] (some #{provider} [:vim-mode :vim-mode-plus]))
+
+(defn- configure-leader-keys [config-map]
+  (let [vim-provider? (vim-input? (config-map "proton.core.inputProvider"))
+        current-keys [(config-map "proton.core.leaderKey") (config-map "proton.core.modeKey")]
+        vim-keys ["space" ","]
+        non-vim-keys ["alt-m" "ctrl-alt-m"]]
+      (cond
+        (and vim-provider? (= non-vim-keys current-keys)) vim-keys
+        (and (not vim-provider?) (= vim-keys current-keys)) non-vim-keys
+        :else current-keys)))
+
+(defn- clear-conflicted-keystrokes! [keystrokes]
+  (let [reg (re-pattern (str "^(" (join "|" keystrokes) ")"))]
+    (set! (.-keyBindings atom-env/keymaps)
+      (clj->js
+        (filter
+          #(not (and (re-find reg (.-keystrokes %)) (not (re-find (re-pattern "^proton:") (.-command %)))))
+           (array-seq atom-env/keymaps.keyBindings))))))
+
 (defn init-proton-leader-keys! [configs]
   (let [config-map (into (hash-map) configs)
-        selectors ["body atom-workspace:not(.proton-mode) atom-text-editor:not([mini]):not(.insert-mode)"
-                   "body atom-workspace:not(.proton-mode) atom-panel-container.left"
-                   "body atom-workspace:not(.proton-mode) atom-panel-container.right"
-                   "body atom-workspace:not(.proton-mode) atom-panel-container.bottom"
-                   "atom-workspace:not(.proton-mode)"]
+        vim-provider? (vim-input? (config-map "proton.core.inputProvider"))
+        selectors (conj
+                    ["body atom-workspace:not(.proton-mode) atom-panel-container.left"
+                     "body atom-workspace:not(.proton-mode) atom-panel-container.right"
+                     "body atom-workspace:not(.proton-mode) atom-panel-container.bottom"
+                     "atom-workspace:not(.proton-mode)"]
+                    (if vim-provider?
+                       "body atom-workspace:not(.proton-mode) atom-text-editor:not([mini]):not(.insert-mode)"
+                       "body atom-workspace:not(.proton-mode) atom-text-editor:not([mini])"))
         selector (string/join ", " selectors)
         leader-command "proton:toggle"
-        proton-leader-key "space"
-        proton-mode-key (name (nth proton.core/mode-keys 1))
+        proton-keys (configure-leader-keys config-map)
+        proton-leader-key (proton-keys 0)
+        proton-mode-key (proton-keys 1)
         mode-command "proton:toggleMode"
         keymap (hash-map proton-leader-key leader-command proton-mode-key mode-command)]
+    (when (not vim-provider?)
+      (clear-conflicted-keystrokes! [proton-leader-key proton-mode-key]))
     (atom-env/set-keymap! selector keymap 100)))
+
+(defn show-deprecated-configs [configs]
+  (let [config-map (into (hash-map) configs)]
+    (when (config-map "proton.core.vim-provider")
+      (.addInfo atom-env/notifications "proton-mode: deprecated config <strong>proton.core.vim-provider</strong>"
+        (clj->js {:detail "Please use proton.core.inputProvider"
+                  :dismissable true})))))
