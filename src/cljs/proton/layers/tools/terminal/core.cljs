@@ -8,12 +8,12 @@
 
 (defmethod get-keybindings :tools/terminal
   []
-  {:' {:action "terminal-plus:toggle"
-        :title "terminal"}})
+  {:quote {:action "platformio-ide-terminal:toggle"
+           :title "terminal"}})
 
 (defmethod get-packages :tools/terminal
   []
-  [:terminal-plus])
+  [:platformio-ide-terminal])
 
 (defmethod get-keymaps :tools/terminal [] [])
 (defmethod get-initial-config :tools/terminal [] [])
