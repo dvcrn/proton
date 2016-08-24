@@ -5,7 +5,10 @@
                ["welcome.showOnStartup" false]
 
                ;; Better default font ;)
-               ["editor.fontFamily" "Hack"]]
+               ["editor.fontFamily" "Hack"]
+               ["proton.core.leaderKey" "space"]
+               ["proton.core.modeKey" ","]
+               ["proton.core.inputProvider" :vim-mode-plus]]
 
               :keymaps
                []

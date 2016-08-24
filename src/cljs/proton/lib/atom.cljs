@@ -23,6 +23,7 @@
 (def grammars (.-grammars (.-grammars js/atom)))
 (def workspace-view (.getView views workspace))
 (def packages (.-packages js/atom))
+(def notifications (.-notifications js/atom))
 
 (def element (atom (generate-div "test" "proton-which-key")))
 (def bottom-panel (atom (.addBottomPanel workspace
@@ -99,20 +100,22 @@
   (amend-last-step! (str (get (last @steps) 0)) "<span class='proton-status-ok'>[ok]</span>"))
 
 (defn input-provider-class []
-  (if-let [selected-provider (get-config "proton.core.vim-provider")]
+  (if-let [selected-provider (get-config "proton.core.inputProvider")]
     (do
       (case selected-provider
         "vim-mode" ["vim-mode"]
-        "vim-mode-plus" ["vim-mode-plus"]))
-    [""]))
+        "vim-mode-plus" ["vim-mode-plus"]
+        []))
+    []))
 
 (defn editor-toggle-classes [class-list remove?]
-  (let [editors (.getTextEditors workspace)]
-    (doseq [editor editors]
-      (let [editor-view (.getView views editor)
-            classList (.-classList editor-view)
-            class-list-fn (fn [class-name] (if remove? (.remove classList class-name) (.add classList class-name)))]
-        (doall (map class-list-fn class-list))))))
+  (when (not (empty? class-list))
+    (let [editors (.getTextEditors workspace)]
+      (doseq [editor editors]
+        (let [editor-view (.getView views editor)
+              classList (.-classList editor-view)
+              class-list-fn (fn [class-name] (if remove? (.remove classList class-name) (.add classList class-name)))]
+          (doall (map class-list-fn class-list)))))))
 
 (defn activate-proton-mode! []
   (console! "Chain activated!")
@@ -169,7 +172,6 @@
               (fn [val config-postfix _]
                 (swap! parsed-config conj (str config-prefix "." config-postfix))))))))
     @parsed-config))
-
 
 (defn set-keymap!
   ([selector bindings]

@@ -88,7 +88,7 @@
     ["proton.core.relativeLineNumbers" false]
 
     ;; prefer classic vim mode over vim-mode-plus? Change this to :vim-mode
-    ["proton.core.vim-provider" :vim-mode-plus]
+    ["proton.core.inputProvider" :vim-mode-plus]
   ]
 
   ;; Don't like a keybinding or want to add something yourself? Do it here

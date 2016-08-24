@@ -173,6 +173,7 @@
           ;; set the user config
           (atom-env/insert-process-step! "Applying user configuration")
           (doall (map #(apply atom-env/set-config! %) all-configuration))
+          (proton/show-deprecated-configs all-configuration)
           (atom-env/mark-last-step-as-completed!)
 
           ;; Make sure all collected packages are definitely enabled
