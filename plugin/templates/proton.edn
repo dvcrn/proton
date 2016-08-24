@@ -92,6 +92,13 @@
   ]
 
   ;; Don't like a keybinding or want to add something yourself? Do it here
+  ;; The following example adds a category `foo-category` under <SPC>z
+  ;; and adds a action under `y` with the title `execute hello`.
+  ;; Upon executing, proton will dispatch the action `hello` on the current view
+  ;;
+  ;; :keybindings {:z {:category "foo-category"
+  ;;                   :y {:title "execute hello"
+  ;;                       :action "hello"}}}
   :keybindings {}
 
   ;; Want some custom behavior inside a certain window?
