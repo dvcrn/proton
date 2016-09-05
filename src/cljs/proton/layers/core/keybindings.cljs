@@ -4,41 +4,41 @@
             [proton.lib.atom :as atom-env]
             [proton.lib.proton :as proton]))
 
-(defn select-window-fn [n]
+(defn select-pane-fn [n]
   (fn []
     (panes/focus-on-item n)))
 
 (def keybindings
   (atom { :. {:fx #(atom-env/eval-last-action!)
               :title "repeat last command"}
-          :0-9 {:title "select window N"}
-          :0 {:fx (select-window-fn 0)
+          :0-9 {:title "select pane N"}
+          :0 {:fx (select-pane-fn 0)
               :hidden true
-              :title "window 0"}
-          :1 {:fx (select-window-fn 1)
+              :title "pane 0"}
+          :1 {:fx (select-pane-fn 1)
               :hidden true
-              :title "window 1"}
-          :2 {:fx (select-window-fn 2)
+              :title "pane 1"}
+          :2 {:fx (select-pane-fn 2)
               :hidden true
-              :title "window 2"}
-          :3 {:fx (select-window-fn 3)
+              :title "pane 2"}
+          :3 {:fx (select-pane-fn 3)
               :hidden true
-              :title "window 3"}
-          :5 {:fx (select-window-fn 4)
+              :title "pane 3"}
+          :5 {:fx (select-pane-fn 4)
               :hidden true
-              :title "window 4"}
-          :6 {:fx (select-window-fn 6)
+              :title "pane 4"}
+          :6 {:fx (select-pane-fn 6)
               :hidden true
-              :title "window 6"}
-          :7 {:fx (select-window-fn 7)
+              :title "pane 6"}
+          :7 {:fx (select-pane-fn 7)
               :hidden true
-              :title "window 7"}
-          :8 {:fx (select-window-fn 8)
+              :title "pane 7"}
+          :8 {:fx (select-pane-fn 8)
               :hidden true
-              :title "window 8"}
-          :9 {:fx (select-window-fn 9)
+              :title "pane 8"}
+          :9 {:fx (select-pane-fn 9)
               :hidden true
-              :title "window 9"}
+              :title "pane 9"}
           :tab {:action "tab-switcher:next"
                 :title "previous buffer"}
           :space {:action "easy-motion-redux:letter"
@@ -142,10 +142,10 @@
                   :title "focus right pane"}
               :m {:action "maximize-panes:maximize"
                   :title "maximize pane"}
+              :n {:action "application:new-window"
+                  :title "new window"}
               :o {:title "close others"
                   :fx panes/close-other-panes}
-              :u {:action "open last-closed window"
-                  :title "pane:reopen-closed-item"}
               :s {:action "pane:split-down"
                   :target actions/get-active-pane
                   :title "split horizontally"}
@@ -160,7 +160,9 @@
                   :title "kill other buffers"}
               :d {:action "core:close"
                   :target actions/get-active-pane
-                  :title "destroy current buffer"}}
+                  :title "destroy current buffer"}
+              :u {:action "pane:reopen-closed-item"
+                  :title "undo buffer destroy"}}
          :p {:category "project"
              :b {:action "fuzzy-finder:toggle-buffer-finder"
                  :title "browse buffers"}
