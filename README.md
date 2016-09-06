@@ -6,17 +6,18 @@
 
 <!-- MDTOC maxdepth:4 firsth1:1 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
 
-   - [Proton](#proton)
-      - [What is it?](#what-is-it)
-      - [Features](#features)
-      - [Install](#install)
-         - [Pre-warning](#pre-warning)
-         - [Going full Proton](#going-full-proton)
-      - [Compiling](#compiling)
-         - [Requirements](#requirements)
-         - [Running it](#running-it)
-      - [Help](#help)
-      - [License](#license)
+   - [Proton](#proton)   
+      - [What is it?](#what-is-it)   
+      - [Usage](#usage)   
+      - [Features](#features)   
+      - [Install](#install)   
+         - [Pre-warning](#pre-warning)   
+         - [Going full Proton](#going-full-proton)   
+      - [Compiling](#compiling)   
+         - [Requirements](#requirements)   
+         - [Running it](#running-it)   
+      - [Help](#help)   
+      - [License](#license)   
 
 <!-- /MDTOC -->
 
@@ -24,7 +25,11 @@
 
 Proton *(name subject to change)* brings the modal editing style of Spacemacs and Sublimious with all its superpowers to Atom.
 
-We get rid of the annoying part of Atom — that being the configuration and package management — and __concentrate on the cool bits__: its full customisation capabilities.
+We get rid of the annoying part of Atom — that being the configuration and package management — and __concentrate on the cool bits__: its full customization capabilities.
+
+### Usage
+While not ready yet, a manual is slowly getting created [here](https://github.com/dvcrn/proton/blob/master/MANUAL.md)
+
 
 ### Features
 ##### :handbag: dotfile friendly configuration

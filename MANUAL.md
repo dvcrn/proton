@@ -6,6 +6,7 @@
       - [Syntax specific configuration](#syntax-specific-configuration)   
       - [Custom SPC keybinding](#custom-spc-keybinding)   
       - [Editor keymaps](#editor-keymaps)   
+   - [Editor keybindings](#editor-keybindings)   
 
 <!-- /MDTOC -->
 
@@ -87,6 +88,16 @@ As you can see, this is a very similar format that atom uses to describe it's ke
 - `:keymap` are the keys and the action needed to execute the binding. Note that this is a __vector of vectors__. This is because in one selector multiple keybindings can be active.
 
 So in the example above, we add a new keymap that is only available in insert mode and is getting triggered by typing `f` followed by `d`. Executing the keymap will result in vim mode jumping back to normal mode.
+
+## Editor keybindings
+
+Since v0.12.0, proton allows you to switch between a handful of keybindings. By default vim-centric keybindings are used for everything but you can easily change that inside your `~/.proton` with the `proton.core.inputProvider` setting as documented [here](https://github.com/dvcrn/proton/tree/master/src/cljs/proton/layers/core#configuration).
+
+Available modes are:
+- `vim-mode`: proton keys are on `SPC`, uses Atoms core [vim-mode](https://github.com/atom/vim-mode)
+- `vim-mode-plus` __(default)__: proton keys are on `SPC`, uses vim-mode-plus [vim-mode](https://github.com/t9md/atom-vim-mode-plus)
+- `default`: no special keybindings. proton keys are on `ALT-m`, mode keys on `CTR-ALT-m`
+- `emacs`: mirrors emacs keybindings through [atomic emacs](https://github.com/avendael/atomic-emacs). proton keys are on `ALT-m`, mode keys on `CTR-ALT-m`. (You could compare this to `holy-mode` in spacemacs, maybe.)
 
 
 _More following soon..._
