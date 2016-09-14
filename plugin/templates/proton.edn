@@ -5,7 +5,7 @@
   ;; We gave you some cool defaults below but if you don't like it, feel free to change :)
 
   ;; Layers you wish to have active
-  ;; To get a list of all available layers, check github.com/dvcrn/proton/layers/
+  ;; To get a list of all available layers, check github.com/dvcrn/proton/tree/master/src/cljs/proton/layers
   :layers
   [
     ;; -----------------------------------
@@ -16,7 +16,7 @@
 
     ;; -----------------------------------
     ;; tools
-    ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/tools
+    ;; Get more at github.com/dvcrn/proton/tree/master/src/cljs/proton/layers/tools
     ;; -----------------------------------
     :tools/git
     :tools/linter
@@ -27,7 +27,7 @@
 
     ;; -----------------------------------
     ;; Languages
-    ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/lang
+    ;; Get more at github.com/dvcrn/proton/tree/master/src/cljs/proton/layers/lang
     ;; -----------------------------------
     ;; :lang/clojure
     ;; :lang/csharp
@@ -47,7 +47,7 @@
 
     ;; -----------------------------------
     ;; etc
-    ;; Get more at github.com/dvcrn/proton/tree/master/src/proton/layers/fun
+    ;; Get more at github.com/dvcrn/proton/tree/master/src/cljs/proton/layers/fun
     ;; -----------------------------------
     ;; :fun/power_mode
   ]
