@@ -159,12 +159,14 @@
     (let [path-chan (chan)
           shell-path (or (.-SHELL js/process.env ) "/bin/sh")]
       (go
-        (.execFile child-process shell-path (js/Array "-ic", "env; exit") (js/Object :encoding "UTF-8")
-          (fn [err stdout stderr]
-            (if (nil? err)
-              (do
-                (go (>! path-chan stdout)))
-              (go (>! path-chan false))))))
+        (let [shell (.spawn child-process shell-path (js/Array "-c", "env; exit") (js/Object :encoding "UTF-8"))]
+          (.on (.-stdout shell) "data"
+            (fn [stdout]
+              (go (>! path-chan (.toString stdout)))))
+         (.on shell "exit"
+          (fn [code]
+            (when-not (zero? code)
+              (go (>! path-chan false)))))))
       ;; on out
       (go
         (if-let [out-val (<! path-chan)]
