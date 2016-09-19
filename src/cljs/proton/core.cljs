@@ -33,6 +33,7 @@
             [proton.layers.lang.latex.core]
             [proton.layers.lang.markdown.core]
             [proton.layers.lang.elixir.core]
+            [proton.layers.lang.elm.core]
             [proton.layers.lang.javascript.core]
             [proton.layers.lang.rust.core]
             [proton.layers.lang.html.core]
