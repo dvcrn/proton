@@ -198,30 +198,37 @@
      (.setGrammar editor (find-grammar-by-name grammar))
      (.setGrammar editor grammar))))
 
+(defn get-original-package-name [package-name]
+  (let [all-packages (array-seq (.getAvailablePackageNames packages))
+        package (first (filter #(= (lower-case (name package-name)) (lower-case %)) all-packages))]
+      package))
+
 (defn is-activated? [package-name]
-  (.isPackageActive packages package-name))
+  (.isPackageActive packages (get-original-package-name package-name)))
 
 (defn is-package-disabled? [package-name]
-  (.isPackageDisabled packages package-name))
+  (.isPackageDisabled packages (get-original-package-name package-name)))
 
 (defn get-all-packages []
-  (.getAvailablePackageNames packages))
+  (clj->js (map lower-case (.getAvailablePackageNames packages))))
 
 (defn get-package [package-name]
-  (.getLoadedPackage packages package-name))
+  (.getLoadedPackage packages (get-original-package-name package-name)))
 
 (defn is-package-installed? [package-name]
-  (if (.isPackageLoaded packages package-name)
+  (if (.isPackageLoaded packages (get-original-package-name package-name))
     true
     (let [pkgs (get-all-packages)]
-      (not (= -1 (.indexOf pkgs package-name))))))
+      (not (= -1 (.indexOf pkgs (lower-case (name package-name))))))))
 
 (defn is-package-bundled? [package-name]
-  (.isBundledPackage packages (name package-name)))
+  (.isBundledPackage packages (get-original-package-name package-name)))
 
 (defn enable-package [package-name]
   (console! (str "enabling package " (name package-name)))
-  (.enablePackage packages package-name))
+  (if-let [p-name (get-original-package-name package-name)]
+    (.enablePackage packages p-name)
+    (console! "package not found" package-name)))
 
 
 (defn disable-package
@@ -234,10 +241,12 @@
          (when-not (is-package-disabled? package-name)
           (do
             (console! (str "disabling package " package-name))
-            (.disablePackage packages package-name)))))))
+            (if-let [p-name (get-original-package-name package-name)]
+              (.disablePackage packages p-name)
+              (console! (str "package not found" package-name)))))))))
 
 (defn is-activated? [package-name]
-  (.isPackageActive packages package-name))
+  (.isPackageActive packages (get-original-package-name package-name)))
 
 (defn reload-package [package-name]
   (disable-package package-name)

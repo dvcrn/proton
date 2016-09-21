@@ -3,6 +3,7 @@
   (:require [cljs.nodejs :as node]
             [clojure.set :as cljset]
             [cljs.core.async :as async :refer [close! chan put! pub sub unsub >! <!]]
+            [clojure.string :as string :refer [lower-case]]
             [proton.lib.mode :as mode]
             [proton.lib.keymap :as keymap]
             [proton.lib.atom :as atom]
@@ -30,7 +31,7 @@
   ([package-name]
    (make-package package-name {}))
   ([package-name opts]
-   (assoc {} (keyword package-name) opts)))
+   (assoc {} (keyword (lower-case (name package-name))) opts)))
 
 (defn- package-init-state? [package state]
   (-> package (val) (get :init-state) (= state)))
