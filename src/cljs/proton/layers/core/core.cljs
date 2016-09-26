@@ -45,6 +45,10 @@
    ;; ui
    ["core.themes" ["nucleus-dark-ui" "atom-dark-fusion-syntax"]]
 
+   ;; telemetry spam 
+   ["core.telemetryConsent" "no"]
+
+
    ["welcome.showOnStartup" false]
    ["editor.softWrap" true]
    ["editor.fontFamily" "Hack"]
