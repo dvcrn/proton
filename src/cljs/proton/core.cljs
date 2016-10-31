@@ -14,6 +14,7 @@
 
             ;; tools
             [proton.layers.tools.minimap.core]
+            [proton.layers.tools.expose.core]
             [proton.layers.tools.git.core]
             [proton.layers.tools.linter.core]
             [proton.layers.tools.build.core]
