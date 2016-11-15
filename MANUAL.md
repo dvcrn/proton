@@ -58,8 +58,6 @@ This would result in the following atom configuration:
 
 To add a custom keymap to the proton space-menu, you have to use the `:keybindings` key inside `.proton`. The format is the same as inside layers with the exception that you can't define functions inside your `.proton` file. This is because the file is written in edn and proton itself in clojurescript.
 
-As a limitation you can not specify a `:target` or a `:fx` key that describes where or how your custom command should get executed. If you definitely need this functionality, I'd recommend to create a layer and compile proton with it.
-
 As an example:
 
 ```
@@ -70,7 +68,20 @@ As an example:
 
 This will add a new category that gets triggered by `SPC z` with the title "foo-category" (the title is what is getting displayed inside the key helper). Inside that category is action called "execute hello" that is getting triggered by `y`. So the full sequence would be `SPC z y`.
 
-Because of the limitation mentioned above, proton will _currently_ always execute the command on the current atom view.
+Proton will _currently_, by default, always execute the command on the current atom view. Note that this is not the current editor usually, and you will generally only be able to bind to system wide actions this way.
+
+You can specify a :target key with a CSS selector which will be used to find the target view/DOM element for the action. This is useful to specify that you want the action to run on the current editor (i.e. use '.editor.is-focused').
+
+For example:
+
+```
+:keybindings {:p {:category "project"
+                  :y {:title "copy project path"
+                      :action "editor:copy-project-path",
+                      :target ".editor.is-focused"}}}
+```
+
+As a limitation you can not specify a `:fx` key to provide a function that describes where or how your custom command should get executed. If you definitely need this functionality, I'd recommend to create a layer and compile proton with it.
 
 ### Editor keymaps
 
