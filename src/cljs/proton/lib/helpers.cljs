@@ -133,7 +133,7 @@
 
 
 (defn is-proton-target? [e]
-  (let [target (.-target e)
+  (let [target (or (.closest (.-target e) "atom-text-editor") (.-target e))
         tag-name (string/lower-case (.-tagName target))
         class-list (set (array-seq (.-classList target)))
         ignored-tags #{"input" "textarea"}
