@@ -3,6 +3,7 @@
 - [proton manual](#proton-manual)   
    - [.proton](#proton)   
       - [Editor configuration](#editor-configuration)   
+      - [Configuring proton core itself](#configuring-proton-core-itself)
       - [Syntax specific configuration](#syntax-specific-configuration)   
       - [Custom SPC keybinding](#custom-spc-keybinding)   
       - [Editor keymaps](#editor-keymaps)   
@@ -35,6 +36,15 @@ would result in 2 vectors:
 ```
 ["editor.fontFamily" "Hack"]
 ["editor.softWrap" true]
+```
+
+### Configuring proton core itself
+
+There are several settings that allow users to customize proton's behaviour. These are under the `proton.core` namespace and can be seen [README for the core layer](/src/cljs/proton/layers/core/README.md). To set them to values other than the defaults add a row to your `.proton` file as above. For example:
+
+```
+;; Prefer to skip the welcome screen if there is nothing important being shown
+["proton.core.alwaysShowWelcomeScreen" false]
 ```
 
 ### Syntax specific configuration

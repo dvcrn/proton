@@ -112,7 +112,6 @@
 (defn init []
   (go
     (proton/init-proton-mode-keymaps!)
-    (atom-env/show-modal-panel)
     (atom-env/insert-process-step! "Initialising proton... Just a moment!" "")
     (let [{:keys [additional-packages layers configuration disabled-packages keybindings keymaps]} (proton/load-config)
           editor-default editor-config/default
@@ -130,7 +129,14 @@
               all-keymaps (into [] (distinct (concat keymaps (:keymaps editor-default) (proton/keymaps-for-layers all-layers))))
               all-keybindings (helpers/deep-merge (proton/keybindings-for-layers all-layers) keybindings)
               wipe-configs? (true? (config-map "proton.core.wipeUserConfigs"))
-              all-packages (pm/register-packages (into (hash-map) (concat (map pm/register-installable selected-packages) (map pm/register-removable disabled-packages))))]
+              all-packages (pm/register-packages (into (hash-map) (concat (map pm/register-installable selected-packages) (map pm/register-removable disabled-packages))))
+              to-install (pm/get-to-install all-packages)
+              to-remove (pm/get-to-remove (filter (comp not pm/is-bundled?) all-packages))]
+
+          ;; Show welcome screen if there are packages to install/remove or the option to always show is enabled
+          (if (or (config-map "proton.core.alwaysShowWelcomeScreen") (> (count to-install) 0) (> (count to-remove) 0) )
+            (atom-env/show-modal-panel))
+
           ;; wipe existing config
           (when wipe-configs?
             (do
@@ -153,24 +159,22 @@
           (atom-env/mark-last-step-as-completed!)
 
           ;; Install all necessary packages
-          (let [to-install (pm/get-to-install all-packages)]
-            (if (> (count to-install) 0)
-              (do
-                (atom-env/insert-process-step! (str "Installing <span class='proton-status-package-count'>" (count to-install) "</span> new package(s)") "")
-                (doseq [package to-install]
-                  (atom-env/insert-process-step! (str "Installing <span class='proton-status-package'>" (name package) "</span>"))
-                  (<! (pm/install-package (name package)))
-                  (atom-env/mark-last-step-as-completed!)))))
+          (if (> (count to-install) 0)
+            (do
+              (atom-env/insert-process-step! (str "Installing <span class='proton-status-package-count'>" (count to-install) "</span> new package(s)") "")
+              (doseq [package to-install]
+                (atom-env/insert-process-step! (str "Installing <span class='proton-status-package'>" (name package) "</span>"))
+                (<! (pm/install-package (name package)))
+                (atom-env/mark-last-step-as-completed!))))
 
           ;; Remove deleted packages
-          (let [to-remove (pm/get-to-remove (filter (comp not pm/is-bundled?) all-packages))]
-            (if (> (count to-remove) 0)
-              (do
-                (atom-env/insert-process-step! (str "Removing <span class='proton-status-package-count'>" (count to-remove) "</span> orphaned package(s)") "")
-                (doseq [package to-remove]
-                  (atom-env/insert-process-step! (str "Removing <span class='proton-status-package'>" (name package) "</span>"))
-                  (<! (pm/remove-package (name package)))
-                  (atom-env/mark-last-step-as-completed!)))))
+          (if (> (count to-remove) 0)
+            (do
+              (atom-env/insert-process-step! (str "Removing <span class='proton-status-package-count'>" (count to-remove) "</span> orphaned package(s)") "")
+              (doseq [package to-remove]
+                (atom-env/insert-process-step! (str "Removing <span class='proton-status-package'>" (name package) "</span>"))
+                (<! (pm/remove-package (name package)))
+                (atom-env/mark-last-step-as-completed!))))
 
           ;; set the user config
           (atom-env/insert-process-step! "Applying user configuration")
@@ -188,7 +192,10 @@
           (mode-manager/activate-mode (atom-env/get-active-editor))
           (keymap-manager/set-proton-leader-keys all-keybindings)
           (proton/init-proton-leader-keys! all-configuration)
-          (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout")))))))
+
+          ;; Hide the welcome screen after a timeout if we showed it earlier
+          (if (or (config-map "proton.core.alwaysShowWelcomeScreen") (> (count to-install) 0) (> (count to-remove) 0) )
+            (.setTimeout js/window #(atom-env/hide-modal-panel) (config-map "proton.core.post-init-timeout"))))))))
 
 (defn on-space []
   (reset! current-chain [])

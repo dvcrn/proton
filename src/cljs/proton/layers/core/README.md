@@ -8,18 +8,19 @@ The core layer should get included by default. No installation needed.
 
 ### Configuration
 
-| Name                              | Default        | Type        | Description                                                                                                                                 |
-|-----------------------------------|----------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `proton.core.showTabBar`          | false          | __boolean__ | whether the tab bar should be visible by default                                                                                            |
-| `proton.core.relativeLineNumbers` | false          | __boolean__ | whether to use relative line numbers instead of absolute ones                                                                               |
-| `proton.core.vim-provider`        | :vim-mode-plus | __keyword__ | which vim emulation provider to use. Possible options are `:vim-mode-plus` and `:vim-mode`                                                  |
-| `proton.core.wipeUserConfigs`     | true           | __boolean__ | always reset atom configuration before applying conifgs from layers and `~/.proton`                                                         |
-| `proton.core.whichKeyDelay`       | 0.4            | __number__  | which-key modal delay in seconds                                                                                                            |
-| `proton.core.whichKeyDelayOnInit` | false          | __boolean__ | which-key modal delay for first show up and no delay when shown                                                                             |
-| `proton.core.whichKeyDisabled`    | false          | __boolean__ | which-key modal always hidden                                                                                                               |
-| `proton.core.inputProvider`       | :vim-mode-plus | __keyword__ | editor input. available options are :vim-mode-plus, :vim-mode, :emacs, :default. You need to reload editor to apply changes properly |
-| `proton.core.leaderKey`           | "space"        | __string__  | proton leader key binding. For non-vim modes its value is `alt-m` if not set manualy by user                                                |
-| `proton.core.modeKey`             | ","            | __string__  | proton major mode key alias to quickly invoke `SPC m`. For non-vim modes its value is `ctrl-alt-m` if not set by user                       |
+| Name                                  | Default        | Type        | Description                                                                                                                                 |
+|---------------------------------------|----------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| `proton.core.alwaysShowWelcomeScreen` | true           | __boolean__ | whether the welcome screen is always shown, even when there are only expected messages.
+| `proton.core.showTabBar`              | false          | __boolean__ | whether the tab bar should be visible by default                                                                                            |
+| `proton.core.relativeLineNumbers`     | false          | __boolean__ | whether to use relative line numbers instead of absolute ones                                                                               |
+| `proton.core.vim-provider`            | :vim-mode-plus | __keyword__ | which vim emulation provider to use. Possible options are `:vim-mode-plus` and `:vim-mode`                                                  |
+| `proton.core.wipeUserConfigs`         | true           | __boolean__ | always reset atom configuration before applying conifgs from layers and `~/.proton`                                                         |
+| `proton.core.whichKeyDelay`           | 0.4            | __number__  | which-key modal delay in seconds                                                                                                            |
+| `proton.core.whichKeyDelayOnInit`     | false          | __boolean__ | which-key modal delay for first show up and no delay when shown                                                                             |
+| `proton.core.whichKeyDisabled`        | false          | __boolean__ | which-key modal always hidden                                                                                                               |
+| `proton.core.inputProvider`           | :vim-mode-plus | __keyword__ | editor input. available options are :vim-mode-plus, :vim-mode, :emacs, :default. You need to reload editor to apply changes properly |
+| `proton.core.leaderKey`               | "space"        | __string__  | proton leader key binding. For non-vim modes its value is `alt-m` if not set manualy by user                                                |
+| `proton.core.modeKey`                 | ","            | __string__  | proton major mode key alias to quickly invoke `SPC m`. For non-vim modes its value is `ctrl-alt-m` if not set by user                       |
 
 
 ### Key Bindings
