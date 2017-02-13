@@ -29,6 +29,7 @@
    ["proton.core.relativeLineNumbers" false]
    ["proton.core.quickOpenProvider" :normal]
    ["proton.core.post-init-timeout" 3000]
+   ["proton.core.alwaysShowWelcomeScreen" true]
    ["proton.core.wipeUserConfigs" true]
    ["proton.core.whichKeyDelay" 0.4]
    ["proton.core.whichKeyDelayOnInit" false]
