@@ -21,6 +21,7 @@ Key Binding          | Description
 Key Binding          | Description
 ---------------------|------------------
 <kbd> SPC e t </kbd> | Toggle linter
-<kbd> SPC e n </kbd> | Next error
-<kbd> SPC e p </kbd> | Previous error
+<kbd> SPC e n </kbd> | Next
+<kbd> SPC e p </kbd> | Previous
 <kbd> SPC e l </kbd> | Lint current file
+<kbd> SPC e T </kbd> | Toggle linter panel
