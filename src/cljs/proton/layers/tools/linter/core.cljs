@@ -11,15 +11,15 @@
 
 (defmethod get-keybindings :tools/linter [] []
   {:e {:category "errors"
-       :t {:action "linter:toggle"
-           :title "toggle linter"}
-       :n {:action "linter:next-error"
+       :t {:action "linter:toggle-active-editor"
+           :title "toggle for active file"}
+       :n {:action "linter-ui-default:next"
            :title "next error"}
-       :p {:action "linter:previous-error"
+       :p {:action "linter-ui-default:previous"
            :title "previous error"}
        :l {:action "linter:lint"
            :title "lint now"}
-       :T {:action "linter:togglePanel"
+       :T {:action "linter-ui-default:toggle-panel"
            :title "toggle panel"}}})
 
 
