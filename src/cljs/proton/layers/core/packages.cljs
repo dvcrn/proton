@@ -15,7 +15,6 @@
      :recent-files-fuzzy-finder
      :autoupdate-packages
      :easy-motion-redux
-     :environment
 
      :expand-region
 
