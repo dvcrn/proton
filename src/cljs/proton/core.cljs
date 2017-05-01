@@ -24,6 +24,7 @@
 
             ;; etc
             [proton.layers.fun.power_mode.core]
+            [proton.layers.fun.spotify.core]
 
             ;; langs
             [proton.layers.lang.clojure.core]
