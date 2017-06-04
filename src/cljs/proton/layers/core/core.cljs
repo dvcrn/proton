@@ -46,7 +46,7 @@
    ;; ui
    ["core.themes" ["nucleus-dark-ui" "atom-dark-fusion-syntax"]]
 
-   ;; telemetry spam 
+   ;; telemetry spam
    ["core.telemetryConsent" "no"]
 
 
@@ -79,7 +79,7 @@
     ;; install additional packages based on proton.core.inputProvider if needed
     (case (config-map "proton.core.inputProvider")
       :vim-mode (add-packages [:vim-mode :vim-surround])
-      :vim-mode-plus (add-packages [:vim-mode-plus :vim-mode-plus-ex-mode])
+      :vim-mode-plus (add-packages [:vim-mode-plus :ex-mode])
       :emacs (add-packages [:atomic-emacs])
       :default)))
 
@@ -93,9 +93,7 @@
   (atom-env/set-keymap! "atom-text-editor.vim-mode-plus.normal-mode"
     {"y s" "vim-mode-plus:surround"
      "d s" "vim-mode-plus:delete-surround"
-     "c s" "vim-mode-plus:change-surround"
-     ":" "vim-mode-plus-ex-mode:open"
-     "!" "vim-mode-plus-ex-mode:toggle-setting"})
+     "c s" "vim-mode-plus:change-surround"})
   (atom-env/set-keymap! "atom-workspace atom-text-editor.vim-mode-plus.visual-mode"
     {"s" "vim-mode-plus:surround"}))
 
