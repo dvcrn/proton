@@ -161,6 +161,10 @@
               :d {:action "core:close"
                   :target actions/get-active-pane
                   :title "destroy current buffer"}
+              :n {:action "pane:show-next-item"
+                  :title "next buffer"}}
+              :p {:action "pane:show-previous-item"
+                  :title "previous buffer"}}
               :u {:action "pane:reopen-closed-item"
                   :title "undo buffer destroy"}}
          :p {:category "project"
