@@ -78,9 +78,9 @@
     ["editor.fontFamily" "Hack"]
 
     ;; the current default theme
-    ["core.themes" ["nucleus-dark-ui" "atom-dark-fusion-syntax"]]
+    ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
     ;; here are some more popular theme ideas for you to pick from:
-    ;; ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
+    ;; ["core.themes" ["nucleus-dark-ui" "atom-dark-fusion-syntax"]]
     ;; ["core.themes" ["one-dark-ui" "one-dark-syntax"]]
 
     ;; proton configuration
