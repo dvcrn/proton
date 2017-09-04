@@ -28,6 +28,7 @@ Name                                   | Default | Type       | Description
 | Key Binding          | Description          |
 |----------------------|----------------------|
 | <kbd>SPC m t p</kbd> | toggle Parinfer mode |
+| <kbd>SPC m t d</kbd> | disable Parinfer     |
 
 #### Proto repl
 

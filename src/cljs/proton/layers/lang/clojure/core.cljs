@@ -13,13 +13,14 @@
   (helpers/console! "init" :lang/clojure)
   (register-layer-dependencies :tools/linter [:linter-clojure]))
 
-(defmethod init-package [:lang/clojure :Parinfer] []
+(defmethod init-package [:lang/clojure :parinfer] []
   (helpers/console! "init Parinfer package" :lang/clojure)
-  (mode/define-package-mode :Parinfer
+  (mode/define-package-mode :parinfer
     {:mode-keybindings
      {:T {:category "toggles"
-          :p {:action "parinfer:toggleMode" :title "Toggle Parinfer Mode"}}}})
-  (mode/link-modes :clojure-major-mode (mode/package-mode-name :Parinfer)))
+          :p {:action "parinfer:toggle-mode" :title "Toggle Parinfer Mode"}
+          :d {:action "parinfer:disable" :title "Disable Parinfer"}}}})
+  (mode/link-modes :clojure-major-mode (mode/package-mode-name :parinfer)))
 
 (defmethod init-package [:lang/clojure :proto-repl] []
   (helpers/console! "init proto-repl package" :lang/clojure)
@@ -50,7 +51,7 @@
   (mode/link-modes :clojure-major-mode (mode/package-mode-name :proto-repl)))
 
 (defmethod get-packages :lang/clojure []
-  [:Parinfer
+  [:parinfer
    :ink
    :proto-repl])
 
