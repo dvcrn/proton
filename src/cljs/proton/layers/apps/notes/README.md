@@ -1,6 +1,6 @@
 # Application Notes layer
 
-Adds support for notes management using [nvatom](https://atom.io/packages/nvatom) package.
+Adds support for notes management using [atom-notes](https://atom.io/packages/atom-notes) package.
 
 ## Installation
 
