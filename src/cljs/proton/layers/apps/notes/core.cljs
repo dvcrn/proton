@@ -6,8 +6,8 @@
   (console! "init" :apps/notes))
 
 (defmethod get-packages :apps/notes []
-  [:nvatom])
+  [:atom-notes])
 
 (defmethod get-keybindings :apps/notes []
   {:a {:category "apps"
-       :n {:action "nvatom:toggle" :title "show notes"}}})
+       :n {:action "atom-notes:toggle" :title "show notes"}}})
