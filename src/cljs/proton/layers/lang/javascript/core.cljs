@@ -36,10 +36,8 @@
    :javascript-snippets
    :language-javascript
    :autocomplete-modules
-   :docblockr
-   ; TODO move this to separate frameworks layer
-   :react
-   :react-snippets])
+   :docblockr])
+   
 
 (defmethod init-package [:lang/javascript :linter] []
   (helpers/console! "init linter package" :lang/javascript)

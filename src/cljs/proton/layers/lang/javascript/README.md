@@ -9,8 +9,6 @@ Includes following atom packages:
 - [language-javascript](https://atom.io/packages/language-javascript)
 - [autocomplete-modules](https://atom.io/packages/autocomplete-modules)
 - [docblockr](https://atom.io/packages/docblockr)
-- [react](https://atom.io/packages/react)
-- [react-snippets](https://atom.io/packages/react-snippets)
 
 ### Install
 
