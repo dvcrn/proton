@@ -58,6 +58,7 @@
 
             ;; frameworks
             [proton.layers.frameworks.django.core]
+            [proton.layers.frameworks.react.core]
 
             ;; apps
             [proton.layers.apps.notes.core]
