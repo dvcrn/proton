@@ -1,5 +1,7 @@
 ## Proton
 
+💫 Maintainers wanted 💫
+
 [spacemacs][1] and [sublimious][2] style editing in Atom.
 
 ![demo][3]
