@@ -11,32 +11,34 @@
 (def keybindings
   (atom { :. {:fx #(atom-env/eval-last-action!)
               :title "repeat last command"}
-          :0-9 {:title "select pane N"}
-          :0 {:fx (select-pane-fn 0)
-              :hidden true
-              :title "pane 0"}
-          :1 {:fx (select-pane-fn 1)
+          :0 {:fx panes/focus-on-tree-view
+              :title "select tree view"}
+          :1-9 {:title "select pane N"}
+          :1 {:fx (select-pane-fn 0)
               :hidden true
               :title "pane 1"}
-          :2 {:fx (select-pane-fn 2)
+          :2 {:fx (select-pane-fn 1)
               :hidden true
               :title "pane 2"}
-          :3 {:fx (select-pane-fn 3)
+          :3 {:fx (select-pane-fn 2)
+              :hidden true
+              :title "pane 3"}
+          :4 {:fx (select-pane-fn 3)
               :hidden true
               :title "pane 3"}
           :5 {:fx (select-pane-fn 4)
               :hidden true
               :title "pane 4"}
-          :6 {:fx (select-pane-fn 6)
+          :6 {:fx (select-pane-fn 5)
               :hidden true
               :title "pane 6"}
-          :7 {:fx (select-pane-fn 7)
+          :7 {:fx (select-pane-fn 6)
               :hidden true
               :title "pane 7"}
-          :8 {:fx (select-pane-fn 8)
+          :8 {:fx (select-pane-fn 7)
               :hidden true
               :title "pane 8"}
-          :9 {:fx (select-pane-fn 9)
+          :9 {:fx (select-pane-fn 8)
               :hidden true
               :title "pane 9"}
           :tab {:action "tab-switcher:next"
