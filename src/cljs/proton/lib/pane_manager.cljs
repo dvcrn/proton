@@ -4,6 +4,29 @@
   "Returns list of panes."
   (.getPanes js/atom.workspace))
 
+(defn pane-type [pane]
+  "Get the type of a pane (eg TextEditor, TreeView)"
+  (goog.object/getValueByKeys pane "activeItem" "constructor" "name"))
+
+(defn pane-is-tree-view [pane]
+  "Returns true if the pane is a treeview"
+  (= (pane-type pane) "TreeView"))
+
+(defn pane-is-not-tree-view [pane]
+  "Returns true if the pane is not a treeview"
+  (let [type (pane-type pane)]
+    (and
+      (not (= type "TreeView"))
+      (not (nil? type)))))
+
+(defn get-tree-view-panes []
+  "Return all panes that are not treeviews"
+  (filter pane-is-tree-view (get-panes)))
+
+(defn get-non-tree-view-panes []
+  "Return all panes that are not treeviews"
+  (filter pane-is-not-tree-view (get-panes)))
+
 (defn get-panels
   "Returns list of panels by location.
    Possible locations: left, right, top, bottom, modal"
@@ -18,6 +41,10 @@
   (when-not (nil? pane)
     (.activate pane)))
 
+(defn focus-on-tree-view []
+  (if-let [tree (nth (get-tree-view-panes) 0 nil)]
+    (focus-on-pane tree)))
+
 (defn destroy-pane [pane]
   (when-not (nil? pane)
     (.destroy pane)))
@@ -28,12 +55,6 @@
     (doall (map destroy-pane filtered-panes))))
 
 (defn focus-on-item [n]
-  (let [panels-left (get-panels "left")
-        panels-left-count (count panels-left)
-        panels-right (get-panels "right")
-        panels-right-count (count panels-right)
-        panes (get-panes)
-        panes-count (count panes)]
-      (cond (> panels-left-count n) (focus-on-panel (nth panels-left n))
-            (> (+ panels-left-count panes-count) n) (focus-on-pane (nth panes (- n panels-left-count)))
-            (> (+ panels-right-count panels-left-count panes-count) n) (focus-on-panel (nth panels-right (- n (+ panes-count panels-left-count)))))))
+  (if-let [pane (nth (get-non-tree-view-panes) n nil)]
+    (focus-on-pane pane)
+    (focus-on-tree-view)))
