@@ -31,13 +31,30 @@
     ;; -----------------------------------
     ;; :lang/clojure
     ;; :lang/csharp
-    ;; :lang/python
+    ;; :lang/css
+    ;; :lang/elixir
+    ;; :lang/elm
+    ;; :lang/go
+    ;; :lang/haml
+    ;; :lang/handlebars
+    ;; :lang/haskell
+    ;; :lang/html
+    ;; :lang/jade
+    ;; :lang/javascript
+    ;; :lang/json
     ;; :lang/julia
     ;; :lang/latex
-    ;; :lang/elixir
+    ;; :lang/less
     ;; :lang/markdown
+    ;; :lang/mustache
+    ;; :lang/python
+    ;; :lang/ruby
     ;; :lang/rust
-    ;; :lang/javascript
+    ;; :lang/sass
+    ;; :lang/slim
+    ;; :lang/stylus
+    ;; :lang/swift
+    ;; :lang/typescript
 
     ;; -----------------------------------
     ;; Frameworks
