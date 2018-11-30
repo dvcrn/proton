@@ -39,6 +39,8 @@
        :L {:action "git-plus:log-current-file" :target actions/get-active-editor :title "log current file"}
        :l {:action "git-plus:log" :title "log project"}
        :h {:action "git-history:show-file-history" :target actions/get-active-editor :title "file history"}
+       :t {:action "github:toggle-git-tab" :title "toggle git tab"}
+       :T {:action "github:toggle-github-tab" :title "toggle github tab"}
        :d {:category "git diff"
            :n {:action "git-diff:move-to-next-diff" :target actions/get-active-editor :title "next diff"}
            :N {:action "git-diff:move-to-previous-diff" :target actions/get-active-editor :title "previous diff"}
