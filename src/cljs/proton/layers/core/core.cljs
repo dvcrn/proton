@@ -44,7 +44,9 @@
    ["vim-mode.useSmartcaseForSearch" true]
 
    ;; ui
-   ["core.themes" ["nucleus-dark-ui" "atom-dark-fusion-syntax"]]
+   ["core.themes" ["atom-material-ui" "atom-material-syntax"]]
+   ["atom-material-ui.colors.abaseColor" "#607d8b"]
+   ["atom-material-ui.tabs.compactTabs" true]
 
    ;; telemetry spam
    ["core.telemetryConsent" "no"]
@@ -53,8 +55,8 @@
    ["welcome.showOnStartup" false]
    ["editor.softWrap" true]
    ["editor.fontFamily" "Hack"]
-   ["theme-switch.profiles" ["nucleus-dark-ui atom-dark-fusion-syntax"
-                             "atom-material-ui atom-material-syntax"
+   ["theme-switch.profiles" ["atom-material-ui atom-material-syntax"
+                             "nucleus-dark-ui atom-dark-fusion-syntax"
                              "atom-dark-ui atom-dark-syntax"
                              "atom-light-ui atom-light-syntax"
                              "one-dark-ui one-dark-syntax"
